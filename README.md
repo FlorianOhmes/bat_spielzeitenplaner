@@ -1,1 +1,3 @@
-# bat_spielzeitenplaner
+# SpielzeitenPlaner
+
+Hier entsteht die testgetriebene Entwicklung des SpielzeitenPlaners für den Jugendfußball... 
