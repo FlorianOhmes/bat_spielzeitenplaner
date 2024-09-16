@@ -23,6 +23,13 @@ public class WelcomePageTest {
     MockMvc mvc;
 
     Document welcomePage;
+    static final List<String> expectedFeatures = new ArrayList<>(List.of(
+        "Recap", 
+        "Spielzeiten planen", 
+        "Team verwalten", 
+        "Einstellungen" 
+    ));
+
 
     @BeforeEach
     void getWelcomePage() throws Exception {
@@ -32,6 +39,7 @@ public class WelcomePageTest {
                          .getContentAsString();
         welcomePage = Jsoup.parse(html);
     }
+
 
     @Test
     @DisplayName("Auf der Startseite wird die korrekte Überschrift angezeigt.")
@@ -53,27 +61,15 @@ public class WelcomePageTest {
     @DisplayName("Auf der Startseite wird die Navigationsleiste korrekt angezeigt.")
     void test_03() throws Exception {
         String expectedNavBrandText = "SpielzeitenPlaner";
-        List<String> expectedNavigationTerms = new ArrayList<>(List.of(
-            "Recap", 
-            "Spielzeiten planen", 
-            "Team verwalten", 
-            "Einstellungen" 
-        ));
         String navbarBrandText = extractFrom(welcomePage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = extractFrom(welcomePage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(expectedNavBrandText);
-        assertThat(navigationItemsTerms).contains(expectedNavigationTerms);
+        assertThat(navigationItemsTerms).contains(expectedFeatures);
     }
 
     @Test
     @DisplayName("Auf der Startseite werden Cards mit den Hauptfunktionen korrekt angezeigt.")
     void test_04() throws Exception {
-        List<String> expectedFeatures = new ArrayList<>(List.of(
-            "Recap", 
-            "Spielzeiten planen", 
-            "Team verwalten", 
-            "Einstellungen" 
-        ));
         String cardTitles = extractFrom(welcomePage, ".main-features .card .card-title");
         Elements cardTexts = welcomePage.select(".main-features .card .card-body .card-text");
         assertThat(cardTitles).contains(expectedFeatures);
