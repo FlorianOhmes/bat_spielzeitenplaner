@@ -32,3 +32,18 @@ body {
 .navbar-brand, .nav-link {
     color: #ffffff !important;
 }
+
+/* Jumbotron */
+
+.jumbotron {
+    background: rgba(232, 245, 233, 0.8);
+    padding: 3rem;
+    border-radius: 0.3rem;
+    margin-bottom: 1rem;
+}
+
+.jumbotron h1 {
+    color: #007f00;
+    font-size: 2.5rem;
+    font-weight: 300;
+}
