@@ -86,6 +86,14 @@ public class WelcomePageTest {
         assertThat(newsBox).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Startseite wird der Footer korrekt angezeigt.")
+    void test_06() throws Exception {
+        String expectedFooterText = "© 2024 SpielzeitenPlaner. Alle Rechte vorbehalten.";
+        String footerText = extractFrom(welcomePage, "footer p");
+        assertThat(footerText).isEqualTo(expectedFooterText);
+    }
+
 
     // ausgelagerte Methoden 
     private String extractFrom(Document welcomePage, String cssQuery) {
