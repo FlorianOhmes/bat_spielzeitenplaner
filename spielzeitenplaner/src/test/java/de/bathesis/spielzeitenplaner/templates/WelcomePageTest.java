@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -74,7 +75,9 @@ public class WelcomePageTest {
             "Einstellungen" 
         ));
         String cardTitles = extractFrom(welcomePage, ".main-features .card .card-title");
+        Elements cardTexts = welcomePage.select(".main-features .card .card-body .card-text");
         assertThat(cardTitles).contains(expectedFeatures);
+        assertThat(cardTexts.size()).isEqualTo(expectedFeatures.size());
     }
 
 
