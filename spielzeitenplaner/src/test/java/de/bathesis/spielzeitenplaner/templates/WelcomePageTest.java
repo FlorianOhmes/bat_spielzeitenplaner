@@ -64,6 +64,19 @@ public class WelcomePageTest {
         assertThat(navigationItemsTerms).contains(expectedNavigationTerms);
     }
 
+    @Test
+    @DisplayName("Auf der Startseite werden Cards mit den Hauptfunktionen korrekt angezeigt.")
+    void test_04() throws Exception {
+        List<String> expectedFeatures = new ArrayList<>(List.of(
+            "Recap", 
+            "Spielzeiten planen", 
+            "Team verwalten", 
+            "Einstellungen" 
+        ));
+        String cardTitles = extractFrom(welcomePage, ".main-features .card .card-title");
+        assertThat(cardTitles).contains(expectedFeatures);
+    }
+
 
     // ausgelagerte Methoden 
     private String extractFrom(Document welcomePage, String cssQuery) {
