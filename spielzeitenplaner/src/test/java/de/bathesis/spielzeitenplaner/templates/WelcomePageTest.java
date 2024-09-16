@@ -76,6 +76,16 @@ public class WelcomePageTest {
         assertThat(cardTexts.size()).isEqualTo(expectedFeatures.size());
     }
 
+    @Test
+    @DisplayName("Auf der Startseite wird der Bereich Neuigkeiten & Updates korrekt angezeigt.")
+    void test_05() throws Exception {
+        String expectedNewsTitle = "Neuigkeiten & Updates:";
+        String newsTitle = extractFrom(welcomePage, ".news h2");
+        Elements newsBox = welcomePage.select(".news .news-box");
+        assertThat(newsTitle).isEqualTo(expectedNewsTitle);
+        assertThat(newsBox).isNotEmpty();
+    }
+
 
     // ausgelagerte Methoden 
     private String extractFrom(Document welcomePage, String cssQuery) {
