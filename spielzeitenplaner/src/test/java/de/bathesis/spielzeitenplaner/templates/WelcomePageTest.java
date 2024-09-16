@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -37,6 +39,23 @@ public class WelcomePageTest {
         Document welcomePage = getWelcomePage();
         String jumbotronText = extractFrom(welcomePage, ".jumbotron p.lead");
         assertThat(jumbotronText).isEqualTo(expectedJumbotronText);
+    }
+
+    @Test
+    @DisplayName("Auf der Startseite wird die Navigationsleiste korrekt angezeigt.")
+    void test_03() throws Exception {
+        String expectedNavBrandText = "SpielzeitenPlaner";
+        List<String> expectedNavigationTerms = new ArrayList<>(List.of(
+            "Recap", 
+            "Spielzeiten planen", 
+            "Team verwalten", 
+            "Einstellungen" 
+        ));
+        Document welcomePage = getWelcomePage();
+        String navbarBrandText = extractFrom(welcomePage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = extractFrom(welcomePage, "nav.navbar ul.navbar-nav li.nav-item");
+        assertThat(navbarBrandText).isEqualTo(expectedNavBrandText);
+        assertThat(navigationItemsTerms).contains(expectedNavigationTerms);
     }
 
 
