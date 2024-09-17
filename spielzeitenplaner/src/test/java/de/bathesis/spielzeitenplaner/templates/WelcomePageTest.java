@@ -22,7 +22,7 @@ public class WelcomePageTest {
     MockMvc mvc;
 
     Document welcomePage;
-    static final List<String> expectedFeatures = new ArrayList<>(List.of(
+    public static final List<String> expectedFeatures = new ArrayList<>(List.of(
         "Recap", 
         "Spielzeiten planen", 
         "Team verwalten", 

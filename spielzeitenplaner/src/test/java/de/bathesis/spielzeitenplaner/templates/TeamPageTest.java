@@ -35,4 +35,14 @@ public class TeamPageTest {
         assertThat(pageTitle).isEqualTo(expectedTitle);
     }
 
+    @Test
+    @DisplayName("Auf der Seite zur Teamverwaltung wird die Navigationsleiste korrekt angezeigt.")
+    void test_02() throws Exception {
+        String expectedNavBrandText = "SpielzeitenPlaner";
+        String navbarBrandText = RequestHelper.extractFrom(teamPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractFrom(teamPage, "nav.navbar ul.navbar-nav li.nav-item");
+        assertThat(navbarBrandText).isEqualTo(expectedNavBrandText);
+        assertThat(navigationItemsTerms).contains(WelcomePageTest.expectedFeatures);
+    }
+
 }
