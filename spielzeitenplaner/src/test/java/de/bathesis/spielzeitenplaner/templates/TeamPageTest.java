@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.templates;
 
+import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.MainController;
 import org.junit.jupiter.api.Test;
@@ -38,19 +39,17 @@ class TeamPageTest {
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
-        String expectedNavBrandText = "SpielzeitenPlaner";
         String navbarBrandText = RequestHelper.extractFrom(teamPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractFrom(teamPage, "nav.navbar ul.navbar-nav li.nav-item");
-        assertThat(navbarBrandText).isEqualTo(expectedNavBrandText);
-        assertThat(navigationItemsTerms).contains(WelcomePageTest.expectedFeatures);
+        assertThat(navbarBrandText).isEqualTo(ExpectedElements.NAVBRAND_TEXT);
+        assertThat(navigationItemsTerms).contains(ExpectedElements.FEATURES);
     }
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Footer korrekt angezeigt.")
-    void test_06() throws Exception {
-        String expectedFooterText = "© 2024 SpielzeitenPlaner. Alle Rechte vorbehalten.";
+    void test_03() throws Exception {
         String footerText = RequestHelper.extractFrom(teamPage, "footer p");
-        assertThat(footerText).isEqualTo(expectedFooterText);
+        assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
     }
 
 }

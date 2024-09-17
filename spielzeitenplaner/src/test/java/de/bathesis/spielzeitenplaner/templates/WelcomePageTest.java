@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.templates;
 
+import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.MainController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import java.util.ArrayList;
-import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,15 +19,7 @@ class WelcomePageTest {
 
     @Autowired
     MockMvc mvc;
-
     Document welcomePage;
-    public static final List<String> expectedFeatures = new ArrayList<>(List.of(
-        "Recap", 
-        "Spielzeiten planen", 
-        "Team verwalten", 
-        "Einstellungen" 
-    ));
-
 
     @BeforeEach
     void getWelcomePage() throws Exception {
@@ -55,11 +46,10 @@ class WelcomePageTest {
     @Test
     @DisplayName("Auf der Startseite wird die Navigationsleiste korrekt angezeigt.")
     void test_03() throws Exception {
-        String expectedNavBrandText = "SpielzeitenPlaner";
         String navbarBrandText = RequestHelper.extractFrom(welcomePage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractFrom(welcomePage, "nav.navbar ul.navbar-nav li.nav-item");
-        assertThat(navbarBrandText).isEqualTo(expectedNavBrandText);
-        assertThat(navigationItemsTerms).contains(expectedFeatures);
+        assertThat(navbarBrandText).isEqualTo(ExpectedElements.NAVBRAND_TEXT);
+        assertThat(navigationItemsTerms).contains(ExpectedElements.FEATURES);
     }
 
     @Test
@@ -67,8 +57,8 @@ class WelcomePageTest {
     void test_04() throws Exception {
         String cardTitles = RequestHelper.extractFrom(welcomePage, ".main-features .card .card-title");
         Elements cardTexts = welcomePage.select(".main-features .card .card-body .card-text");
-        assertThat(cardTitles).contains(expectedFeatures);
-        assertThat(cardTexts.size()).isEqualTo(expectedFeatures.size());
+        assertThat(cardTitles).contains(ExpectedElements.FEATURES);
+        assertThat(cardTexts.size()).isEqualTo(ExpectedElements.FEATURES.size());
     }
 
     @Test
@@ -84,9 +74,8 @@ class WelcomePageTest {
     @Test
     @DisplayName("Auf der Startseite wird der Footer korrekt angezeigt.")
     void test_06() throws Exception {
-        String expectedFooterText = "© 2024 SpielzeitenPlaner. Alle Rechte vorbehalten.";
         String footerText = RequestHelper.extractFrom(welcomePage, "footer p");
-        assertThat(footerText).isEqualTo(expectedFooterText);
+        assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
     }
 
 }
