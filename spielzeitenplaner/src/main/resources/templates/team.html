@@ -13,7 +13,7 @@
 
 <body>
     <!-- Navigation -->
-    <div th:replace="fragments/basics :: navbar"></div>
+    <div th:replace="~{fragments/basics :: navbar}"></div>
 
     <!-- H1-Überschrift -->
     <h1>Team verwalten</h1>
@@ -37,10 +37,10 @@
      </div>
 
     <!-- Footer -->
-    <div th:replace="fragments/basics :: footer"></div>
+    <div th:replace="~{fragments/basics :: footer}"></div>
 
     <!-- Bootstrap JS and dependencies -->
-    <div th:replace="fragments/basics :: bootstrap-dependencies"></div>
+    <div th:replace="~{fragments/basics :: bootstrap-dependencies}"></div>
 </body>
 
 </html>

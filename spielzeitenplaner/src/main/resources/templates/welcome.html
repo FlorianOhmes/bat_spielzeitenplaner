@@ -16,7 +16,7 @@
     <div class="overlay"></div>
 
     <!-- Navigation -->
-    <div th:replace="fragments/basics :: navbar"></div>
+    <div th:replace="~{fragments/basics :: navbar}"></div>
 
     <!-- Jumbotron -->
     <div class="jumbotron jumbotron-fluid">
@@ -112,10 +112,10 @@
     </div>
 
     <!-- Footer -->
-    <div th:replace="fragments/basics :: footer"></div>
+    <div th:replace="~{fragments/basics :: footer}"></div>
 
     <!-- Bootstrap JS and dependencies -->
-    <div th:replace="fragments/basics :: bootstrap-dependencies"></div>
+    <div th:replace="~{fragments/basics :: bootstrap-dependencies}"></div>
 </body>
 
 </html>
