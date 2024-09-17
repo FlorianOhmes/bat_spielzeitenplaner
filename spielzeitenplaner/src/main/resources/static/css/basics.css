@@ -33,6 +33,7 @@ body {
     color: #ffffff !important;
 }
 
+
 /* Jumbotron */
 
 .jumbotron {
@@ -47,6 +48,7 @@ body {
     font-size: 2.5rem;
     font-weight: 300;
 }
+
 
 /* Cards */ 
 
@@ -68,6 +70,7 @@ body {
     border: none;
 }
 
+
 /* Buttons */
 
 .btn-primary {
@@ -79,10 +82,50 @@ body {
     border-color: #e65c00;
 }
 
+
 /* Überschriften */ 
 
 h2 {
     color: #007f00;
     font-size: 1.5rem;
     font-weight: 300;
+}
+
+
+/* Footer */
+
+.footer {
+    background: #007f00;
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.footer p {
+    margin: 0;
+    padding: 0;
+    line-height: 60px;
+}
+
+
+/* Bereich Neuigkeiten & Updates (welcome.html) */
+
+.alert-info {
+    background-color: #d0f0c0;
+    border-color: #007f00;
+}
+
+
+/* Bereich Main Features (welcome.html) */
+
+.main-features {
+    margin-bottom: 50px;
 }
