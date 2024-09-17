@@ -57,9 +57,9 @@ class TeamPageTest {
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Teamname korrekt angezeigt.")
     void test_04() throws Exception {
         String expectedcardTitle = "Teamname";
-        String expectedButtonText = "Teamnamen ändern";
+        String expectedButtonLabel = "Teamnamen ändern";
 
-        String cardTitle = RequestHelper.extractFrom(teamPage, ".card .card-title");
+        String cardTitle = RequestHelper.extractFrom(teamPage, ".card.team-name .card-title");
         String teamNameDisplay = RequestHelper.extractFrom(teamPage, "#teamNameDisplay");
         Elements teamNameField = teamPage.select("#teamNameField");
         String buttonText = RequestHelper.extractFrom(teamPage, "#teamNameBtn");
@@ -67,7 +67,7 @@ class TeamPageTest {
         assertThat(cardTitle).isEqualTo(expectedcardTitle);
         assertThat(teamNameDisplay).isNotBlank();
         assertThat(teamNameField).isNotEmpty();
-        assertThat(buttonText).isEqualTo(expectedButtonText);
+        assertThat(buttonText).isEqualTo(expectedButtonLabel);
     }
 
 }
