@@ -12,4 +12,9 @@ public class MainController {
         return "welcome";
     }
 
+    @GetMapping("/team")
+    public String team() {
+        return "team";
+    }
+
 }

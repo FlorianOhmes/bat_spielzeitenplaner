@@ -23,4 +23,11 @@ public class MainControllerTest {
            .andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite zur Teamverwaltung ist erreichbar.")
+    void test_02() throws Exception {
+        mvc.perform(get("/team"))
+           .andExpect(status().isOk());
+    }
+
 }
