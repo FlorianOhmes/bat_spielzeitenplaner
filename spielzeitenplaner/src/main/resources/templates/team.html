@@ -18,6 +18,24 @@
     <!-- H1-Überschrift -->
     <h1>Team verwalten</h1>
 
+    <!-- Bereich zur Anzeige und Änderung des Teamnamens -->
+     <div class="card">
+        <h2 class="card-title">
+            Teamname
+        </h2>
+        <div class="card-body">
+            <p id="teamNameDisplay">
+                Spring Boot Football Club
+            </p>
+            <div id="teamNameField">
+                <input type="text" id="teamNameInput" value="Spring Boot Football Club">
+            </div>
+            <button type="button" class="btn" id="teamNameBtn">
+                Teamnamen ändern
+            </button>
+        </div>
+     </div>
+
     <!-- Footer -->
     <div th:replace="fragments/basics :: footer"></div>
 

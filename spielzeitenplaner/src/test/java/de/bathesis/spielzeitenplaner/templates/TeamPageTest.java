@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -50,6 +51,23 @@ class TeamPageTest {
     void test_03() throws Exception {
         String footerText = RequestHelper.extractFrom(teamPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Teamname korrekt angezeigt.")
+    void test_04() throws Exception {
+        String expectedcardTitle = "Teamname";
+        String expectedButtonText = "Teamnamen ändern";
+
+        String cardTitle = RequestHelper.extractFrom(teamPage, ".card .card-title");
+        String teamNameDisplay = RequestHelper.extractFrom(teamPage, "#teamNameDisplay");
+        Elements teamNameField = teamPage.select("#teamNameField");
+        String buttonText = RequestHelper.extractFrom(teamPage, "#teamNameBtn");
+
+        assertThat(cardTitle).isEqualTo(expectedcardTitle);
+        assertThat(teamNameDisplay).isNotBlank();
+        assertThat(teamNameField).isNotEmpty();
+        assertThat(buttonText).isEqualTo(expectedButtonText);
     }
 
 }
