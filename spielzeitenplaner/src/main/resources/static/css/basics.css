@@ -47,3 +47,42 @@ body {
     font-size: 2.5rem;
     font-weight: 300;
 }
+
+/* Cards */ 
+
+.card {
+    margin-bottom: 1rem;
+    border: 1px solid #007f00;
+}
+
+.card-body {
+    background-color: #f5f5dc;
+}
+
+.card-title {
+    color: #007f00;
+}
+
+.card-footer {
+    background-color: #f5f5dc;
+    border: none;
+}
+
+/* Buttons */
+
+.btn-primary {
+    background-color: #ff6600;
+    border-color: #ff6600;
+}
+.btn-primary:hover {
+    background-color: #e65c00;
+    border-color: #e65c00;
+}
+
+/* Überschriften */ 
+
+h2 {
+    color: #007f00;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
