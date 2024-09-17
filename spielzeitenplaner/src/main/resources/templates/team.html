@@ -36,6 +36,29 @@
         </div>
     </div>
 
+    <!-- Bereich zur Anzeige und Änderung der Formation -->
+    <div class="card formation">
+        <h2 class="card-title">
+            Formation
+        </h2>
+        <div class="card-body">
+            <p id="formationDisplay">
+                3-4-3
+            </p>
+            <div id="formationField">
+                <input type="text" id="formationInput" value="3-4-3">
+            </div>
+            <div class="formation-buttons">
+                <button type="button" class="btn" id="formationBtn">
+                    Formation ändern
+                </button>
+                <button type="button" class="btn" id="addFormationBtn">
+                    Formationen verwalten
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <div th:replace="~{fragments/basics :: footer}"></div>
 

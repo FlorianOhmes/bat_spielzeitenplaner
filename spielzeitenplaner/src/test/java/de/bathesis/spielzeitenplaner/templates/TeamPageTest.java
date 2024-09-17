@@ -70,4 +70,24 @@ class TeamPageTest {
         assertThat(buttonText).isEqualTo(expectedButtonLabel);
     }
 
+    @Test
+    @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Formation korrekt angezeigt.")
+    void test_05() throws Exception {
+        String expectedCardTitle = "Formation";
+        String expectedButtonLabel = "Formation ändern";
+        String expectedButton2Label = "Formationen verwalten";
+
+        String cardTitle = RequestHelper.extractFrom(teamPage, ".card.formation .card-title");
+        String formationDisplay = RequestHelper.extractFrom(teamPage, "#formationDisplay");
+        Elements formationField = teamPage.select("#formationField");
+        String buttonText = RequestHelper.extractFrom(teamPage, "#formationBtn");
+        String button2Text = RequestHelper.extractFrom(teamPage, "#addFormationBtn");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(formationDisplay).isNotBlank();
+        assertThat(formationField).isNotEmpty();
+        assertThat(buttonText).isEqualTo(expectedButtonLabel);
+        assertThat(button2Text).isEqualTo(expectedButton2Label);
+    }
+
 }
