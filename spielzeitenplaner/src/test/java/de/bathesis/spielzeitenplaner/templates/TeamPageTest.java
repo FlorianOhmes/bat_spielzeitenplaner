@@ -45,4 +45,12 @@ class TeamPageTest {
         assertThat(navigationItemsTerms).contains(WelcomePageTest.expectedFeatures);
     }
 
+    @Test
+    @DisplayName("Auf der Seite zur Teamverwaltung wird der Footer korrekt angezeigt.")
+    void test_06() throws Exception {
+        String expectedFooterText = "© 2024 SpielzeitenPlaner. Alle Rechte vorbehalten.";
+        String footerText = RequestHelper.extractFrom(teamPage, "footer p");
+        assertThat(footerText).isEqualTo(expectedFooterText);
+    }
+
 }
