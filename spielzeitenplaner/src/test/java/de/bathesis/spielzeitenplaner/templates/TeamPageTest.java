@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 @WebMvcTest(MainController.class)
-public class TeamPageTest {
+class TeamPageTest {
 
     @Autowired
     MockMvc mvc;

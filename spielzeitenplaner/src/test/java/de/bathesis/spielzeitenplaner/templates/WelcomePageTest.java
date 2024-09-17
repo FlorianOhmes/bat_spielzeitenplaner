@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @WebMvcTest(MainController.class)
-public class WelcomePageTest {
+class WelcomePageTest {
 
     @Autowired
     MockMvc mvc;
