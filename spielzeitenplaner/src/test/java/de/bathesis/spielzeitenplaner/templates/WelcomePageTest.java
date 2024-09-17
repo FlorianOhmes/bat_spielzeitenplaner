@@ -1,6 +1,6 @@
 package de.bathesis.spielzeitenplaner.templates;
 
-import de.bathesis.spielzeitenplaner.web.WelcomeController;
+import de.bathesis.spielzeitenplaner.web.MainController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@WebMvcTest(WelcomeController.class)
+@WebMvcTest(MainController.class)
 public class WelcomePageTest {
 
     @Autowired

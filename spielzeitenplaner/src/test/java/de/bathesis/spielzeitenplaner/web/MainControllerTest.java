@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(WelcomeController.class)
-public class WelcomeControllerTest {
+@WebMvcTest(MainController.class)
+public class MainControllerTest {
 
     @Autowired
     MockMvc mvc;
