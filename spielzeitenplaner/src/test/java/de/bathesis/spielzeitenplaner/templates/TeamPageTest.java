@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
+import java.util.List;
+import java.util.ArrayList;
 
 
 @WebMvcTest(MainController.class)
@@ -100,6 +102,16 @@ class TeamPageTest {
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(table).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Die Tabelle mit den Spielern im Team hat die korrekten Überschriften")
+    void test_07() throws Exception {
+        List<String> expectedHeadings = new ArrayList<>(List.of(
+            "Name:", "Pos.:", "Trikotnr.:", "T:", "L:", "S:", "E:", "Ges.:", "Aktionen:"
+        ));
+        String headings = RequestHelper.extractFrom(teamPage, ".card.team .card-body table thead tr");
+        assertThat(headings).contains(expectedHeadings);
     }
 
 }
