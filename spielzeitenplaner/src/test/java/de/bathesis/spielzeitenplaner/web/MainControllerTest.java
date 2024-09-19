@@ -27,4 +27,10 @@ class MainControllerTest {
         RequestHelper.performGet(mvc, "/team").andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite Spieler bearbeiten/hinzufügen ist erreichbar.")
+    void test_03() throws Exception {
+        RequestHelper.performGet(mvc, "/team/player").andExpect(status().isOk());
+    }
+
 }

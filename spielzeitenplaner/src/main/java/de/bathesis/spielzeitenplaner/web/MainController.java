@@ -17,4 +17,9 @@ public class MainController {
         return "team";
     }
 
+    @GetMapping("/team/player")
+    public String player() {
+        return "player";
+    }
+
 }
