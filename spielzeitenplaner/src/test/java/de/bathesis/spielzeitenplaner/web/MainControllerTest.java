@@ -33,4 +33,10 @@ class MainControllerTest {
         RequestHelper.performGet(mvc, "/team/player").andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite Recap ist erreichbar.")
+    void test_04() throws Exception {
+        RequestHelper.performGet(mvc, "/recap").andExpect(status().isOk());
+    }
+
 }

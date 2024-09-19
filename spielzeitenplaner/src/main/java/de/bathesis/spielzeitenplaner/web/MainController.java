@@ -22,4 +22,9 @@ public class MainController {
         return "/team/player";
     }
 
+    @GetMapping("/recap")
+    public String recap() {
+        return "/recap/recap";
+    }
+
 }
