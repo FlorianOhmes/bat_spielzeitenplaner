@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -62,11 +63,21 @@ class PlayerPageTest {
             "Name", "Trikotnummer", "Position"
         ));
 
-        String cardTitle = RequestHelper.extractFrom(playerPage, ".card .card-body .card-title");
-        String playerInfo = RequestHelper.extractFrom(playerPage, ".card .card-body .player-info");
+        String cardTitle = RequestHelper.extractFrom(playerPage, ".card.player-data .card-body .card-title");
+        String playerInfo = RequestHelper.extractFrom(playerPage, ".card.player-data .card-body .player-info");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(playerInfo).contains(expectedAttributes);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Scores korrekt angezeigt.")
+    void test_06() throws Exception {
+        String expectedCardTitle = "Scores";
+        String cardTitle = RequestHelper.extractFrom(playerPage, ".card.scores .card-body .card-title");
+        Elements playerScores = playerPage.select(".card.scores .card-body .player-scores");
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(playerScores).isNotEmpty();
     }
 
 }
