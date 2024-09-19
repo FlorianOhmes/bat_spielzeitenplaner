@@ -96,12 +96,15 @@ class TeamPageTest {
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Spieler im Team korrekt angezeigt.")
     void test_06() throws Exception {
         String expectedCardTitle = "Spieler im Team";
+        String expectedButtonLabel = "Spieler hinzufügen";
 
         String cardTitle = RequestHelper.extractFrom(teamPage, ".card.team h2");
         Elements table = teamPage.select(".card.team .card-body table");
+        String buttonLabel = RequestHelper.extractFrom(teamPage, ".card.team .card-body a");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(table).isNotEmpty();
+        assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
     }
 
     @Test
