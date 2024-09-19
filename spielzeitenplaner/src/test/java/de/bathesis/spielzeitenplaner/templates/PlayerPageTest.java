@@ -46,4 +46,11 @@ class PlayerPageTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.FEATURES);
     }
 
+    @Test
+    @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Footer korrekt angezeigt.")
+    void test_03() throws Exception {
+        String footerText = RequestHelper.extractFrom(playerPage, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+    }
+
 }
