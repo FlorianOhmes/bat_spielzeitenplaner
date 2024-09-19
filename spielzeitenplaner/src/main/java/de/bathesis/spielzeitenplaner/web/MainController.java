@@ -14,12 +14,12 @@ public class MainController {
 
     @GetMapping("/team")
     public String team() {
-        return "team";
+        return "/team/team";
     }
 
     @GetMapping("/team/player")
     public String player() {
-        return "player";
+        return "/team/player";
     }
 
 }
