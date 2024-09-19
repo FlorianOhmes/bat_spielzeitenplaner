@@ -15,8 +15,27 @@
     <!-- Navigation -->
     <div th:replace="~{fragments/basics :: navbar}"></div>
 
-    <!-- H1-Überschrift -->
-    <h1>Spieler bearbeiten/hinzufügen</h1>
+    <!-- Hauptbereich zum Bearbeiten und/oder Hinzufügen von Spielern -->
+    <div class="container mt-4">
+        <!-- H1-Überschrift -->
+        <h1>Spieler bearbeiten/hinzufügen</h1>
+
+        <!-- Spielerinformationen -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">
+                    Spieler-Daten
+                </h2>
+                <div class="player-info">
+                    <div class="info-container">
+                        <p><strong>Name:</strong> Max Mustermann</p>
+                        <p><strong>Trikotnummer:</strong> 10</p>
+                        <p><strong>Position:</strong> Mittelfeld</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <div th:replace="~{fragments/basics :: footer}"></div>

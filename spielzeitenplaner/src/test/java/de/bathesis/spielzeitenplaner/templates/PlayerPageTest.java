@@ -8,10 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
-
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.MainController;
+import java.util.List;
+import java.util.ArrayList;
 
 
 @WebMvcTest(MainController.class)
@@ -51,6 +52,21 @@ class PlayerPageTest {
     void test_03() throws Exception {
         String footerText = RequestHelper.extractFrom(playerPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Daten korrekt angezeigt.")
+    void test_04() throws Exception {
+        String expectedCardTitle = "Spieler-Daten";
+        List<String> expectedAttributes = new ArrayList<>(List.of(
+            "Name", "Trikotnummer", "Position"
+        ));
+
+        String cardTitle = RequestHelper.extractFrom(playerPage, ".card .card-body .card-title");
+        String playerInfo = RequestHelper.extractFrom(playerPage, ".card .card-body .player-info");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(playerInfo).contains(expectedAttributes);
     }
 
 }
