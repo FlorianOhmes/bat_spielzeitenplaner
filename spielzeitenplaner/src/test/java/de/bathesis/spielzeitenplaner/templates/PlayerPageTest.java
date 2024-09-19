@@ -71,6 +71,14 @@ class PlayerPageTest {
     }
 
     @Test
+    @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Button Spieler bearbeiten korrekt angezeigt.")
+    void test_05() throws Exception {
+        String expectedButtonLabel = "Spieler-Daten bearbeiten";
+        String buttonLabel = RequestHelper.extractFrom(playerPage, ".card.player-data .card-body button");
+        assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
+    }
+
+    @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Scores korrekt angezeigt.")
     void test_06() throws Exception {
         String expectedCardTitle = "Scores";
