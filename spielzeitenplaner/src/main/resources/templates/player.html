@@ -12,6 +12,9 @@
 </head>
 
 <body>
+    <!-- Hintergrund-Overlay -->
+    <div class="overlay"></div>
+
     <!-- Navigation -->
     <div th:replace="~{fragments/basics :: navbar}"></div>
 
@@ -33,7 +36,7 @@
                         <p><strong>Position:</strong> Mittelfeld</p>
                     </div>
                 </div>
-                <button href="#" class="btn">Spieler-Daten bearbeiten</button>
+                <button href="#" class="btn btn-primary" id="editPlayerButton">Spieler-Daten bearbeiten</button>
             </div>
         </div>
 

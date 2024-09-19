@@ -110,7 +110,7 @@ h1 {
     color: #007f00;
     font-size: 2.5rem;
     font-weight: 300;
-    margin-bottom: 1rem;
+    margin-bottom: 25px;
 }
 
 h2 {
@@ -212,4 +212,37 @@ table thead th {
 
 table tbody tr:nth-of-type(even) {
     background-color: #f5f5dc;
+}
+
+/* Spieler bearbeiten */ 
+
+.player-info p, .player-scores p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.info-container, .scores-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.info-container p, .scores-container p {
+    flex: 1 1 calc(33% - 10px);
+}
+
+.scores-container p {
+    flex: 1 1 calc(25% - 10px);
+}
+
+@media (max-width: 768px) {
+    .info-container p, .scores-container p {
+        flex: 1 1 100%;
+    }
+}
+
+#editPlayerButton {
+    display: flex;
+    justify-content: center;
+    margin: 15px auto 0 auto;
 }
