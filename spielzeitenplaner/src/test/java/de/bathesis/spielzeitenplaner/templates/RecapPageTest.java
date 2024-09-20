@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -73,6 +74,18 @@ class RecapPageTest {
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(labelText).isEqualTo(expectedLabelText);
         assertThat(options).contains(expectedOptions);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Recap wird die Ansicht Nach Spielern sortiert korrekt angezeigt.")
+    void test_05() throws Exception {
+        String expectedCardTitle = "Spielerbewertung";
+
+        String cardTitle = RequestHelper.extractFrom(recapPage, "#playersView .card-body h2.card-title");
+        Elements playerRatingForm = recapPage.select("#playersView .card-body form#playerRatingForm");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(playerRatingForm).isNotEmpty();
     }
 
 }
