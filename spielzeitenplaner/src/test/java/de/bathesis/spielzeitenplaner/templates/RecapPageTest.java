@@ -105,4 +105,16 @@ class RecapPageTest {
         assertThat(formButtonText).isEqualTo(expectedFormButtonText);
     }
 
+    @Test
+    @DisplayName("Auf der Seite Recap wird die Ansicht Nach Kriterien sortiert korrekt angezeigt.")
+    void test_07() throws Exception {
+        String expectedCardTitle = "Kriterium auswählen";
+
+        String cardTitle = RequestHelper.extractFrom(recapPage, "#criteriaView h2.card-title");
+        Elements criteriaForm = recapPage.select("#criteriaView .card-body #criteriaForm");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(criteriaForm).isNotEmpty();
+    }
+
 }
