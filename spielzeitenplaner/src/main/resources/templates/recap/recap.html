@@ -12,11 +12,29 @@
 </head>
 
 <body>
+    <!-- Navigation -->
+    <div th:replace="~{fragments/basics :: navbar}"></div>
+
     <!-- H1-Überschrift -->
     <h1>Recap</h1>
 
-    <!-- Navigation -->
-    <div th:replace="~{fragments/basics :: navbar}"></div>
+    <!-- Auswahl der Ansicht -->
+    <div class="card" id="selectView">
+        <div class="card-body">
+            <h2 class="card-title">
+                Ansicht wählen
+            </h2>
+            <form id="viewForm">
+                <label for="viewSelection">
+                    Wähle die für dich passende Ansicht
+                </label>
+                <select name="viewSelection" id="viewSelection">
+                    <option value="players">Nach Spielern sortiert</option>
+                    <option value="criteria">Nach Kriterien sortiert</option>
+                </select>
+            </form>
+        </div>
+    </div>
 
     <!-- Footer -->
     <div th:replace="~{fragments/basics :: footer}"></div>

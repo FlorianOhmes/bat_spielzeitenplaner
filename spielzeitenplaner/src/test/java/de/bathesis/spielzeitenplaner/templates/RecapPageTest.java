@@ -8,10 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
-
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.MainController;
+import java.util.List;
+import java.util.ArrayList;
 
 
 @WebMvcTest(MainController.class)
@@ -51,6 +52,27 @@ class RecapPageTest {
     void test_03() throws Exception {
         String footerText = RequestHelper.extractFrom(recapPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Recap wird der Bereich Ansicht wählen korrekt angezeigt.")
+    void test_04() throws Exception {
+        String expectedCardTitle = "Ansicht wählen";
+        String expectedLabelText = "Wähle die für dich passende Ansicht";
+        List<String> expectedOptions = new ArrayList<String>(List.of(
+            "Nach Spielern sortiert", "Nach Kriterien sortiert"
+        ));
+
+        String cardTitle = RequestHelper.extractFrom(recapPage, "#selectView .card-body h2.card-title");
+        String labelText = RequestHelper.extractFrom(recapPage, "#selectView .card-body form#viewForm label");
+        String options = RequestHelper.extractFrom(recapPage, 
+            "#selectView .card-body form#viewForm select option[value=\"players\"], " + 
+            "#selectView .card-body form#viewForm select option[value=\"criteria\"]"
+        );
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(labelText).isEqualTo(expectedLabelText);
+        assertThat(options).contains(expectedOptions);
     }
 
 }
