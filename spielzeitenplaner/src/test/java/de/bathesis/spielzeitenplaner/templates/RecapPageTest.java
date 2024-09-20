@@ -46,4 +46,11 @@ class RecapPageTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.FEATURES);
     }
 
+    @Test
+    @DisplayName("Auf der Seite Recap wird der Footer korrekt angezeigt.")
+    void test_03() throws Exception {
+        String footerText = RequestHelper.extractFrom(recapPage, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+    }
+
 }
