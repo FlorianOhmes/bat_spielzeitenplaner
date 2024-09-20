@@ -88,4 +88,21 @@ class RecapPageTest {
         assertThat(playerRatingForm).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Das Formular zur Spielerbewertung der Spieler-Ansicht wird korrekt angezeigt.")
+    void test_06() throws Exception {
+        List<String> expectedNavButtonLabels = new ArrayList<String>(List.of(
+            "← Vorheriger", "Nächster →"
+        ));
+        String expectedFormButtonText = "Bewertungen speichern";
+
+        Elements playerContainer = recapPage.select("#playersView .card-body form#playerRatingForm #playerContainer");
+        String navButtonLabels = RequestHelper.extractFrom(recapPage, "#playersView .card-body form#playerRatingForm .navigation-buttons button");
+        String formButtonText = RequestHelper.extractFrom(recapPage, "#playersView .card-body form#playerRatingForm .form-button button");
+
+        assertThat(playerContainer).isNotEmpty();
+        assertThat(navButtonLabels).contains(expectedNavButtonLabels);
+        assertThat(formButtonText).isEqualTo(expectedFormButtonText);
+    }
+
 }
