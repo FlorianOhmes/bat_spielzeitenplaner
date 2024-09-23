@@ -160,21 +160,6 @@ h2 {
 
 /* Team verwalten */
 
-.form-control {
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-    padding: 0.25rem 0.5rem;
-    height: auto;
-    background-color: #f8f9fa;
-    transition: background-color 0.3s ease;
-    width: auto;
-    display: inline-block;
-}
-
-.form-group label {
-    font-size: 0.875rem;
-}
-
 #teamNameField, #formationField {
     display: none;
 }
@@ -245,4 +230,26 @@ table tbody tr:nth-of-type(even) {
     display: flex;
     justify-content: center;
     margin: 15px auto 0 auto;
+}
+
+/* Recap */ 
+
+.form-group label {
+    font-weight: bold;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none;
 }

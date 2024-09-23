@@ -12,69 +12,107 @@
 </head>
 
 <body>
+    <!-- Hintergrund-Overlay -->
+    <div class="overlay"></div>
+
     <!-- Navigation -->
     <div th:replace="~{fragments/basics :: navbar}"></div>
 
-    <!-- H1-Überschrift -->
-    <h1>Recap</h1>
+    <!-- Hauptbereich zum Trainings-Recap -->
+    <div class="container mt-4">
+        <!-- H1-Überschrift -->
+        <h1>Recap</h1>
 
-    <!-- Auswahl der Ansicht -->
-    <div class="card" id="selectView">
-        <div class="card-body">
-            <h2 class="card-title">
-                Ansicht wählen
-            </h2>
-            <form id="viewForm">
-                <label for="viewSelection">
-                    Wähle die für dich passende Ansicht
-                </label>
-                <select name="viewSelection" id="viewSelection">
-                    <option value="players">Nach Spielern sortiert</option>
-                    <option value="criteria">Nach Kriterien sortiert</option>
-                </select>
-            </form>
+        <!-- Auswahl der Ansicht -->
+        <div class="card" id="selectView">
+            <div class="card-body">
+                <h2 class="card-title">
+                    Ansicht wählen
+                </h2>
+                <form id="viewForm">
+                    <div class="form-group">
+                        <label for="viewSelection">
+                            Wähle die für dich passende Ansicht
+                        </label>
+                        <select class="form-control" name="viewSelection" id="viewSelection">
+                            <option value="players">Nach Spielern sortiert</option>
+                            <option value="criteria">Nach Kriterien sortiert</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- Ansicht: Nach Spielern sortiert -->
-    <div class="card" id="playersView">
-        <div class="card-body">
-            <h2 class="card-title">
-                Spielerbewertung
-            </h2>
-            <form id="playerRatingForm">
-                <div id="playerContainer">
-                    <!-- Einzelne Spieler werden hier dynamisch eingefügt -->
-                </div>
-                <div class="navigation-buttons">
-                    <button type="button" class="btn" id="prevPlayer">← Vorheriger</button>
-                    <button type="button" class="btn" id="nextPlayer">Nächster →</button>
-                </div>
-                <div class="form-button">
-                    <button type="submit" class="btn">Bewertungen speichern</button>
-                </div>
-            </form>
+        <!-- Ansicht: Nach Spielern sortiert -->
+        <div class="card" id="playersView">
+            <div class="card-body">
+                <h2 class="card-title">
+                    Spielerbewertung
+                </h2>
+                <form id="playerRatingForm">
+                    <div id="playerContainer">
+                        <!-- Einzelne Spieler sollen hier dynamisch eingefügt werden -->
+                        <div class="form-group">
+                            <label for="playerName">Name:</label>
+                            <input type="text" class="form-control" id="playerName" value="Max Mustermann" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="performance">Leistung:</label>
+                            <input type="number" class="form-control" id="performance" name="performance" min="1" max="10" placeholder="Score (1-10)">
+                        </div>
+                        <div class="form-group">
+                            <label for="trainingParticipation">Trainingsbeteiligung:</label>
+                            <input type="number" class="form-control" id="trainingParticipation" name="trainingParticipation" min="1" max="10" placeholder="Score (1-10)">
+                        </div>
+                        <div class="form-group">
+                            <label for="socialBehavior">Sozialverhalten:</label>
+                            <input type="number" class="form-control" id="socialBehavior" name="socialBehavior" min="1" max="10" placeholder="Score (1-10)">
+                        </div>
+                        <div class="form-group">
+                            <label for="engagement">Engagement:</label>
+                            <input type="number" class="form-control" id="engagement" name="engagement" min="1" max="10" placeholder="Score (1-10)">
+                        </div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-secondary" id="prevPlayer">← Vorheriger</button>
+                        <button type="button" class="btn btn-secondary" id="nextPlayer">Nächster →</button>
+                    </div>
+                    <div class="form-button">
+                        <button type="submit" class="btn btn-primary">Bewertungen speichern</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-
-    <!-- Ansicht: Nach Kriterien sortiert -->
-    <div class="card" id="criteriaView">
-        <div class="card-body">
-            <h2 class="card-title">
-                Kriterium auswählen
-            </h2>
-            <form id="criteriaForm">
-                <div id="criteriaContainer">
-                    <!-- Kriterien und Spielerlisten werden hier dynamisch eingefügt -->
-                </div>
-                <div class="navigation-buttons">
-                    <button type="button" class="btn" id="prevCriterion">← Vorheriges</button>
-                    <button type="button" class="btn" id="nextCriterion">Nächstes →</button>
-                </div>
-                <div class="form-button">
-                    <button type="submit" class="btn">Bewertungen speichern</button>
-                </div>
-            </form>
+    
+        <!-- Ansicht: Nach Kriterien sortiert -->
+        <div class="card" id="criteriaView">
+            <div class="card-body">
+                <h2 class="card-title">
+                    Kriterium auswählen
+                </h2>
+                <form id="criteriaForm">
+                    <div id="criteriaContainer">
+                        <!-- Kriterien und Spielerlisten sollen hier dynamisch eingefügt werden -->
+                        <div class="form-group">
+                            <label for="criterionName">Kriterium:</label>
+                            <input type="text" class="form-control" id="criterionName" value="Leistung" disabled>
+                        </div>
+                        <div id="criteriaPlayerList" class="criteria-list">
+                            <div class="form-group">
+                                <label class="form-check-label" for="valueOfPlayer">Max Mustermann</label>
+                                <input type="number" class="form-control" id="valueOfPlayer" name="valueOfPlayer" min="1" max="10" placeholder="Score (1-10)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-secondary" id="prevCriterion">← Vorheriges</button>
+                        <button type="button" class="btn btn-secondary" id="nextCriterion">Nächstes →</button>
+                    </div>
+                    <div class="form-button">
+                        <button type="submit" class="btn btn-primary">Bewertungen speichern</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
