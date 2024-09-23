@@ -39,4 +39,10 @@ class MainControllerTest {
         RequestHelper.performGet(mvc, "/recap").andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite Spielzeiten berechnen ist erreichbar.")
+    void test_05() throws Exception {
+        RequestHelper.performGet(mvc, "/spielzeiten").andExpect(status().isOk());
+    }
+
 }

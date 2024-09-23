@@ -27,4 +27,9 @@ public class MainController {
         return "/recap/recap";
     }
 
+    @GetMapping("/spielzeiten")
+    public String spielzeiten() {
+        return "/spielzeiten/start.html";
+    }
+
 }
