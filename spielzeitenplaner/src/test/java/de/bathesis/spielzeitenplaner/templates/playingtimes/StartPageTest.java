@@ -53,4 +53,11 @@ class StartPageTest {
         assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
     }
 
+    @Test
+    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
+    void test_04() throws Exception {
+        String leadText = RequestHelper.extractFrom(startPage, "p.lead");
+        assertThat(leadText).isNotBlank();
+    }
+
 }
