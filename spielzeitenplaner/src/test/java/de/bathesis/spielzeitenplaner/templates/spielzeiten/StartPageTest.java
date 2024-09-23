@@ -62,10 +62,17 @@ class StartPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird ein Container für die Spielerliste angezeigt.")
+    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Bereich Spieler auswählen korrekt angezeigt.")
     void test_05() throws Exception {
+        String expectedButtonLabel = "Weiter zur Startaufstellung";
+
+        Elements form = startPage.select("form#availablePlayers");
         Elements playerContainer = startPage.select("#allPlayers");
+        String buttonLabel = form.select(".form-button button").text();
+
+        assertThat(form).isNotEmpty();
         assertThat(playerContainer).isNotEmpty();
+        assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
     }
 
 }
