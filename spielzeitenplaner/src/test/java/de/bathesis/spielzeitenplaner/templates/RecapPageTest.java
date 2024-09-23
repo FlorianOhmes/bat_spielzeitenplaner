@@ -117,4 +117,21 @@ class RecapPageTest {
         assertThat(criteriaForm).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Das Formular zur Spielerbewertung der Kriterien-Ansicht wird korrekt angezeigt.")
+    void test_08() throws Exception {
+        List<String> expectedNavButtonLabels = new ArrayList<String>(List.of(
+            "← Vorheriges", "Nächstes →"
+        ));
+        String expectedFormButtonText = "Bewertungen speichern";
+
+        Elements playerContainer = recapPage.select("#criteriaView .card-body form#criteriaForm #criteriaContainer");
+        String navButtonLabels = RequestHelper.extractFrom(recapPage, "#criteriaView .card-body form#criteriaForm .navigation-buttons button");
+        String formButtonText = RequestHelper.extractFrom(recapPage, "#criteriaView .card-body form#criteriaForm .form-button button");
+
+        assertThat(playerContainer).isNotEmpty();
+        assertThat(navButtonLabels).contains(expectedNavButtonLabels);
+        assertThat(formButtonText).isEqualTo(expectedFormButtonText);
+    }
+
 }
