@@ -46,4 +46,11 @@ class StartPageTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.FEATURES);
     }
 
+    @Test
+    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Footer korrekt angezeigt.")
+    void test_03() throws Exception {
+        String footerText = RequestHelper.extractFrom(startPage, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+    }
+
 }
