@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates.playingtimes;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -58,6 +59,13 @@ class StartPageTest {
     void test_04() throws Exception {
         String leadText = RequestHelper.extractFrom(startPage, "p.lead");
         assertThat(leadText).isNotBlank();
+    }
+
+    @Test
+    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird ein Container für die Spielerliste angezeigt.")
+    void test_05() throws Exception {
+        Elements playerContainer = startPage.select("#allPlayers");
+        assertThat(playerContainer).isNotEmpty();
     }
 
 }
