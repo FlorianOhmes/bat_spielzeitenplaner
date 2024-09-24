@@ -14,5 +14,6 @@ public class ExpectedElements {
         "Team verwalten", 
         "Einstellungen" 
     ));
+    public static final String SPIELZEITEN_TITLE = "Spielzeiten planen";
 
 }

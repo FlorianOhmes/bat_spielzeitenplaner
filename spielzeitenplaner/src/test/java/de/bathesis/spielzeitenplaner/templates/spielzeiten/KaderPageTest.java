@@ -32,9 +32,8 @@ class KaderPageTest {
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
-        String expectedTitle = "Spielzeiten berechnen";
         String pageTitle = RequestHelper.extractFrom(kaderPage, "h1");
-        assertThat(pageTitle).isEqualTo(expectedTitle);
+        assertThat(pageTitle).isEqualTo(ExpectedElements.SPIELZEITEN_TITLE);
     }
 
 }
