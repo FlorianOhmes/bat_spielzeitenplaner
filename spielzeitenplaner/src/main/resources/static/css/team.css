@@ -1,0 +1,77 @@
+/* Spezifisches Styling des Team-Bereichs */ 
+
+
+/* Team verwalten */
+
+#teamNameField, #formationField {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .formation-buttons {
+        margin-top: 50px;
+    }
+    .card.formation {
+        height: 145px !important;
+    }
+}
+
+table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: #d8cfc4;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #007f00;
+}
+
+table thead th {
+    background-color: #007f00;
+    color: #ffffff;
+    text-align: center;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f5f5dc;
+}
+
+
+/* Spieler bearbeiten */ 
+
+.player-info p, .player-scores p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.info-container, .scores-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.info-container p, .scores-container p {
+    flex: 1 1 calc(33% - 10px);
+}
+
+.scores-container p {
+    flex: 1 1 calc(25% - 10px);
+}
+
+@media (max-width: 768px) {
+    .info-container p, .scores-container p {
+        flex: 1 1 100%;
+    }
+}
+
+#editPlayerButton {
+    display: flex;
+    justify-content: center;
+    margin: 15px auto 0 auto;
+}

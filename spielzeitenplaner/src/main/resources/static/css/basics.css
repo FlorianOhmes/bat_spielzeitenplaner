@@ -33,23 +33,6 @@ body {
     color: #ffffff !important;
 }
 
-
-/* Jumbotron */
-
-.jumbotron {
-    background: rgba(232, 245, 233, 0.8);
-    padding: 3rem;
-    border-radius: 0.3rem;
-    margin-bottom: 1rem;
-}
-
-.jumbotron h1 {
-    color: #007f00;
-    font-size: 2.5rem;
-    font-weight: 300;
-}
-
-
 /* Cards */ 
 
 .card {
@@ -103,6 +86,12 @@ body {
     right: 20px;
 }
 
+.form-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
 
 /* Überschriften */ 
 
@@ -141,160 +130,4 @@ h2 {
     margin: 0;
     padding: 0;
     line-height: 60px;
-}
-
-
-/* Bereich Neuigkeiten & Updates (welcome.html) */
-
-.alert-info {
-    background-color: #d0f0c0;
-    border-color: #007f00;
-}
-
-
-/* Bereich Main Features (welcome.html) */
-
-.main-features {
-    margin-bottom: 50px;
-}
-
-/* Team verwalten */
-
-#teamNameField, #formationField {
-    display: none;
-}
-
-@media (max-width: 768px) {
-
-    .formation-buttons {
-        margin-top: 50px;
-    }
-    .card.formation {
-        height: 145px !important;
-    }
-}
-
-table {
-    width: 100%;
-    margin-bottom: 1rem;
-    background-color: #d8cfc4;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-table th, table td {
-    padding: 0.75rem;
-    text-align: center;
-    vertical-align: middle;
-    border-bottom: 1px solid #007f00;
-}
-
-table thead th {
-    background-color: #007f00;
-    color: #ffffff;
-    text-align: center;
-}
-
-table tbody tr:nth-of-type(even) {
-    background-color: #f5f5dc;
-}
-
-/* Spieler bearbeiten */ 
-
-.player-info p, .player-scores p {
-    margin: 0;
-    font-size: 1rem;
-}
-
-.info-container, .scores-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.info-container p, .scores-container p {
-    flex: 1 1 calc(33% - 10px);
-}
-
-.scores-container p {
-    flex: 1 1 calc(25% - 10px);
-}
-
-@media (max-width: 768px) {
-    .info-container p, .scores-container p {
-        flex: 1 1 100%;
-    }
-}
-
-#editPlayerButton {
-    display: flex;
-    justify-content: center;
-    margin: 15px auto 0 auto;
-}
-
-/* Recap */ 
-
-.form-group label {
-    font-weight: bold;
-}
-
-.navigation-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.form-button {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-}
-
-.hidden {
-    display: none;
-}
-
-/* Spielzeiten berechnen */
-
-.player-card {
-    margin-bottom: 1rem;
-    padding: 15px;
-    border: 1px solid #007f00;
-    border-radius: 5px;
-    background-color: #f5f5dc;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.player-info {
-    flex: 1;
-    padding-left: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.player-info strong {
-    color: #007f00;
-    font-size: 1.1rem;
-    margin-top: -2px;
-}
-
-.form-check {
-    display: flex;
-    align-items: center;
-}
-
-.form-check-input {
-    transform: scale(1.4);
-    margin-top: 0px;
-    margin-left: -5px;
-    margin-right: 10px;
-}
-
-@media (max-width: 768px) {
-    .player-info {
-        flex-direction: column;
-    }
 }

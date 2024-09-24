@@ -1,0 +1,18 @@
+/* Spezifisches Styling des Recap-Bereichs */ 
+
+
+/* Recap */ 
+
+.form-group label {
+    font-weight: bold;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}

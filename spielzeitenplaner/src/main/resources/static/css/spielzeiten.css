@@ -1,0 +1,47 @@
+/* Spezifisches Styling des Spielzeiten-Bereichs */ 
+
+
+/* Spielzeiten berechnen */
+
+.player-card {
+    margin-bottom: 1rem;
+    padding: 15px;
+    border: 1px solid #007f00;
+    border-radius: 5px;
+    background-color: #f5f5dc;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.player-info {
+    flex: 1;
+    padding-left: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.player-info strong {
+    color: #007f00;
+    font-size: 1.1rem;
+    margin-top: -2px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    transform: scale(1.4);
+    margin-top: 0px;
+    margin-left: -5px;
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .player-info {
+        flex-direction: column;
+    }
+}
