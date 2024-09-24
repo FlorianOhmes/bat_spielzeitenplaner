@@ -32,4 +32,9 @@ public class MainController {
         return "/spielzeiten/start.html";
     }
 
+    @GetMapping("/spielzeiten/kader")
+    public String kader() {
+        return "/spielzeiten/kader.html";
+    }
+
 }

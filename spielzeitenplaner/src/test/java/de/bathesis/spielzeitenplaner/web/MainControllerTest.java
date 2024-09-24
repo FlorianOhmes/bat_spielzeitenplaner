@@ -45,4 +45,10 @@ class MainControllerTest {
         RequestHelper.performGet(mvc, "/spielzeiten").andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite Spielzeiten berechnen/Kader ist erreichbar.")
+    void test_06() throws Exception {
+        RequestHelper.performGet(mvc, "/spielzeiten/kader").andExpect(status().isOk());
+    }
+
 }
