@@ -44,4 +44,11 @@ class KaderPageTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird der Footer korrekt angezeigt.")
+    void test_03() throws Exception {
+        String footerText = RequestHelper.extractFrom(kaderPage, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+    }
+
 }
