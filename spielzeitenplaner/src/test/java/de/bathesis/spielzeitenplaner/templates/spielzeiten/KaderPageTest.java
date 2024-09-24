@@ -29,14 +29,14 @@ class KaderPageTest {
 
 
     @Test
-    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird die korrekte Überschrift angezeigt.")
+    @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
         String pageTitle = RequestHelper.extractFrom(kaderPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
-    @DisplayName("Auf der Seite Kader der Spielzeitenberechnung wird die Navigationsleiste korrekt angezeigt.")
+    @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
         String navbarBrandText = RequestHelper.extractFrom(kaderPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractFrom(kaderPage, "nav.navbar ul.navbar-nav li.nav-item");
