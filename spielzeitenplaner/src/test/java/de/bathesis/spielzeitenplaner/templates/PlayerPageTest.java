@@ -44,15 +44,15 @@ class PlayerPageTest {
     void test_02() throws Exception {
         String navbarBrandText = RequestHelper.extractFrom(playerPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractFrom(playerPage, "nav.navbar ul.navbar-nav li.nav-item");
-        assertThat(navbarBrandText).isEqualTo(ExpectedElements.NAVBRAND_TEXT);
-        assertThat(navigationItemsTerms).contains(ExpectedElements.FEATURES);
+        assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
+        assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Footer korrekt angezeigt.")
     void test_03() throws Exception {
         String footerText = RequestHelper.extractFrom(playerPage, "footer p");
-        assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test

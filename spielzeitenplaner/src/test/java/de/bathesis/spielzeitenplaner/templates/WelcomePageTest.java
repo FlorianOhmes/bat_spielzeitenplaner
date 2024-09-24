@@ -48,8 +48,8 @@ class WelcomePageTest {
     void test_03() throws Exception {
         String navbarBrandText = RequestHelper.extractFrom(welcomePage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractFrom(welcomePage, "nav.navbar ul.navbar-nav li.nav-item");
-        assertThat(navbarBrandText).isEqualTo(ExpectedElements.NAVBRAND_TEXT);
-        assertThat(navigationItemsTerms).contains(ExpectedElements.FEATURES);
+        assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
+        assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
     @Test
@@ -57,8 +57,8 @@ class WelcomePageTest {
     void test_04() throws Exception {
         String cardTitles = RequestHelper.extractFrom(welcomePage, ".main-features .card .card-title");
         Elements cardTexts = welcomePage.select(".main-features .card .card-body .card-text");
-        assertThat(cardTitles).contains(ExpectedElements.FEATURES);
-        assertThat(cardTexts.size()).isEqualTo(ExpectedElements.FEATURES.size());
+        assertThat(cardTitles).contains(ExpectedElements.features());
+        assertThat(cardTexts.size()).isEqualTo(ExpectedElements.features().size());
     }
 
     @Test
@@ -75,7 +75,7 @@ class WelcomePageTest {
     @DisplayName("Auf der Startseite wird der Footer korrekt angezeigt.")
     void test_06() throws Exception {
         String footerText = RequestHelper.extractFrom(welcomePage, "footer p");
-        assertThat(footerText).isEqualTo(ExpectedElements.FOOTER_TEXT);
+        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
 }

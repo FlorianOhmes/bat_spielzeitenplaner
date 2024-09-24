@@ -1,7 +1,6 @@
 package de.bathesis.spielzeitenplaner.templates.spielzeiten;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +32,7 @@ class KaderPageTest {
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
         String pageTitle = RequestHelper.extractFrom(kaderPage, "h1");
-        assertThat(pageTitle).isEqualTo(ExpectedElements.SPIELZEITEN_TITLE);
+        assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
 }
