@@ -64,7 +64,7 @@ class StartPageTest {
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Bereich Spieler auswählen korrekt angezeigt.")
     void test_05() throws Exception {
-        String expectedButtonLabel = "Weiter zur Startaufstellung";
+        String expectedButtonLabel = "Weiter zum Kader";
 
         Elements form = startPage.select("form#availablePlayers");
         Elements playerContainer = startPage.select("#allPlayers");
