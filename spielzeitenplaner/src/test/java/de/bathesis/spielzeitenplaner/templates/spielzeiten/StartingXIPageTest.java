@@ -58,4 +58,17 @@ class StartingXIPageTest {
         assertThat(leadText).isNotBlank();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Startelf der Spielzeitenplanung werden im Bereich Startelf bestätigen die korrekten Titel angezeigt.")
+    void test_05() throws Exception {
+        String expectedCardTitle = "Startelf";
+        String expectedFormationTitle = "Formation";
+
+        String cardTitle = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body h2.card-title");
+        String formationTitle = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body p");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(formationTitle).contains(expectedFormationTitle);
+    }
+
 }
