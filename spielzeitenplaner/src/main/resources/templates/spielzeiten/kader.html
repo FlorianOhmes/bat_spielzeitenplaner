@@ -27,6 +27,83 @@
             Du kannst noch manuell Änderungen vornehmen, falls du einen Spieler entgegen der Empfehlung des 
             SpielzeitenPlaners Zuhause lassen oder eben doch mitnehmen möchtest. 
         </p>
+
+        <!-- Bereich: Kader bestätigen/ändern -->
+        <form id="kader">
+            <h2>Im Kader:</h2>
+            <!-- Liste: Im Kader  -->
+            <div id="playersIn">
+                <!-- Beispielhafte Daten -->
+                <div class="player-card">
+                    <input class="form-check-input" type="checkbox" id="player1" value="1">
+                    <div class="player-info">
+                        <strong>Max Mustermann</strong>
+                        <span>Position: Stürmer</span>
+                        <span>Nummer: 9</span>
+                        <span>Leistung: 8</span>
+                        <span>Trainingsbeteiligung: 10</span>
+                        <span>Sozialverhalten: 9</span>
+                        <span>Engagement: 7</span>
+                    </div>
+                </div>
+                <div class="player-card">
+                    <input class="form-check-input" type="checkbox" id="player2" value="2">
+                    <div class="player-info">
+                        <strong>Erika Mustermann</strong>
+                        <span>Position: Torwart</span>
+                        <span>Nummer: 1</span>
+                        <span>Leistung: 9</span>
+                        <span>Trainingsbeteiligung: 9</span>
+                        <span>Sozialverhalten: 10</span>
+                        <span>Engagement: 8</span>
+                    </div>
+                </div>
+                <div class="player-card">
+                    <input class="form-check-input" type="checkbox" id="player3" value="3">
+                    <div class="player-info">
+                        <strong>Hans Müller</strong>
+                        <span>Position: Verteidiger</span>
+                        <span>Nummer: 4</span>
+                        <span>Leistung: 7</span>
+                        <span>Trainingsbeteiligung: 8</span>
+                        <span>Sozialverhalten: 8</span>
+                        <span>Engagement: 6</span>
+                    </div>
+                </div>
+            </div>
+            <h2>Nicht dabei:</h2>
+            <!-- Liste: Nicht dabei -->
+            <div id="playersOut">
+                <!-- Beispielhafte Daten -->
+                <div class="player-card">
+                    <input class="form-check-input" type="checkbox" id="player4" value="4">
+                    <div class="player-info">
+                        <strong>Hans Hauke</strong>
+                        <span>Position: Torwart</span>
+                        <span>Nummer: 41</span>
+                        <span>Leistung: 8</span>
+                        <span>Trainingsbeteiligung: 10</span>
+                        <span>Sozialverhalten: 9</span>
+                        <span>Engagement: 7</span>
+                    </div>
+                </div>
+                <div class="player-card">
+                    <input class="form-check-input" type="checkbox" id="player5" value="5">
+                    <div class="player-info">
+                        <strong>Erik Eidams</strong>
+                        <span>Position: Zentrales Mittelfeld</span>
+                        <span>Nummer: 14</span>
+                        <span>Leistung: 9</span>
+                        <span>Trainingsbeteiligung: 9</span>
+                        <span>Sozialverhalten: 10</span>
+                        <span>Engagement: 8</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-button">
+                <button type="submit" class="btn btn-primary">Weiter zur Startelf</button>
+            </div>
+        </form>
     </div>
 
     <!-- Footer -->

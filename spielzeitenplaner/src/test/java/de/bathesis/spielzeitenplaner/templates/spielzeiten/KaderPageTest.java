@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates.spielzeiten;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.SpielzeitenController;
+import java.util.List;
+import java.util.ArrayList;
 
 
 @WebMvcTest(SpielzeitenController.class)
@@ -56,6 +59,24 @@ class KaderPageTest {
     void test_04() throws Exception {
         String leadText = RequestHelper.extractFrom(kaderPage, "p.lead");
         assertThat(leadText).isNotBlank();
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird der Bereich Kader bestätigen korrekt angezeigt.")
+    void test_05() throws Exception {
+        List<String> expectedH2Titles = new ArrayList<>(List.of(
+            "Im Kader", "Nicht dabei"
+        ));
+
+        Elements form = kaderPage.select("form#kader");
+        String h2Titles = RequestHelper.extractFrom(kaderPage, "form#kader h2");
+        Elements playersIn = form.select("#playersIn");
+        Elements playersOut = form.select("#playersOut");
+
+        assertThat(form).isNotEmpty();
+        assertThat(h2Titles).contains(expectedH2Titles);
+        assertThat(playersIn).isNotEmpty();
+        assertThat(playersOut).isNotEmpty();
     }
 
 }
