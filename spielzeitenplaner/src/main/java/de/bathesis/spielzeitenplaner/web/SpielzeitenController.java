@@ -19,4 +19,9 @@ public class SpielzeitenController {
         return "/spielzeiten/kader";
     }
 
+    @GetMapping("/startingXI")
+    public String startingXI() {
+        return "/spielzeiten/startingXI";
+    }
+
 }

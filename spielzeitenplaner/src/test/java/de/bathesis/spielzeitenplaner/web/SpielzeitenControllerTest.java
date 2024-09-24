@@ -27,4 +27,10 @@ class SpielzeitenControllerTest {
         RequestHelper.performGet(mvc, "/spielzeiten/kader").andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite Startelf der Spielzeitenberechnung ist erreichbar.")
+    void test_03() throws Exception {
+        RequestHelper.performGet(mvc, "/spielzeiten/startingXI").andExpect(status().isOk());
+    }
+
 }
