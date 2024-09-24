@@ -11,12 +11,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
-import de.bathesis.spielzeitenplaner.web.MainController;
+import de.bathesis.spielzeitenplaner.web.TeamController;
 import java.util.List;
 import java.util.ArrayList;
 
 
-@WebMvcTest(MainController.class)
+@WebMvcTest(TeamController.class)
 class PlayerPageTest {
 
     @Autowired

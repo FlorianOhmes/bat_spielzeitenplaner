@@ -2,7 +2,7 @@ package de.bathesis.spielzeitenplaner.templates;
 
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
-import de.bathesis.spielzeitenplaner.web.MainController;
+import de.bathesis.spielzeitenplaner.web.TeamController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-@WebMvcTest(MainController.class)
+@WebMvcTest(TeamController.class)
 class TeamPageTest {
 
     @Autowired

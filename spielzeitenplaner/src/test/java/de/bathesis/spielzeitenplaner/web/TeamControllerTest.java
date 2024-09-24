@@ -9,16 +9,22 @@ import org.junit.jupiter.api.DisplayName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(MainController.class)
-class MainControllerTest {
+@WebMvcTest(TeamController.class)
+class TeamControllerTest {
 
     @Autowired
     MockMvc mvc;
 
     @Test
-    @DisplayName("Die Startseite ist erreichbar.")
+    @DisplayName("Die Seite zur Teamverwaltung ist erreichbar.")
     void test_01() throws Exception {
-        RequestHelper.performGet(mvc, "/").andExpect(status().isOk());
+        RequestHelper.performGet(mvc, "/team").andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Die Seite Spieler bearbeiten/hinzufügen ist erreichbar.")
+    void test_02() throws Exception {
+        RequestHelper.performGet(mvc, "/team/player").andExpect(status().isOk());
     }
 
 }

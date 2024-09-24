@@ -9,16 +9,16 @@ import org.junit.jupiter.api.DisplayName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(MainController.class)
-class MainControllerTest {
+@WebMvcTest(RecapController.class)
+class RecapControllerTest {
 
     @Autowired
     MockMvc mvc;
 
     @Test
-    @DisplayName("Die Startseite ist erreichbar.")
+    @DisplayName("Die Seite Recap ist erreichbar.")
     void test_01() throws Exception {
-        RequestHelper.performGet(mvc, "/").andExpect(status().isOk());
+        RequestHelper.performGet(mvc, "/recap").andExpect(status().isOk());
     }
 
 }

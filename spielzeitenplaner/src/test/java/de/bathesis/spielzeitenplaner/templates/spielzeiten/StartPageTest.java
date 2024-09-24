@@ -9,13 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
-
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
-import de.bathesis.spielzeitenplaner.web.MainController;
+import de.bathesis.spielzeitenplaner.web.SpielzeitenController;
 
 
-@WebMvcTest(MainController.class)
+@WebMvcTest(SpielzeitenController.class)
 class StartPageTest {
 
     @Autowired

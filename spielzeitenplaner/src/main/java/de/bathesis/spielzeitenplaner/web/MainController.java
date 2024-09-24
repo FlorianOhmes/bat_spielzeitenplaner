@@ -12,29 +12,4 @@ public class MainController {
         return "welcome";
     }
 
-    @GetMapping("/team")
-    public String team() {
-        return "/team/team";
-    }
-
-    @GetMapping("/team/player")
-    public String player() {
-        return "/team/player";
-    }
-
-    @GetMapping("/recap")
-    public String recap() {
-        return "/recap/recap";
-    }
-
-    @GetMapping("/spielzeiten")
-    public String spielzeiten() {
-        return "/spielzeiten/start.html";
-    }
-
-    @GetMapping("/spielzeiten/kader")
-    public String kader() {
-        return "/spielzeiten/kader.html";
-    }
-
 }
