@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates.spielzeiten;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.SpielzeitenController;
+import java.util.List;
+import java.util.ArrayList;
 
 
 @WebMvcTest(SpielzeitenController.class)
@@ -69,6 +72,26 @@ class StartingXIPageTest {
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(formationTitle).contains(expectedFormationTitle);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird im Bereich Startelf bestätigen nach Positionsgruppen unterschieden.")
+    void test_06() throws Exception {
+        List<String> expectedPositionGroups = new ArrayList<>(List.of(
+            "Angriff", "Mittelfeld", "Abwehr", "Torwart"
+        ));
+
+        String positionGroups = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body h3");
+        Elements attack = startingXIPage.select("#cardStartingXI .card-body #attack");
+        Elements midfield = startingXIPage.select("#cardStartingXI .card-body #midfield");
+        Elements defenders = startingXIPage.select("#cardStartingXI .card-body #defenders");
+        Elements goalkeeper = startingXIPage.select("#cardStartingXI .card-body #goalkeeper");
+
+        assertThat(positionGroups).contains(expectedPositionGroups);
+        assertThat(attack).isNotEmpty();
+        assertThat(midfield).isNotEmpty();
+        assertThat(defenders).isNotEmpty();
+        assertThat(goalkeeper).isNotEmpty();
     }
 
 }
