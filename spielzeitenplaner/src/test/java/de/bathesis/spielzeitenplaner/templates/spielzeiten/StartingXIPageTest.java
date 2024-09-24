@@ -44,4 +44,11 @@ class StartingXIPageTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird der Footer korrekt angezeigt.")
+    void test_03() throws Exception {
+        String footerText = RequestHelper.extractFrom(startingXIPage, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+    }
+
 }
