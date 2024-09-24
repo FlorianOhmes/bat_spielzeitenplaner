@@ -51,4 +51,11 @@ class StartingXIPageTest {
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
+    void test_04() throws Exception {
+        String leadText = RequestHelper.extractFrom(startingXIPage, "p.lead");
+        assertThat(leadText).isNotBlank();
+    }
+
 }
