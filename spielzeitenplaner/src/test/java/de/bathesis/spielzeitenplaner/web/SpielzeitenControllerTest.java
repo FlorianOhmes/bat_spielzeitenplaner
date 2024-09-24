@@ -16,19 +16,19 @@ class SpielzeitenControllerTest {
     MockMvc mvc;
 
     @Test
-    @DisplayName("Die Startseite zur Spielzeitenberechnung ist erreichbar.")
+    @DisplayName("Die Startseite zur Spielzeitenplanung ist erreichbar.")
     void test_01() throws Exception {
         RequestHelper.performGet(mvc, "/spielzeiten").andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("Die Seite Kader der Spielzeitenberechnung ist erreichbar.")
+    @DisplayName("Die Seite Kader der Spielzeitenplanung ist erreichbar.")
     void test_02() throws Exception {
         RequestHelper.performGet(mvc, "/spielzeiten/kader").andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("Die Seite Startelf der Spielzeitenberechnung ist erreichbar.")
+    @DisplayName("Die Seite Startelf der Spielzeitenplanung ist erreichbar.")
     void test_03() throws Exception {
         RequestHelper.performGet(mvc, "/spielzeiten/startingXI").andExpect(status().isOk());
     }
