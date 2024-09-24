@@ -51,4 +51,11 @@ class KaderPageTest {
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
+    void test_04() throws Exception {
+        String leadText = RequestHelper.extractFrom(kaderPage, "p.lead");
+        assertThat(leadText).isNotBlank();
+    }
+
 }
