@@ -35,4 +35,13 @@ class StartingXIPageTest {
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird die Navigationsleiste korrekt angezeigt.")
+    void test_02() throws Exception {
+        String navbarBrandText = RequestHelper.extractFrom(startingXIPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractFrom(startingXIPage, "nav.navbar ul.navbar-nav li.nav-item");
+        assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
+        assertThat(navigationItemsTerms).contains(ExpectedElements.features());
+    }
+
 }
