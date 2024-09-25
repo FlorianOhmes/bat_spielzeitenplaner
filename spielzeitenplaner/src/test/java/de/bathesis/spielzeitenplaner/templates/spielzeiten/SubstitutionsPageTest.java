@@ -51,4 +51,11 @@ class SubstitutionsPageTest {
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
+    void test_04() throws Exception {
+        String leadText = RequestHelper.extractFrom(substitutionsPage, "p.lead");
+        assertThat(leadText).isNotBlank();
+    }
+
 }
