@@ -58,4 +58,17 @@ class SubstitutionsPageTest {
         assertThat(leadText).isNotBlank();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung werden die Titel der Startelf-Card korrekt angezeigt.")
+    void test_05() throws Exception {
+        String expectedCardTitle = "Startelf";
+        String expectedFormationTitle = "Formation";
+
+        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body h2.card-title");
+        String formationTitle = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body p");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(formationTitle).contains(expectedFormationTitle);
+    }
+
 }
