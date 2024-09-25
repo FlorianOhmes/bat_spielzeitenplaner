@@ -44,4 +44,11 @@ class SubstitutionsPageTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird der Footer korrekt angezeigt.")
+    void test_03() throws Exception {
+        String footerText = RequestHelper.extractFrom(substitutionsPage, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+    }
+
 }
