@@ -24,4 +24,9 @@ public class SpielzeitenController {
         return "/spielzeiten/startingXI";
     }
 
+    @GetMapping("/substitutions")
+    public String substitutions() {
+        return "/spielzeiten/substitutions";
+    }
+
 }

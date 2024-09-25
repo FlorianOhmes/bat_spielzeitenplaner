@@ -33,4 +33,10 @@ class SpielzeitenControllerTest {
         RequestHelper.performGet(mvc, "/spielzeiten/startingXI").andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite Wechsel eintragen der Spielzeitenplanung ist erreichbar.")
+    void test_04() throws Exception {
+        RequestHelper.performGet(mvc, "/spielzeiten/substitutions").andExpect(status().isOk());
+    }
+
 }
