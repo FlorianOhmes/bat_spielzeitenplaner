@@ -94,4 +94,16 @@ class SubstitutionsPageTest {
         assertThat(goalkeeper).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Ersatzbank-Card korrekt angezeigt.")
+    void test_07() throws Exception {
+        String expectedCardTitle = "Ersatzbank";
+
+        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "#cardReserve .card-body h2.card-title");
+        Elements reserve = substitutionsPage.select("#cardReserve .card-body #reserve");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(reserve).isNotEmpty();
+    }
+
 }
