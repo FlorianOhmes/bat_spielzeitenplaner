@@ -94,4 +94,16 @@ class StartingXIPageTest {
         assertThat(goalkeeper).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird im Bereich Startelf bestätigen ein Formular angezeigt.")
+    void test_07() throws Exception {
+        String expectedButtonLabel = "Weiter zu \"Wechsel eintragen\"";
+
+        Elements form = startingXIPage.select("form#startingXI");
+        String formButtonLabel = RequestHelper.extractFrom(startingXIPage, "form#startingXI .form-button button");
+
+        assertThat(form).isNotEmpty();
+        assertThat(formButtonLabel).isEqualTo(expectedButtonLabel);
+    }
+
 }
