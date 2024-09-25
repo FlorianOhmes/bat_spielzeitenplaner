@@ -106,4 +106,16 @@ class StartingXIPageTest {
         assertThat(formButtonLabel).isEqualTo(expectedButtonLabel);
     }
 
+    @Test
+    @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird im Bereich Startelf bestätigen eine Card für die Reservespieler angezeigt.")
+    void test_08() throws Exception {
+        String expectedCardTitle = "Ersatzbank";
+
+        String cardTitle = RequestHelper.extractFrom(startingXIPage, "#cardReserve .card-body h2.card-title");
+        Elements reserve = startingXIPage.select("#cardReserve .card-body #reserve");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(reserve).isNotEmpty();
+    }
+
 }
