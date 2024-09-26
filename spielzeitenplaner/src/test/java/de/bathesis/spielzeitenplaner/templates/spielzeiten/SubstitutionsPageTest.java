@@ -113,4 +113,16 @@ class SubstitutionsPageTest {
         assertThat(form).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Wechsel-Card korrekt angezeigt.")
+    void test_09() throws Exception {
+        String expectedCardTitle = "Wechsel";
+
+        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "form#substitutions #cardSubstitutions .card-body h2.card-title");
+        Elements substitutionsList = substitutionsPage.select("form#substitutions #cardSubstitutions .card-body ul");
+
+        assertThat(cardTitle).isEqualTo(expectedCardTitle);
+        assertThat(substitutionsList).isNotEmpty();
+    }
+
 }
