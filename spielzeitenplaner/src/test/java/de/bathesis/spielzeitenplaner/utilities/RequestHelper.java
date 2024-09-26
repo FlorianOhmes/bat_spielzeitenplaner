@@ -23,6 +23,10 @@ public class RequestHelper {
         return page.select(cssQuery).text();
     }
 
+    public static String extractTextFrom(Elements htmlSnippet, String cssQuery) {
+        return htmlSnippet.select(cssQuery).text();
+    }
+
     public static Elements extractFrom(Document page, String cssQuery) {
         return page.select(cssQuery);
     }

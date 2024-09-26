@@ -31,14 +31,14 @@ class StartPageTest {
 
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird die korrekte Überschrift angezeigt.")
-    void test_01() throws Exception {
+    void test_01() {
         String pageTitle = RequestHelper.extractTextFrom(startPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird die Navigationsleiste korrekt angezeigt.")
-    void test_02() throws Exception {
+    void test_02() {
         String navbarBrandText = RequestHelper.extractTextFrom(startPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractTextFrom(startPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
@@ -47,26 +47,26 @@ class StartPageTest {
 
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Footer korrekt angezeigt.")
-    void test_03() throws Exception {
+    void test_03() {
         String footerText = RequestHelper.extractTextFrom(startPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
-    void test_04() throws Exception {
+    void test_04() {
         String leadText = RequestHelper.extractTextFrom(startPage, "p.lead");
         assertThat(leadText).isNotBlank();
     }
 
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Bereich Spieler auswählen korrekt angezeigt.")
-    void test_05() throws Exception {
+    void test_05() {
         String expectedButtonLabel = "Weiter zum Kader";
 
-        Elements form = startPage.select("form#availablePlayers");
-        Elements playerContainer = startPage.select("#allPlayers");
-        String buttonLabel = form.select(".form-button button").text();
+        Elements form = RequestHelper.extractFrom(startPage, "form#availablePlayers");
+        Elements playerContainer = RequestHelper.extractFrom(startPage, "#allPlayers");
+        String buttonLabel = RequestHelper.extractTextFrom(form, ".form-button button");
 
         assertThat(form).isNotEmpty();
         assertThat(playerContainer).isNotEmpty();
