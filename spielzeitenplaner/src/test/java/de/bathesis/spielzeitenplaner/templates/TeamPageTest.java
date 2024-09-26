@@ -33,7 +33,7 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird die korrekte Überschrift angezeigt.")
-    void test_01() throws Exception {
+    void test_01() {
         String expectedTitle = "Team verwalten";
         String pageTitle = RequestHelper.extractTextFrom(teamPage, "h1");
         assertThat(pageTitle).isEqualTo(expectedTitle);
@@ -41,7 +41,7 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird die Navigationsleiste korrekt angezeigt.")
-    void test_02() throws Exception {
+    void test_02() {
         String navbarBrandText = RequestHelper.extractTextFrom(teamPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractTextFrom(teamPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
@@ -50,20 +50,20 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Footer korrekt angezeigt.")
-    void test_03() throws Exception {
+    void test_03() {
         String footerText = RequestHelper.extractTextFrom(teamPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Teamname korrekt angezeigt.")
-    void test_04() throws Exception {
+    void test_04() {
         String expectedcardTitle = "Teamname";
         String expectedButtonLabel = "Teamnamen ändern";
 
         String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.team-name .card-title");
         String teamNameDisplay = RequestHelper.extractTextFrom(teamPage, "#teamNameDisplay");
-        Elements teamNameField = teamPage.select("#teamNameField");
+        Elements teamNameField = RequestHelper.extractFrom(teamPage, "#teamNameField");
         String buttonText = RequestHelper.extractTextFrom(teamPage, "#teamNameBtn");
 
         assertThat(cardTitle).isEqualTo(expectedcardTitle);
@@ -74,14 +74,14 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Formation korrekt angezeigt.")
-    void test_05() throws Exception {
+    void test_05() {
         String expectedCardTitle = "Formation";
         String expectedButtonLabel = "Formation ändern";
         String expectedButton2Label = "Formationen verwalten";
 
         String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.formation .card-title");
         String formationDisplay = RequestHelper.extractTextFrom(teamPage, "#formationDisplay");
-        Elements formationField = teamPage.select("#formationField");
+        Elements formationField = RequestHelper.extractFrom(teamPage, "#formationField");
         String buttonText = RequestHelper.extractTextFrom(teamPage, "#formationBtn");
         String button2Text = RequestHelper.extractTextFrom(teamPage, "#addFormationBtn");
 
@@ -94,12 +94,12 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Spieler im Team korrekt angezeigt.")
-    void test_06() throws Exception {
+    void test_06() {
         String expectedCardTitle = "Spieler im Team";
         String expectedButtonLabel = "Spieler hinzufügen";
 
         String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.team h2");
-        Elements table = teamPage.select(".card.team .card-body table");
+        Elements table = RequestHelper.extractFrom(teamPage, ".card.team .card-body table");
         String buttonLabel = RequestHelper.extractTextFrom(teamPage, ".card.team .card-body a");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
@@ -109,7 +109,7 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Die Tabelle mit den Spielern im Team hat die korrekten Überschriften")
-    void test_07() throws Exception {
+    void test_07() {
         List<String> expectedHeadings = new ArrayList<>(List.of(
             "Name:", "Pos.:", "Trikotnr.:", "T:", "L:", "S:", "E:", "Ges.:", "Aktionen:"
         ));
