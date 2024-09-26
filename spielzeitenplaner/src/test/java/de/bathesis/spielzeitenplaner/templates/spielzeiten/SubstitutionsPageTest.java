@@ -106,4 +106,11 @@ class SubstitutionsPageTest {
         assertThat(reserve).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Formular für die bereits eingetragenen Wechsel angezeigt.")
+    void test_08() throws Exception {
+        Elements form = substitutionsPage.select("form#substitutions");
+        assertThat(form).isNotEmpty();
+    }
+
 }
