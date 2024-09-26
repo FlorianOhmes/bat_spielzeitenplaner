@@ -32,15 +32,15 @@ class StartPageTest {
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
-        String pageTitle = RequestHelper.extractFrom(startPage, "h1");
+        String pageTitle = RequestHelper.extractTextFrom(startPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
-        String navbarBrandText = RequestHelper.extractFrom(startPage, "nav.navbar a.navbar-brand");
-        String navigationItemsTerms = RequestHelper.extractFrom(startPage, "nav.navbar ul.navbar-nav li.nav-item");
+        String navbarBrandText = RequestHelper.extractTextFrom(startPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(startPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
@@ -48,14 +48,14 @@ class StartPageTest {
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Footer korrekt angezeigt.")
     void test_03() throws Exception {
-        String footerText = RequestHelper.extractFrom(startPage, "footer p");
+        String footerText = RequestHelper.extractTextFrom(startPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
     void test_04() throws Exception {
-        String leadText = RequestHelper.extractFrom(startPage, "p.lead");
+        String leadText = RequestHelper.extractTextFrom(startPage, "p.lead");
         assertThat(leadText).isNotBlank();
     }
 

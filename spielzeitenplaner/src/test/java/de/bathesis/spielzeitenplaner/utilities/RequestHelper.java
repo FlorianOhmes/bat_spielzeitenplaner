@@ -18,7 +18,7 @@ public class RequestHelper {
         return Jsoup.parse(html);
     }
 
-    public static String extractFrom(Document page, String cssQuery) {
+    public static String extractTextFrom(Document page, String cssQuery) {
         return page.select(cssQuery).text();
     }
 

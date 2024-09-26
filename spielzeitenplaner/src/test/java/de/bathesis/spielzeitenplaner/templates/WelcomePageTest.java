@@ -31,7 +31,7 @@ class WelcomePageTest {
     @DisplayName("Auf der Startseite wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
         String expectedTitle = "Willkommen beim SpielzeitenPlaner!";
-        String pageTitle = RequestHelper.extractFrom(welcomePage, "h1");
+        String pageTitle = RequestHelper.extractTextFrom(welcomePage, "h1");
         assertThat(pageTitle).isEqualTo(expectedTitle);
     }
 
@@ -39,15 +39,15 @@ class WelcomePageTest {
     @DisplayName("Auf der Startseite wird der Jumbotron korrekt angezeigt.")
     void test_02() throws Exception {
         String expectedJumbotronText = "Der einfachste Weg, deine Jugendfußball-Spiele zu planen und zu verwalten. Nutze unsere Tools, um die Spielzeiten deiner Spieler aufgrund eigens festgelegter Kriterien zu planen.";
-        String jumbotronText = RequestHelper.extractFrom(welcomePage, ".jumbotron p.lead");
+        String jumbotronText = RequestHelper.extractTextFrom(welcomePage, ".jumbotron p.lead");
         assertThat(jumbotronText).isEqualTo(expectedJumbotronText);
     }
 
     @Test
     @DisplayName("Auf der Startseite wird die Navigationsleiste korrekt angezeigt.")
     void test_03() throws Exception {
-        String navbarBrandText = RequestHelper.extractFrom(welcomePage, "nav.navbar a.navbar-brand");
-        String navigationItemsTerms = RequestHelper.extractFrom(welcomePage, "nav.navbar ul.navbar-nav li.nav-item");
+        String navbarBrandText = RequestHelper.extractTextFrom(welcomePage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(welcomePage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
@@ -55,7 +55,7 @@ class WelcomePageTest {
     @Test
     @DisplayName("Auf der Startseite werden Cards mit den Hauptfunktionen korrekt angezeigt.")
     void test_04() throws Exception {
-        String cardTitles = RequestHelper.extractFrom(welcomePage, ".main-features .card .card-title");
+        String cardTitles = RequestHelper.extractTextFrom(welcomePage, ".main-features .card .card-title");
         Elements cardTexts = welcomePage.select(".main-features .card .card-body .card-text");
         assertThat(cardTitles).contains(ExpectedElements.features());
         assertThat(cardTexts.size()).isEqualTo(ExpectedElements.features().size());
@@ -65,7 +65,7 @@ class WelcomePageTest {
     @DisplayName("Auf der Startseite wird der Bereich Neuigkeiten & Updates korrekt angezeigt.")
     void test_05() throws Exception {
         String expectedNewsTitle = "Neuigkeiten & Updates:";
-        String newsTitle = RequestHelper.extractFrom(welcomePage, ".news h2");
+        String newsTitle = RequestHelper.extractTextFrom(welcomePage, ".news h2");
         Elements newsBox = welcomePage.select(".news .news-box");
         assertThat(newsTitle).isEqualTo(expectedNewsTitle);
         assertThat(newsBox).isNotEmpty();
@@ -74,7 +74,7 @@ class WelcomePageTest {
     @Test
     @DisplayName("Auf der Startseite wird der Footer korrekt angezeigt.")
     void test_06() throws Exception {
-        String footerText = RequestHelper.extractFrom(welcomePage, "footer p");
+        String footerText = RequestHelper.extractTextFrom(welcomePage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 

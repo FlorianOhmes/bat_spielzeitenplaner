@@ -35,15 +35,15 @@ class TeamPageTest {
     @DisplayName("Auf der Seite zur Teamverwaltung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
         String expectedTitle = "Team verwalten";
-        String pageTitle = RequestHelper.extractFrom(teamPage, "h1");
+        String pageTitle = RequestHelper.extractTextFrom(teamPage, "h1");
         assertThat(pageTitle).isEqualTo(expectedTitle);
     }
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
-        String navbarBrandText = RequestHelper.extractFrom(teamPage, "nav.navbar a.navbar-brand");
-        String navigationItemsTerms = RequestHelper.extractFrom(teamPage, "nav.navbar ul.navbar-nav li.nav-item");
+        String navbarBrandText = RequestHelper.extractTextFrom(teamPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(teamPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
@@ -51,7 +51,7 @@ class TeamPageTest {
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Footer korrekt angezeigt.")
     void test_03() throws Exception {
-        String footerText = RequestHelper.extractFrom(teamPage, "footer p");
+        String footerText = RequestHelper.extractTextFrom(teamPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
@@ -61,10 +61,10 @@ class TeamPageTest {
         String expectedcardTitle = "Teamname";
         String expectedButtonLabel = "Teamnamen ändern";
 
-        String cardTitle = RequestHelper.extractFrom(teamPage, ".card.team-name .card-title");
-        String teamNameDisplay = RequestHelper.extractFrom(teamPage, "#teamNameDisplay");
+        String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.team-name .card-title");
+        String teamNameDisplay = RequestHelper.extractTextFrom(teamPage, "#teamNameDisplay");
         Elements teamNameField = teamPage.select("#teamNameField");
-        String buttonText = RequestHelper.extractFrom(teamPage, "#teamNameBtn");
+        String buttonText = RequestHelper.extractTextFrom(teamPage, "#teamNameBtn");
 
         assertThat(cardTitle).isEqualTo(expectedcardTitle);
         assertThat(teamNameDisplay).isNotBlank();
@@ -79,11 +79,11 @@ class TeamPageTest {
         String expectedButtonLabel = "Formation ändern";
         String expectedButton2Label = "Formationen verwalten";
 
-        String cardTitle = RequestHelper.extractFrom(teamPage, ".card.formation .card-title");
-        String formationDisplay = RequestHelper.extractFrom(teamPage, "#formationDisplay");
+        String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.formation .card-title");
+        String formationDisplay = RequestHelper.extractTextFrom(teamPage, "#formationDisplay");
         Elements formationField = teamPage.select("#formationField");
-        String buttonText = RequestHelper.extractFrom(teamPage, "#formationBtn");
-        String button2Text = RequestHelper.extractFrom(teamPage, "#addFormationBtn");
+        String buttonText = RequestHelper.extractTextFrom(teamPage, "#formationBtn");
+        String button2Text = RequestHelper.extractTextFrom(teamPage, "#addFormationBtn");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(formationDisplay).isNotBlank();
@@ -98,9 +98,9 @@ class TeamPageTest {
         String expectedCardTitle = "Spieler im Team";
         String expectedButtonLabel = "Spieler hinzufügen";
 
-        String cardTitle = RequestHelper.extractFrom(teamPage, ".card.team h2");
+        String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.team h2");
         Elements table = teamPage.select(".card.team .card-body table");
-        String buttonLabel = RequestHelper.extractFrom(teamPage, ".card.team .card-body a");
+        String buttonLabel = RequestHelper.extractTextFrom(teamPage, ".card.team .card-body a");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(table).isNotEmpty();
@@ -113,7 +113,7 @@ class TeamPageTest {
         List<String> expectedHeadings = new ArrayList<>(List.of(
             "Name:", "Pos.:", "Trikotnr.:", "T:", "L:", "S:", "E:", "Ges.:", "Aktionen:"
         ));
-        String headings = RequestHelper.extractFrom(teamPage, ".card.team .card-body table thead tr");
+        String headings = RequestHelper.extractTextFrom(teamPage, ".card.team .card-body table thead tr");
         assertThat(headings).contains(expectedHeadings);
     }
 

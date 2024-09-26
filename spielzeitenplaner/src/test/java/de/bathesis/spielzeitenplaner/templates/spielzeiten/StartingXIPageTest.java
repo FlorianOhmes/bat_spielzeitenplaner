@@ -34,15 +34,15 @@ class StartingXIPageTest {
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
-        String pageTitle = RequestHelper.extractFrom(startingXIPage, "h1");
+        String pageTitle = RequestHelper.extractTextFrom(startingXIPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
-        String navbarBrandText = RequestHelper.extractFrom(startingXIPage, "nav.navbar a.navbar-brand");
-        String navigationItemsTerms = RequestHelper.extractFrom(startingXIPage, "nav.navbar ul.navbar-nav li.nav-item");
+        String navbarBrandText = RequestHelper.extractTextFrom(startingXIPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(startingXIPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
@@ -50,14 +50,14 @@ class StartingXIPageTest {
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird der Footer korrekt angezeigt.")
     void test_03() throws Exception {
-        String footerText = RequestHelper.extractFrom(startingXIPage, "footer p");
+        String footerText = RequestHelper.extractTextFrom(startingXIPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
     void test_04() throws Exception {
-        String leadText = RequestHelper.extractFrom(startingXIPage, "p.lead");
+        String leadText = RequestHelper.extractTextFrom(startingXIPage, "p.lead");
         assertThat(leadText).isNotBlank();
     }
 
@@ -67,8 +67,8 @@ class StartingXIPageTest {
         String expectedCardTitle = "Startelf";
         String expectedFormationTitle = "Formation";
 
-        String cardTitle = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body h2.card-title");
-        String formationTitle = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body p");
+        String cardTitle = RequestHelper.extractTextFrom(startingXIPage, "#cardStartingXI .card-body h2.card-title");
+        String formationTitle = RequestHelper.extractTextFrom(startingXIPage, "#cardStartingXI .card-body p");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(formationTitle).contains(expectedFormationTitle);
@@ -81,7 +81,7 @@ class StartingXIPageTest {
             "Angriff", "Mittelfeld", "Abwehr", "Torwart"
         ));
 
-        String positionGroups = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body h3");
+        String positionGroups = RequestHelper.extractTextFrom(startingXIPage, "#cardStartingXI .card-body h3");
         Elements attack = startingXIPage.select("#cardStartingXI .card-body #attack");
         Elements midfield = startingXIPage.select("#cardStartingXI .card-body #midfield");
         Elements defenders = startingXIPage.select("#cardStartingXI .card-body #defenders");
@@ -100,7 +100,7 @@ class StartingXIPageTest {
         String expectedButtonLabel = "Weiter zu \"Wechsel eintragen\"";
 
         Elements form = startingXIPage.select("form#startingXI");
-        String formButtonLabel = RequestHelper.extractFrom(startingXIPage, "form#startingXI .form-button button");
+        String formButtonLabel = RequestHelper.extractTextFrom(startingXIPage, "form#startingXI .form-button button");
 
         assertThat(form).isNotEmpty();
         assertThat(formButtonLabel).isEqualTo(expectedButtonLabel);
@@ -111,7 +111,7 @@ class StartingXIPageTest {
     void test_08() throws Exception {
         String expectedCardTitle = "Ersatzbank";
 
-        String cardTitle = RequestHelper.extractFrom(startingXIPage, "#cardReserve .card-body h2.card-title");
+        String cardTitle = RequestHelper.extractTextFrom(startingXIPage, "#cardReserve .card-body h2.card-title");
         Elements reserve = startingXIPage.select("#cardReserve .card-body #reserve");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);

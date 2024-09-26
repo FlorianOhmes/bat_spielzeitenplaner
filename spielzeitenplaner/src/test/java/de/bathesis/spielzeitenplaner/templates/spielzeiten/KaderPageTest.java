@@ -34,15 +34,15 @@ class KaderPageTest {
     @Test
     @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
-        String pageTitle = RequestHelper.extractFrom(kaderPage, "h1");
+        String pageTitle = RequestHelper.extractTextFrom(kaderPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
     @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
-        String navbarBrandText = RequestHelper.extractFrom(kaderPage, "nav.navbar a.navbar-brand");
-        String navigationItemsTerms = RequestHelper.extractFrom(kaderPage, "nav.navbar ul.navbar-nav li.nav-item");
+        String navbarBrandText = RequestHelper.extractTextFrom(kaderPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(kaderPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
@@ -50,14 +50,14 @@ class KaderPageTest {
     @Test
     @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird der Footer korrekt angezeigt.")
     void test_03() throws Exception {
-        String footerText = RequestHelper.extractFrom(kaderPage, "footer p");
+        String footerText = RequestHelper.extractTextFrom(kaderPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
     void test_04() throws Exception {
-        String leadText = RequestHelper.extractFrom(kaderPage, "p.lead");
+        String leadText = RequestHelper.extractTextFrom(kaderPage, "p.lead");
         assertThat(leadText).isNotBlank();
     }
 
@@ -69,7 +69,7 @@ class KaderPageTest {
         ));
 
         Elements form = kaderPage.select("form#kader");
-        String h2Titles = RequestHelper.extractFrom(kaderPage, "form#kader h2");
+        String h2Titles = RequestHelper.extractTextFrom(kaderPage, "form#kader h2");
         Elements playersIn = form.select("#playersIn");
         Elements playersOut = form.select("#playersOut");
 

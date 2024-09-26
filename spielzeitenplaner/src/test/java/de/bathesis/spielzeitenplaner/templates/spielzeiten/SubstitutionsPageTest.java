@@ -34,15 +34,15 @@ class SubstitutionsPageTest {
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
-        String pageTitle = RequestHelper.extractFrom(substitutionsPage, "h1");
+        String pageTitle = RequestHelper.extractTextFrom(substitutionsPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
-        String navbarBrandText = RequestHelper.extractFrom(substitutionsPage, "nav.navbar a.navbar-brand");
-        String navigationItemsTerms = RequestHelper.extractFrom(substitutionsPage, "nav.navbar ul.navbar-nav li.nav-item");
+        String navbarBrandText = RequestHelper.extractTextFrom(substitutionsPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(substitutionsPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
@@ -50,14 +50,14 @@ class SubstitutionsPageTest {
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird der Footer korrekt angezeigt.")
     void test_03() throws Exception {
-        String footerText = RequestHelper.extractFrom(substitutionsPage, "footer p");
+        String footerText = RequestHelper.extractTextFrom(substitutionsPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
     void test_04() throws Exception {
-        String leadText = RequestHelper.extractFrom(substitutionsPage, "p.lead");
+        String leadText = RequestHelper.extractTextFrom(substitutionsPage, "p.lead");
         assertThat(leadText).isNotBlank();
     }
 
@@ -67,8 +67,8 @@ class SubstitutionsPageTest {
         String expectedCardTitle = "Startelf";
         String expectedFormationTitle = "Formation";
 
-        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body h2.card-title");
-        String formationTitle = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body p");
+        String cardTitle = RequestHelper.extractTextFrom(substitutionsPage, "#cardStartingXI .card-body h2.card-title");
+        String formationTitle = RequestHelper.extractTextFrom(substitutionsPage, "#cardStartingXI .card-body p");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(formationTitle).contains(expectedFormationTitle);
@@ -81,7 +81,7 @@ class SubstitutionsPageTest {
             "Angriff", "Mittelfeld", "Abwehr", "Torwart"
         ));
 
-        String positionGroups = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body h3");
+        String positionGroups = RequestHelper.extractTextFrom(substitutionsPage, "#cardStartingXI .card-body h3");
         Elements attack = substitutionsPage.select("#cardStartingXI .card-body #attack");
         Elements midfield = substitutionsPage.select("#cardStartingXI .card-body #midfield");
         Elements defenders = substitutionsPage.select("#cardStartingXI .card-body #defenders");
@@ -99,7 +99,7 @@ class SubstitutionsPageTest {
     void test_07() throws Exception {
         String expectedCardTitle = "Ersatzbank";
 
-        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "#cardReserve .card-body h2.card-title");
+        String cardTitle = RequestHelper.extractTextFrom(substitutionsPage, "#cardReserve .card-body h2.card-title");
         Elements reserve = substitutionsPage.select("#cardReserve .card-body #reserve");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
@@ -111,7 +111,7 @@ class SubstitutionsPageTest {
     void test_08() throws Exception {
         String expectedCardTitle = "Wechsel";
 
-        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "#cardSubstitutions .card-body h2.card-title");
+        String cardTitle = RequestHelper.extractTextFrom(substitutionsPage, "#cardSubstitutions .card-body h2.card-title");
         Elements substitutionsList = substitutionsPage.select("#cardSubstitutions .card-body ul");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
@@ -133,7 +133,7 @@ class SubstitutionsPageTest {
         Elements form = substitutionsPage.select("form#addSubstitution");
         Elements playerIn = form.select("select#playerIn");
         Elements playerOut = form.select("select#playerOut");
-        String buttonLabel = RequestHelper.extractFrom(substitutionsPage, "form#addSubstitution button");
+        String buttonLabel = RequestHelper.extractTextFrom(substitutionsPage, "form#addSubstitution button");
 
         assertThat(form).isNotEmpty();
         assertThat(playerIn).isNotEmpty();

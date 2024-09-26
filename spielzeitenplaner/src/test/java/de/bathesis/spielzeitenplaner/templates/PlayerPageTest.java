@@ -35,15 +35,15 @@ class PlayerPageTest {
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird die korrekte Überschrift angezeigt.")
     void test_01() throws Exception {
         String expectedTitle = "Spieler bearbeiten/hinzufügen";
-        String pageTitle = RequestHelper.extractFrom(playerPage, "h1");
+        String pageTitle = RequestHelper.extractTextFrom(playerPage, "h1");
         assertThat(pageTitle).isEqualTo(expectedTitle);
     }
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird die Navigationsleiste korrekt angezeigt.")
     void test_02() throws Exception {
-        String navbarBrandText = RequestHelper.extractFrom(playerPage, "nav.navbar a.navbar-brand");
-        String navigationItemsTerms = RequestHelper.extractFrom(playerPage, "nav.navbar ul.navbar-nav li.nav-item");
+        String navbarBrandText = RequestHelper.extractTextFrom(playerPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(playerPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
@@ -51,7 +51,7 @@ class PlayerPageTest {
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Footer korrekt angezeigt.")
     void test_03() throws Exception {
-        String footerText = RequestHelper.extractFrom(playerPage, "footer p");
+        String footerText = RequestHelper.extractTextFrom(playerPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
@@ -63,8 +63,8 @@ class PlayerPageTest {
             "Name", "Trikotnummer", "Position"
         ));
 
-        String cardTitle = RequestHelper.extractFrom(playerPage, ".card.player-data .card-body .card-title");
-        String playerInfo = RequestHelper.extractFrom(playerPage, ".card.player-data .card-body .player-info");
+        String cardTitle = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body .card-title");
+        String playerInfo = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body .player-info");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(playerInfo).contains(expectedAttributes);
@@ -74,7 +74,7 @@ class PlayerPageTest {
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Button Spieler bearbeiten korrekt angezeigt.")
     void test_05() throws Exception {
         String expectedButtonLabel = "Spieler-Daten bearbeiten";
-        String buttonLabel = RequestHelper.extractFrom(playerPage, ".card.player-data .card-body button");
+        String buttonLabel = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body button");
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
     }
 
@@ -82,7 +82,7 @@ class PlayerPageTest {
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Scores korrekt angezeigt.")
     void test_06() throws Exception {
         String expectedCardTitle = "Scores";
-        String cardTitle = RequestHelper.extractFrom(playerPage, ".card.scores .card-body .card-title");
+        String cardTitle = RequestHelper.extractTextFrom(playerPage, ".card.scores .card-body .card-title");
         Elements playerScores = playerPage.select(".card.scores .card-body .player-scores");
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(playerScores).isNotEmpty();
