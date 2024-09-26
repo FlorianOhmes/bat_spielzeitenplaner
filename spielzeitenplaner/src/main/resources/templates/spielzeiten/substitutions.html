@@ -99,7 +99,22 @@
                         <!-- Hier kommen die eingetragenen Wechsel hin -->
                     </ul>
                 </form>
-                <!-- Es folgt: Formular zum Eintragen eines neuen Wechsels -->
+                <!-- Formular zum Eintragen eines neuen Wechsels -->
+                <form id="addSubstitution">
+                    <div class="form-group">
+                        <label for="playerIn">Einwechselspieler:</label>
+                        <select class="form-control" id="playerIn" name="playerIn">
+                            <option value="" disabled selected>Spieler auswählen</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="playerOut">Auswechselspieler:</label>
+                        <select class="form-control" id="playerOut" name="playerOut">
+                            <option value="" disabled selected>Spieler auswählen</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Wechsel eintragen</button>
+                </form>
             </div>
         </div>
     </div>

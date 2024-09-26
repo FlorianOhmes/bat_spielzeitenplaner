@@ -125,4 +125,20 @@ class SubstitutionsPageTest {
         assertThat(form).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird das Formular zum Eintragen eines neuen Wechsels korrekt angezeigt.")
+    void test_10() throws Exception {
+        String expectedButtonLabel = "Wechsel eintragen";
+
+        Elements form = substitutionsPage.select("form#addSubstitution");
+        Elements playerIn = form.select("select#playerIn");
+        Elements playerOut = form.select("select#playerOut");
+        String buttonLabel = RequestHelper.extractFrom(substitutionsPage, "form#addSubstitution button");
+
+        assertThat(form).isNotEmpty();
+        assertThat(playerIn).isNotEmpty();
+        assertThat(playerOut).isNotEmpty();
+        assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
+    }
+
 }
