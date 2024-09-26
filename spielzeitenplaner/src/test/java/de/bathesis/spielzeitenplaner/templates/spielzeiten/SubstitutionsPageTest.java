@@ -107,22 +107,22 @@ class SubstitutionsPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Formular für die bereits eingetragenen Wechsel angezeigt.")
-    void test_08() throws Exception {
-        Elements form = substitutionsPage.select("form#substitutions");
-        assertThat(form).isNotEmpty();
-    }
-
-    @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Wechsel-Card korrekt angezeigt.")
-    void test_09() throws Exception {
+    void test_08() throws Exception {
         String expectedCardTitle = "Wechsel";
 
-        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "form#substitutions #cardSubstitutions .card-body h2.card-title");
-        Elements substitutionsList = substitutionsPage.select("form#substitutions #cardSubstitutions .card-body ul");
+        String cardTitle = RequestHelper.extractFrom(substitutionsPage, "#cardSubstitutions .card-body h2.card-title");
+        Elements substitutionsList = substitutionsPage.select("#cardSubstitutions .card-body ul");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(substitutionsList).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Formular für die bereits eingetragenen Wechsel angezeigt.")
+    void test_09() throws Exception {
+        Elements form = substitutionsPage.select("form#formSubstitutions");
+        assertThat(form).isNotEmpty();
     }
 
 }
