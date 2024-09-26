@@ -45,3 +45,15 @@
         flex-direction: column;
     }
 }
+
+@media (max-width: 992px) {
+    #addSubstitution {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #addSubstitution button {
+        margin-left: 0;
+        margin-right: 18px;
+    }
+}
