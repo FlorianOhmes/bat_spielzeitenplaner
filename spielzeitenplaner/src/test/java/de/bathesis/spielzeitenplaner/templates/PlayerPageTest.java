@@ -33,7 +33,7 @@ class PlayerPageTest {
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird die korrekte Überschrift angezeigt.")
-    void test_01() throws Exception {
+    void test_01() {
         String expectedTitle = "Spieler bearbeiten/hinzufügen";
         String pageTitle = RequestHelper.extractTextFrom(playerPage, "h1");
         assertThat(pageTitle).isEqualTo(expectedTitle);
@@ -41,7 +41,7 @@ class PlayerPageTest {
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird die Navigationsleiste korrekt angezeigt.")
-    void test_02() throws Exception {
+    void test_02() {
         String navbarBrandText = RequestHelper.extractTextFrom(playerPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractTextFrom(playerPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
@@ -50,14 +50,14 @@ class PlayerPageTest {
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Footer korrekt angezeigt.")
-    void test_03() throws Exception {
+    void test_03() {
         String footerText = RequestHelper.extractTextFrom(playerPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Daten korrekt angezeigt.")
-    void test_04() throws Exception {
+    void test_04() {
         String expectedCardTitle = "Spieler-Daten";
         List<String> expectedAttributes = new ArrayList<>(List.of(
             "Name", "Trikotnummer", "Position"
@@ -72,7 +72,7 @@ class PlayerPageTest {
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Button Spieler bearbeiten korrekt angezeigt.")
-    void test_05() throws Exception {
+    void test_05() {
         String expectedButtonLabel = "Spieler-Daten bearbeiten";
         String buttonLabel = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body button");
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
@@ -80,10 +80,10 @@ class PlayerPageTest {
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Scores korrekt angezeigt.")
-    void test_06() throws Exception {
+    void test_06() {
         String expectedCardTitle = "Scores";
         String cardTitle = RequestHelper.extractTextFrom(playerPage, ".card.scores .card-body .card-title");
-        Elements playerScores = playerPage.select(".card.scores .card-body .player-scores");
+        Elements playerScores = RequestHelper.extractFrom(playerPage, ".card.scores .card-body .player-scores");
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(playerScores).isNotEmpty();
     }
