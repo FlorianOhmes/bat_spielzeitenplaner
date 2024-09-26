@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.RecapController;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -34,7 +33,7 @@ class RecapPageTest {
 
     @Test
     @DisplayName("Auf der Seite Recap wird die korrekte Überschrift angezeigt.")
-    void test_01() throws Exception {
+    void test_01() {
         String expectedTitle = "Recap";
         String pageTitle = RequestHelper.extractTextFrom(recapPage, "h1");
         assertThat(pageTitle).isEqualTo(expectedTitle);
@@ -42,7 +41,7 @@ class RecapPageTest {
 
     @Test
     @DisplayName("Auf der Seite Recap wird die Navigationsleiste korrekt angezeigt.")
-    void test_02() throws Exception {
+    void test_02() {
         String navbarBrandText = RequestHelper.extractTextFrom(recapPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractTextFrom(recapPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
@@ -51,14 +50,14 @@ class RecapPageTest {
 
     @Test
     @DisplayName("Auf der Seite Recap wird der Footer korrekt angezeigt.")
-    void test_03() throws Exception {
+    void test_03() {
         String footerText = RequestHelper.extractTextFrom(recapPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite Recap wird der Bereich Ansicht wählen korrekt angezeigt.")
-    void test_04() throws Exception {
+    void test_04() {
         String expectedCardTitle = "Ansicht wählen";
         String expectedLabelText = "Wähle die für dich passende Ansicht";
         List<String> expectedOptions = new ArrayList<String>(List.of(
@@ -79,11 +78,11 @@ class RecapPageTest {
 
     @Test
     @DisplayName("Auf der Seite Recap wird die Ansicht Nach Spielern sortiert korrekt angezeigt.")
-    void test_05() throws Exception {
+    void test_05() {
         String expectedCardTitle = "Spielerbewertung";
 
         String cardTitle = RequestHelper.extractTextFrom(recapPage, "#playersView .card-body h2.card-title");
-        Elements playerRatingForm = recapPage.select("#playersView .card-body form#playerRatingForm");
+        Elements playerRatingForm = RequestHelper.extractFrom(recapPage, "#playersView .card-body form#playerRatingForm");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(playerRatingForm).isNotEmpty();
@@ -91,13 +90,13 @@ class RecapPageTest {
 
     @Test
     @DisplayName("Das Formular zur Spielerbewertung der Spieler-Ansicht wird korrekt angezeigt.")
-    void test_06() throws Exception {
+    void test_06() {
         List<String> expectedNavButtonLabels = new ArrayList<String>(List.of(
             "← Vorheriger", "Nächster →"
         ));
         String expectedFormButtonText = "Bewertungen speichern";
 
-        Elements playerContainer = recapPage.select("#playersView .card-body form#playerRatingForm #playerContainer");
+        Elements playerContainer = RequestHelper.extractFrom(recapPage, "#playersView .card-body form#playerRatingForm #playerContainer");
         String navButtonLabels = RequestHelper.extractTextFrom(recapPage, "#playersView .card-body form#playerRatingForm .navigation-buttons button");
         String formButtonText = RequestHelper.extractTextFrom(recapPage, "#playersView .card-body form#playerRatingForm .form-button button");
 
@@ -108,11 +107,11 @@ class RecapPageTest {
 
     @Test
     @DisplayName("Auf der Seite Recap wird die Ansicht Nach Kriterien sortiert korrekt angezeigt.")
-    void test_07() throws Exception {
+    void test_07() {
         String expectedCardTitle = "Kriterium auswählen";
 
         String cardTitle = RequestHelper.extractTextFrom(recapPage, "#criteriaView h2.card-title");
-        Elements criteriaForm = recapPage.select("#criteriaView .card-body #criteriaForm");
+        Elements criteriaForm = RequestHelper.extractFrom(recapPage, "#criteriaView .card-body #criteriaForm");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(criteriaForm).isNotEmpty();
@@ -120,13 +119,13 @@ class RecapPageTest {
 
     @Test
     @DisplayName("Das Formular zur Spielerbewertung der Kriterien-Ansicht wird korrekt angezeigt.")
-    void test_08() throws Exception {
+    void test_08() {
         List<String> expectedNavButtonLabels = new ArrayList<String>(List.of(
             "← Vorheriges", "Nächstes →"
         ));
         String expectedFormButtonText = "Bewertungen speichern";
 
-        Elements playerContainer = recapPage.select("#criteriaView .card-body form#criteriaForm #criteriaContainer");
+        Elements playerContainer = RequestHelper.extractFrom(recapPage, "#criteriaView .card-body form#criteriaForm #criteriaContainer");
         String navButtonLabels = RequestHelper.extractTextFrom(recapPage, "#criteriaView .card-body form#criteriaForm .navigation-buttons button");
         String formButtonText = RequestHelper.extractTextFrom(recapPage, "#criteriaView .card-body form#criteriaForm .form-button button");
 
