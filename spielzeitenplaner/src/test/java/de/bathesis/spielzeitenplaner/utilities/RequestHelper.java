@@ -3,6 +3,7 @@ package de.bathesis.spielzeitenplaner.utilities;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -20,6 +21,14 @@ public class RequestHelper {
 
     public static String extractTextFrom(Document page, String cssQuery) {
         return page.select(cssQuery).text();
+    }
+
+    public static Elements extractFrom(Document page, String cssQuery) {
+        return page.select(cssQuery);
+    }
+
+    public static Elements extractFrom(Elements htmlSnippet, String cssQuery) {
+        return htmlSnippet.select(cssQuery);
     }
 
 }
