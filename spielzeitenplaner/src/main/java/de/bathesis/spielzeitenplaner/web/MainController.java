@@ -12,4 +12,9 @@ public class MainController {
         return "welcome";
     }
 
+    @GetMapping("/settings")
+    public String settings() {
+        return "settings";
+    }
+
 }

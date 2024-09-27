@@ -21,4 +21,10 @@ class MainControllerTest {
         RequestHelper.performGet(mvc, "/").andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("Die Seite Einstellungen ist erreichbar.")
+    void test_02() throws Exception {
+        RequestHelper.performGet(mvc, "/settings").andExpect(status().isOk());
+    }
+
 }
