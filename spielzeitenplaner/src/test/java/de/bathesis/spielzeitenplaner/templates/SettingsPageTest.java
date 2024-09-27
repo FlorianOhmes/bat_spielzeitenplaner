@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.templates;
 
+import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.MainController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,15 @@ class SettingsPageTest {
         String expectedTitle = "Einstellungen";
         String pageTitle = RequestHelper.extractTextFrom(settingsPage, "h1");
         assertThat(pageTitle).isEqualTo(expectedTitle);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Einstellungen wird die Navigationsleiste korrekt angezeigt.")
+    void test_02() {
+        String navbarBrandText = RequestHelper.extractTextFrom(settingsPage, "nav.navbar a.navbar-brand");
+        String navigationItemsTerms = RequestHelper.extractTextFrom(settingsPage, "nav.navbar ul.navbar-nav li.nav-item");
+        assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
+        assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
 }
