@@ -33,14 +33,14 @@ class SubstitutionsPageTest {
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die korrekte Überschrift angezeigt.")
-    void test_01() throws Exception {
+    void test_01() {
         String pageTitle = RequestHelper.extractTextFrom(substitutionsPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Navigationsleiste korrekt angezeigt.")
-    void test_02() throws Exception {
+    void test_02() {
         String navbarBrandText = RequestHelper.extractTextFrom(substitutionsPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractTextFrom(substitutionsPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
@@ -49,21 +49,21 @@ class SubstitutionsPageTest {
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird der Footer korrekt angezeigt.")
-    void test_03() throws Exception {
+    void test_03() {
         String footerText = RequestHelper.extractTextFrom(substitutionsPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
-    void test_04() throws Exception {
+    void test_04() {
         String leadText = RequestHelper.extractTextFrom(substitutionsPage, "p.lead");
         assertThat(leadText).isNotBlank();
     }
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung werden die Titel der Startelf-Card korrekt angezeigt.")
-    void test_05() throws Exception {
+    void test_05() {
         String expectedCardTitle = "Startelf";
         String expectedFormationTitle = "Formation";
 
@@ -76,16 +76,16 @@ class SubstitutionsPageTest {
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird in der Startelf-Card nach Positionsgruppen unterschieden.")
-    void test_06() throws Exception {
+    void test_06() {
         List<String> expectedPositionGroups = new ArrayList<>(List.of(
             "Angriff", "Mittelfeld", "Abwehr", "Torwart"
         ));
 
         String positionGroups = RequestHelper.extractTextFrom(substitutionsPage, "#cardStartingXI .card-body h3");
-        Elements attack = substitutionsPage.select("#cardStartingXI .card-body #attack");
-        Elements midfield = substitutionsPage.select("#cardStartingXI .card-body #midfield");
-        Elements defenders = substitutionsPage.select("#cardStartingXI .card-body #defenders");
-        Elements goalkeeper = substitutionsPage.select("#cardStartingXI .card-body #goalkeeper");
+        Elements attack = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body #attack");
+        Elements midfield = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body #midfield");
+        Elements defenders = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body #defenders");
+        Elements goalkeeper = RequestHelper.extractFrom(substitutionsPage, "#cardStartingXI .card-body #goalkeeper");
 
         assertThat(positionGroups).contains(expectedPositionGroups);
         assertThat(attack).isNotEmpty();
@@ -96,11 +96,11 @@ class SubstitutionsPageTest {
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Ersatzbank-Card korrekt angezeigt.")
-    void test_07() throws Exception {
+    void test_07() {
         String expectedCardTitle = "Ersatzbank";
 
         String cardTitle = RequestHelper.extractTextFrom(substitutionsPage, "#cardReserve .card-body h2.card-title");
-        Elements reserve = substitutionsPage.select("#cardReserve .card-body #reserve");
+        Elements reserve = RequestHelper.extractFrom(substitutionsPage, "#cardReserve .card-body #reserve");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(reserve).isNotEmpty();
@@ -108,11 +108,11 @@ class SubstitutionsPageTest {
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Wechsel-Card korrekt angezeigt.")
-    void test_08() throws Exception {
+    void test_08() {
         String expectedCardTitle = "Wechsel";
 
         String cardTitle = RequestHelper.extractTextFrom(substitutionsPage, "#cardSubstitutions .card-body h2.card-title");
-        Elements substitutionsList = substitutionsPage.select("#cardSubstitutions .card-body ul");
+        Elements substitutionsList = RequestHelper.extractFrom(substitutionsPage, "#cardSubstitutions .card-body ul");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(substitutionsList).isNotEmpty();
@@ -120,20 +120,20 @@ class SubstitutionsPageTest {
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Formular für die bereits eingetragenen Wechsel angezeigt.")
-    void test_09() throws Exception {
-        Elements form = substitutionsPage.select("form#formSubstitutions");
+    void test_09() {
+        Elements form = RequestHelper.extractFrom(substitutionsPage, "form#formSubstitutions");
         assertThat(form).isNotEmpty();
     }
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird das Formular zum Eintragen eines neuen Wechsels korrekt angezeigt.")
-    void test_10() throws Exception {
+    void test_10() {
         String expectedButtonLabel = "Wechsel eintragen";
 
-        Elements form = substitutionsPage.select("form#addSubstitution");
-        Elements playerIn = form.select("select#playerIn");
-        Elements playerOut = form.select("select#playerOut");
-        String buttonLabel = RequestHelper.extractTextFrom(substitutionsPage, "form#addSubstitution button");
+        Elements form = RequestHelper.extractFrom(substitutionsPage, "form#addSubstitution");
+        Elements playerIn = RequestHelper.extractFrom(form, "select#playerIn");
+        Elements playerOut = RequestHelper.extractFrom(form, "select#playerOut");
+        String buttonLabel = RequestHelper.extractTextFrom(form, "button");
 
         assertThat(form).isNotEmpty();
         assertThat(playerIn).isNotEmpty();
