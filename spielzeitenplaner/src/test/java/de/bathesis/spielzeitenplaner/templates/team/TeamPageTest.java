@@ -1,4 +1,4 @@
-package de.bathesis.spielzeitenplaner.templates;
+package de.bathesis.spielzeitenplaner.templates.team;
 
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.TeamController;

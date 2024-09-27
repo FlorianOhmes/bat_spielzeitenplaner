@@ -1,4 +1,4 @@
-package de.bathesis.spielzeitenplaner.templates;
+package de.bathesis.spielzeitenplaner.templates.recap;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
