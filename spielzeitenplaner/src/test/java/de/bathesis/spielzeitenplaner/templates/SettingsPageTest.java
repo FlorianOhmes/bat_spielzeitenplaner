@@ -43,4 +43,11 @@ class SettingsPageTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
+    @Test
+    @DisplayName("Auf der Seite Einstellungen wird der Footer korrekt angezeigt.")
+    void test_03() {
+        String footerText = RequestHelper.extractTextFrom(settingsPage, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+    }
+
 }
