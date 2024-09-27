@@ -19,7 +19,9 @@ class WelcomePageTest {
 
     @Autowired
     MockMvc mvc;
+
     Document welcomePage;
+
 
     @BeforeEach
     void getWelcomePage() throws Exception {
@@ -55,6 +57,7 @@ class WelcomePageTest {
     void test_04() {
         String cardTitles = RequestHelper.extractTextFrom(welcomePage, ".main-features .card .card-title");
         Elements cardTexts = RequestHelper.extractFrom(welcomePage, ".main-features .card .card-body .card-text");
+
         assertThat(cardTitles).contains(ExpectedElements.features());
         assertThat(cardTexts.size()).isEqualTo(ExpectedElements.features().size());
     }
@@ -63,8 +66,10 @@ class WelcomePageTest {
     @DisplayName("Auf der Startseite wird der Bereich Neuigkeiten & Updates korrekt angezeigt.")
     void test_05() {
         String expectedNewsTitle = "Neuigkeiten & Updates:";
+
         String newsTitle = RequestHelper.extractTextFrom(welcomePage, ".news h2");
         Elements newsBox = RequestHelper.extractFrom(welcomePage, ".news .news-box");
+
         assertThat(newsTitle).isEqualTo(expectedNewsTitle);
         assertThat(newsBox).isNotEmpty();
     }
