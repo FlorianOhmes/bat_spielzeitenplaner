@@ -33,14 +33,14 @@ class StartingXIPageTest {
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird die korrekte Überschrift angezeigt.")
-    void test_01() throws Exception {
+    void test_01() {
         String pageTitle = RequestHelper.extractTextFrom(startingXIPage, "h1");
         assertThat(pageTitle).isEqualTo(ExpectedElements.spielzeitenTitle());
     }
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird die Navigationsleiste korrekt angezeigt.")
-    void test_02() throws Exception {
+    void test_02() {
         String navbarBrandText = RequestHelper.extractTextFrom(startingXIPage, "nav.navbar a.navbar-brand");
         String navigationItemsTerms = RequestHelper.extractTextFrom(startingXIPage, "nav.navbar ul.navbar-nav li.nav-item");
         assertThat(navbarBrandText).isEqualTo(ExpectedElements.navbrandText());
@@ -49,21 +49,21 @@ class StartingXIPageTest {
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird der Footer korrekt angezeigt.")
-    void test_03() throws Exception {
+    void test_03() {
         String footerText = RequestHelper.extractTextFrom(startingXIPage, "footer p");
         assertThat(footerText).isEqualTo(ExpectedElements.footerText());
     }
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
-    void test_04() throws Exception {
+    void test_04() {
         String leadText = RequestHelper.extractTextFrom(startingXIPage, "p.lead");
         assertThat(leadText).isNotBlank();
     }
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung werden im Bereich Startelf bestätigen die korrekten Titel angezeigt.")
-    void test_05() throws Exception {
+    void test_05() {
         String expectedCardTitle = "Startelf";
         String expectedFormationTitle = "Formation";
 
@@ -76,16 +76,16 @@ class StartingXIPageTest {
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird im Bereich Startelf bestätigen nach Positionsgruppen unterschieden.")
-    void test_06() throws Exception {
+    void test_06() {
         List<String> expectedPositionGroups = new ArrayList<>(List.of(
             "Angriff", "Mittelfeld", "Abwehr", "Torwart"
         ));
 
         String positionGroups = RequestHelper.extractTextFrom(startingXIPage, "#cardStartingXI .card-body h3");
-        Elements attack = startingXIPage.select("#cardStartingXI .card-body #attack");
-        Elements midfield = startingXIPage.select("#cardStartingXI .card-body #midfield");
-        Elements defenders = startingXIPage.select("#cardStartingXI .card-body #defenders");
-        Elements goalkeeper = startingXIPage.select("#cardStartingXI .card-body #goalkeeper");
+        Elements attack = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body #attack");
+        Elements midfield = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body #midfield");
+        Elements defenders = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body #defenders");
+        Elements goalkeeper = RequestHelper.extractFrom(startingXIPage, "#cardStartingXI .card-body #goalkeeper");
 
         assertThat(positionGroups).contains(expectedPositionGroups);
         assertThat(attack).isNotEmpty();
@@ -96,11 +96,11 @@ class StartingXIPageTest {
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird im Bereich Startelf bestätigen ein Formular angezeigt.")
-    void test_07() throws Exception {
+    void test_07() {
         String expectedButtonLabel = "Weiter zu \"Wechsel eintragen\"";
 
-        Elements form = startingXIPage.select("form#startingXI");
-        String formButtonLabel = RequestHelper.extractTextFrom(startingXIPage, "form#startingXI .form-button button");
+        Elements form = RequestHelper.extractFrom(startingXIPage, "form#startingXI");
+        String formButtonLabel = RequestHelper.extractTextFrom(form, ".form-button button");
 
         assertThat(form).isNotEmpty();
         assertThat(formButtonLabel).isEqualTo(expectedButtonLabel);
@@ -108,11 +108,11 @@ class StartingXIPageTest {
 
     @Test
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird im Bereich Startelf bestätigen eine Card für die Reservespieler angezeigt.")
-    void test_08() throws Exception {
+    void test_08() {
         String expectedCardTitle = "Ersatzbank";
 
         String cardTitle = RequestHelper.extractTextFrom(startingXIPage, "#cardReserve .card-body h2.card-title");
-        Elements reserve = startingXIPage.select("#cardReserve .card-body #reserve");
+        Elements reserve = RequestHelper.extractFrom(startingXIPage, "#cardReserve .card-body #reserve");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(reserve).isNotEmpty();
