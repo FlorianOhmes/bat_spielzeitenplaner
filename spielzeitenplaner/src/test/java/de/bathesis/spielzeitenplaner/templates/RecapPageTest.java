@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
-import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.RecapController;
 import java.util.List;
@@ -47,10 +46,10 @@ class RecapPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Seite Recap wird der Footer korrekt angezeigt.")
+    @DisplayName("Auf der Seite Recap wird der Footer angezeigt.")
     void test_03() {
-        String footerText = RequestHelper.extractTextFrom(recapPage, "footer p");
-        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+        Elements footer = RequestHelper.extractFrom(recapPage, "footer");
+        assertThat(footer).isNotEmpty();
     }
 
     @Test

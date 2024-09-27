@@ -44,10 +44,10 @@ class StartPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Footer korrekt angezeigt.")
+    @DisplayName("Auf der Startseite zur Spielzeitenberechnung wird der Footer angezeigt.")
     void test_03() {
-        String footerText = RequestHelper.extractTextFrom(startPage, "footer p");
-        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+        Elements footer = RequestHelper.extractFrom(startPage, "footer");
+        assertThat(footer).isNotEmpty();
     }
 
     @Test

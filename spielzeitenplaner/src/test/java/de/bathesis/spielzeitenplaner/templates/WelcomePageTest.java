@@ -70,10 +70,10 @@ class WelcomePageTest {
     }
 
     @Test
-    @DisplayName("Auf der Startseite wird der Footer korrekt angezeigt.")
+    @DisplayName("Auf der Startseite wird der Footer angezeigt.")
     void test_06() {
-        String footerText = RequestHelper.extractTextFrom(welcomePage, "footer p");
-        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+        Elements footer = RequestHelper.extractFrom(welcomePage, "footer");
+        assertThat(footer).isNotEmpty();
     }
 
 }

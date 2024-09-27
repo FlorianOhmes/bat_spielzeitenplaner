@@ -1,6 +1,5 @@
 package de.bathesis.spielzeitenplaner.templates;
 
-import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.TeamController;
 import org.junit.jupiter.api.Test;
@@ -47,10 +46,10 @@ class TeamPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Seite zur Teamverwaltung wird der Footer korrekt angezeigt.")
+    @DisplayName("Auf der Seite zur Teamverwaltung wird der Footer angezeigt.")
     void test_03() {
-        String footerText = RequestHelper.extractTextFrom(teamPage, "footer p");
-        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+        Elements footer = RequestHelper.extractFrom(teamPage, "footer");
+        assertThat(footer).isNotEmpty();
     }
 
     @Test

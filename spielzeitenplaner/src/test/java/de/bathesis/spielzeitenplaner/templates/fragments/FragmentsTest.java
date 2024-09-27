@@ -33,4 +33,11 @@ class FragmentsTest {
         assertThat(navigationItemsTerms).contains(ExpectedElements.features());
     }
 
+    @Test
+    @DisplayName("Der Footer ist korrekt strukturiert.")
+    void test_02() {
+        String footerText = RequestHelper.extractTextFrom(fragmentsTemplate, "footer p");
+        assertThat(footerText).isEqualTo(ExpectedElements.footerText());
+    }
+
 }
