@@ -12,6 +12,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.List;
+import java.util.ArrayList;
 
 
 @WebMvcTest(MainController.class)
@@ -63,8 +65,27 @@ class WelcomePageTest {
     }
 
     @Test
-    @DisplayName("Auf der Startseite wird der Bereich Neuigkeiten & Updates korrekt angezeigt.")
+    @DisplayName("Innerhalb der Main-Features-Cards werden die Links zu den Unterseiten korrekt angezeigt.")
     void test_05() {
+        List<String> expectedlinkTitles = new ArrayList<>(List.of(
+            "Zum Recap", "Jetzt Spielzeiten planen", "Team verwalten", "Zu den Einstellungen"
+        ));
+        List<String> expectedHrefs = new ArrayList<>(List.of(
+            "/team", "/recap", "/spielzeiten", "/settings"
+        ));
+
+        Elements cardFooter = RequestHelper.extractFrom(welcomePage, ".main-features .card .card-footer");
+        String linkTitles = RequestHelper.extractTextFrom(cardFooter, "a");
+        List<String> hrefs = cardFooter.select("a").eachAttr("href");
+
+        assertThat(cardFooter.size()).isEqualTo(expectedlinkTitles.size());
+        assertThat(linkTitles).contains(expectedlinkTitles);
+        assertThat(hrefs).containsExactlyInAnyOrderElementsOf(expectedHrefs);
+    }
+
+    @Test
+    @DisplayName("Auf der Startseite wird der Bereich Neuigkeiten & Updates korrekt angezeigt.")
+    void test_06() {
         String expectedNewsTitle = "Neuigkeiten & Updates:";
 
         String newsTitle = RequestHelper.extractTextFrom(welcomePage, ".news h2");
@@ -76,7 +97,7 @@ class WelcomePageTest {
 
     @Test
     @DisplayName("Auf der Startseite wird der Footer angezeigt.")
-    void test_06() {
+    void test_07() {
         Elements footer = RequestHelper.extractFrom(welcomePage, "footer");
         assertThat(footer).isNotEmpty();
     }
