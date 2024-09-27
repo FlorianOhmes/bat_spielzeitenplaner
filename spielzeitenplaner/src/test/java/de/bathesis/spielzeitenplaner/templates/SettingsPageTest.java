@@ -1,0 +1,36 @@
+package de.bathesis.spielzeitenplaner.templates;
+
+import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
+import de.bathesis.spielzeitenplaner.web.MainController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.jsoup.nodes.Document;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.assertj.core.api.Assertions.assertThat;
+
+
+@WebMvcTest(MainController.class)
+class SettingsPageTest {
+
+    @Autowired
+    MockMvc mvc;
+    Document settingsPage;
+
+    @BeforeEach
+    void getSettingsPage() throws Exception {
+        settingsPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/settings");
+    }
+
+
+    @Test
+    @DisplayName("Auf der Seite Einstellungen wird die korrekte Überschrift angezeigt.")
+    void test_01() {
+        String expectedTitle = "Einstellungen";
+        String pageTitle = RequestHelper.extractTextFrom(settingsPage, "h1");
+        assertThat(pageTitle).isEqualTo(expectedTitle);
+    }
+
+}
