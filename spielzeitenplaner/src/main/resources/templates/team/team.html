@@ -26,20 +26,19 @@
         <!-- Bereich zur Anzeige und Änderung des Teamnamens -->
         <div class="card team-name h-100 w-100">
             <div class="card-body">
-                <h2 class="card-title">
-                    Teamname
-                </h2>
-                <div class="d-flex align-items-center">
-                    <p id="teamNameDisplay" class="font-weight-bold mr-3">
-                        Spring Boot Football Club
-                    </p>
-                    <div id="teamNameField" class="form-group flex-grow-1">
-                        <input type="text" class="form-control" id="teamNameInput">
+                <form id="teamNameForm">
+                    <label for="teamNameField">
+                        <h2 class="card-title">
+                            Teamname
+                        </h2>
+                    </label>
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="form-control" id="teamNameField">
+                        <button type="button" class="btn btn-primary ml-auto" id="teamNameBtn">
+                            Speichern
+                        </button>
                     </div>
-                    <button type="button" class="btn btn-primary ml-auto" id="teamNameBtn">
-                        Teamnamen ändern
-                    </button>
-                </div>
+                </form>
             </div>
         </div>
     

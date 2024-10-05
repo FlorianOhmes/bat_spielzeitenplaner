@@ -56,22 +56,34 @@ class TeamPageTest {
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Teamname korrekt angezeigt.")
     void test_04() {
         String expectedcardTitle = "Teamname";
-        String expectedButtonLabel = "Teamnamen ändern";
+        String expectedButtonLabel = "Speichern";
 
-        String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.team-name .card-title");
-        String teamNameDisplay = RequestHelper.extractTextFrom(teamPage, "#teamNameDisplay");
+        String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.team-name .card-body .card-title");
         Elements teamNameField = RequestHelper.extractFrom(teamPage, "#teamNameField");
         String buttonText = RequestHelper.extractTextFrom(teamPage, "#teamNameBtn");
 
         assertThat(cardTitle).isEqualTo(expectedcardTitle);
-        assertThat(teamNameDisplay).isNotBlank();
         assertThat(teamNameField).isNotEmpty();
         assertThat(buttonText).isEqualTo(expectedButtonLabel);
     }
 
     @Test
-    @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Formation korrekt angezeigt.")
+    @DisplayName("Auf der Seite zur Teamverwaltung wird das Teamname-Formular korrekt angezeigt.")
     void test_05() {
+        Elements teamNameForm = RequestHelper.extractFrom(teamPage, "form#teamNameForm");
+        Elements teamNameLabel = teamNameForm.select("label");
+        Elements teamNameField = teamNameForm.select("input[type=\"text\"]");
+        Elements button = teamNameForm.select("button");
+
+        assertThat(teamNameForm).isNotEmpty();
+        assertThat(teamNameLabel).isNotEmpty();
+        assertThat(teamNameField).isNotEmpty();
+        assertThat(button).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Formation korrekt angezeigt.")
+    void test_06() {
         String expectedCardTitle = "Formation";
         String expectedButtonLabel = "Formation ändern";
         String expectedButton2Label = "Formationen verwalten";
@@ -91,7 +103,7 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Spieler im Team korrekt angezeigt.")
-    void test_06() {
+    void test_07() {
         String expectedCardTitle = "Spieler im Team";
         String expectedButtonLabel = "Spieler hinzufügen";
 
@@ -106,7 +118,7 @@ class TeamPageTest {
 
     @Test
     @DisplayName("Die Tabelle mit den Spielern im Team hat die korrekten Überschriften")
-    void test_07() {
+    void test_08() {
         List<String> expectedHeadings = new ArrayList<>(List.of(
             "Name:", "Pos.:", "Trikotnr.:", "T:", "L:", "S:", "E:", "Ges.:", "Aktionen:"
         ));
