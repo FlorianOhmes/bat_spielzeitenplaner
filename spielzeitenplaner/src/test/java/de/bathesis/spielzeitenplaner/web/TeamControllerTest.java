@@ -6,6 +6,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -30,6 +32,14 @@ class TeamControllerTest {
         RequestHelper.performGet(mvc, "/team/player")
                      .andExpect(status().isOk())
                      .andExpect(view().name("team/player"));
+    }
+
+    @Test
+    @DisplayName("Es werden Post-Request über /team/teamname akzeptiert.")
+    void test_03() throws Exception {
+        mvc.perform(post("/team/teamname"))
+           .andExpect(status().isOk())
+           .andExpect(view().name("team/team"));
     }
 
 }
