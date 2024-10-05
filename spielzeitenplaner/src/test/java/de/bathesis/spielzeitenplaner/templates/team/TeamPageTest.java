@@ -70,10 +70,12 @@ class TeamPageTest {
     @Test
     @DisplayName("Auf der Seite zur Teamverwaltung wird das Teamname-Formular korrekt angezeigt.")
     void test_05() {
-        Elements teamNameForm = RequestHelper.extractFrom(teamPage, "form#teamNameForm");
+        Elements teamNameForm = RequestHelper.extractFrom(
+            teamPage, "form#teamNameForm[method=\"post\"][action=\"/team/teamname\"]"
+        );
         Elements teamNameLabel = teamNameForm.select("label");
-        Elements teamNameField = teamNameForm.select("input[type=\"text\"]");
-        Elements button = teamNameForm.select("button");
+        Elements teamNameField = teamNameForm.select("input[type=\"text\"][name=\"teamName\"]");
+        Elements button = teamNameForm.select("button[type=\"submit\"]");
 
         assertThat(teamNameForm).isNotEmpty();
         assertThat(teamNameLabel).isNotEmpty();
