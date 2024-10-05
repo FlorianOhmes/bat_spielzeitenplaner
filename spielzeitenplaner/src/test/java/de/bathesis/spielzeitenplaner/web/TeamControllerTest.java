@@ -7,6 +7,7 @@ import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
 @WebMvcTest(TeamController.class)
@@ -18,13 +19,17 @@ class TeamControllerTest {
     @Test
     @DisplayName("Die Seite zur Teamverwaltung ist erreichbar.")
     void test_01() throws Exception {
-        RequestHelper.performGet(mvc, "/team").andExpect(status().isOk());
+        RequestHelper.performGet(mvc, "/team")
+                     .andExpect(status().isOk())
+                     .andExpect(view().name("team/team"));
     }
 
     @Test
     @DisplayName("Die Seite Spieler bearbeiten/hinzufügen ist erreichbar.")
     void test_02() throws Exception {
-        RequestHelper.performGet(mvc, "/team/player").andExpect(status().isOk());
+        RequestHelper.performGet(mvc, "/team/player")
+                     .andExpect(status().isOk())
+                     .andExpect(view().name("team/player"));
     }
 
 }

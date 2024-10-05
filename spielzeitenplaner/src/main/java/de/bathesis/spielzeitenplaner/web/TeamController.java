@@ -11,12 +11,12 @@ public class TeamController {
 
     @GetMapping
     public String team() {
-        return "/team/team";
+        return "team/team";
     }
 
     @GetMapping("/player")
     public String player() {
-        return "/team/player";
+        return "team/player";
     }
 
 }
