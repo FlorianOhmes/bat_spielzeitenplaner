@@ -3,10 +3,6 @@
 
 /* Team verwalten */
 
-#teamNameField, #formationField {
-    display: none;
-}
-
 @media (max-width: 768px) {
 
     .formation-buttons {
