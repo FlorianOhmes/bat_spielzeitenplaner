@@ -22,7 +22,7 @@ public class TeamController {
 
     @PostMapping("/teamname")
     public String changeTeamName() {
-        return "team/team";
+        return "redirect:/team";
     }
 
 }

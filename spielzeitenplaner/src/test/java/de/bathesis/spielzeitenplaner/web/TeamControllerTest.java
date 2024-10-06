@@ -38,8 +38,8 @@ class TeamControllerTest {
     @DisplayName("Es werden Post-Request über /team/teamname akzeptiert.")
     void test_03() throws Exception {
         mvc.perform(post("/team/teamname"))
-           .andExpect(status().isOk())
-           .andExpect(view().name("team/team"));
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/team"));
     }
 
 }
