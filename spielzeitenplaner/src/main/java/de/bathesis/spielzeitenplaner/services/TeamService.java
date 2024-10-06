@@ -1,13 +1,21 @@
 package de.bathesis.spielzeitenplaner.services;
 
 import org.springframework.stereotype.Service;
+import de.bathesis.spielzeitenplaner.domain.Team;
 
 
 @Service
 public class TeamService {
 
-    public void save(String name) {
-        // Implementierung folgt... 
+    private final TeamRepository teamRepo;
+
+    public TeamService(TeamRepository teamRepo) {
+        this.teamRepo = teamRepo;
+    }
+
+    public void save(String newTeamName) {
+        Team team = new Team(newTeamName);
+        teamRepo.save(team);
     }
 
 
