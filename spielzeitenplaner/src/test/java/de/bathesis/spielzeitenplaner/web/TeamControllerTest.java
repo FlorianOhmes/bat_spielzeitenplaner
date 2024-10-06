@@ -2,11 +2,13 @@ package de.bathesis.spielzeitenplaner.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -17,6 +19,10 @@ class TeamControllerTest {
 
     @Autowired
     MockMvc mvc;
+
+    @MockBean
+    TeamService teamService;
+
 
     @Test
     @DisplayName("Die Seite zur Teamverwaltung ist erreichbar.")
@@ -40,6 +46,14 @@ class TeamControllerTest {
         mvc.perform(post("/team/teamname"))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/team"));
+    }
+
+    @Test
+    @DisplayName("Bei Post-Request über /team/teamname wird die save-Methode des TeamServices aufgerufen.")
+    void test_04() throws Exception {
+        String teamName = "Spring Boot FC";
+        mvc.perform(post("/team/teamname").param("teamName", teamName));
+        verify(teamService).save(teamName);
     }
 
 }

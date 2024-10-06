@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.templates.team;
 
+import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.TeamController;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,6 +22,9 @@ class TeamPageTest {
 
     @Autowired
     MockMvc mvc;
+
+    @MockBean
+    TeamService teamService;
 
     Document teamPage;
 
