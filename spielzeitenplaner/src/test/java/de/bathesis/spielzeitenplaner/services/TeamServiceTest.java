@@ -16,7 +16,7 @@ class TeamServiceTest {
     @Test
     @DisplayName("Die save-Methode funktioniert korrekt.")
     void test_01() {
-        Team newTeam = new Team("Spring Boot FC");
+        Team newTeam = new Team(1, "Spring Boot FC");
         ArgumentCaptor<Team> argumentCaptor = ArgumentCaptor.forClass(Team.class);
         TeamService teamService = new TeamService(teamRepo);
 

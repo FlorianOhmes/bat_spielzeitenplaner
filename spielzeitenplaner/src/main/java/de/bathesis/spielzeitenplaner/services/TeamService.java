@@ -14,7 +14,7 @@ public class TeamService {
     }
 
     public void save(String newTeamName) {
-        Team team = new Team(newTeamName);
+        Team team = new Team(null, newTeamName);
         teamRepo.save(team);
     }
 
