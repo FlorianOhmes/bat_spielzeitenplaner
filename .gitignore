@@ -65,5 +65,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### Apple ###
-.DS_Store
+### Datenbank ###
+.env
+spielzeitenplaner/data
