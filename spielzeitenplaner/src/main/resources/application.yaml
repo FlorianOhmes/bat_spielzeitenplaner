@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: spielzeitenplaner
+
+    datasource:
+        username: ${POSTGRES_USER}
+        password: ${POSTGRES_PASSWORD}
+        url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+
+    flyway:
+        baseline-on-migrate: true
