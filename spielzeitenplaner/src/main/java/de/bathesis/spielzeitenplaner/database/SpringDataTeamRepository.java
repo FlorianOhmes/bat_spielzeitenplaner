@@ -1,7 +1,6 @@
 package de.bathesis.spielzeitenplaner.database;
 
 import org.springframework.data.repository.CrudRepository;
-import de.bathesis.spielzeitenplaner.domain.Team;
 import java.util.Optional;
 
 

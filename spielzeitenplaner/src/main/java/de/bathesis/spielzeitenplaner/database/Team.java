@@ -1,28 +1,9 @@
-package de.bathesis.spielzeitenplaner.domain;
+package de.bathesis.spielzeitenplaner.database;
+
+import org.springframework.data.annotation.Id;
 
 
-public class Team {
-
-    private final Integer id;
-    private final String name;
-
-    public Team(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Integer id() {
-        return id;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Team [id=" + id + ", name=" + name + "]";
-    }
+public record Team(@Id Integer id, String name) {
 
     @Override
     public int hashCode() {
