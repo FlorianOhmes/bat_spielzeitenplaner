@@ -23,13 +23,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // Database
-	implementation 'me.paulschwarz:spring-dotenv:2.5.4'
+    // Database & Migration
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	runtimeOnly 'org.postgresql:postgresql'
+	// implementation 'org.flywaydb:flyway-core'
 
 	// Testing 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.jsoup:jsoup:1.14.2'
+	testImplementation 'org.testcontainers:junit-jupiter:1.17.3'
+	testImplementation 'org.testcontainers:postgresql:1.17.3'
 }
 
 tasks.named('test') {

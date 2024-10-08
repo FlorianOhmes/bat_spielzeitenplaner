@@ -68,3 +68,4 @@ out/
 ### Datenbank ###
 .env
 spielzeitenplaner/data
+spielzeitenplaner/sz_data

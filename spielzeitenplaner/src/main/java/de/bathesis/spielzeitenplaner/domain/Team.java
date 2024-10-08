@@ -1,11 +1,16 @@
 package de.bathesis.spielzeitenplaner.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceCreator;
+
 
 public class Team {
 
+    @Id
     private final Integer id;
     private final String name;
 
+    @PersistenceCreator
     public Team(Integer id, String name) {
         this.id = id;
         this.name = name;
