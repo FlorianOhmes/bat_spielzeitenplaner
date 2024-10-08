@@ -34,16 +34,20 @@ class TeamServiceTest {
     }
 
     @Test
-    @DisplayName("Die save-Methode funktioniert korrekt.")
+    @DisplayName("Wenn bereits ein Eintrag für den Teamnamen vorhanden ist, wird der Name geupdated.")
     void test_02() {
-        Team newTeam = new Team(1, "Spring Boot FC");
+        String newTeamName = "FC Heidenheim";
+        Team team = new Team(24, newTeamName);
         ArgumentCaptor<Team> argumentCaptor = ArgumentCaptor.forClass(Team.class);
         TeamService teamService = new TeamService(teamRepo);
+        when(teamRepo.findAll()).thenReturn(Collections.singletonList(team));
 
-        teamService.save(newTeam.name());
+        teamService.save(newTeamName);
 
+        verify(teamRepo).findAll();
         verify(teamRepo).save(argumentCaptor.capture());
-        assertThat(argumentCaptor.getValue().name()).isEqualTo(newTeam.name());
+        assertThat(argumentCaptor.getValue().id()).isEqualTo(team.id());
+        assertThat(argumentCaptor.getValue().name()).isEqualTo(team.name());
     }
 
 }

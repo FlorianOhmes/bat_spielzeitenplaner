@@ -1,6 +1,9 @@
 package de.bathesis.spielzeitenplaner.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Team;
 
@@ -19,6 +22,11 @@ public class TeamService {
         if (allEntries.isEmpty()) {
             Team team = new Team(null, newTeamName);
             teamRepo.save(team);
+        } else {
+            List<Team> entries = new ArrayList<>(allEntries);
+            Team team = entries.get(0);
+            Team newTeam = new Team(team.id(), newTeamName);
+            teamRepo.save(newTeam);
         }
     }
 
