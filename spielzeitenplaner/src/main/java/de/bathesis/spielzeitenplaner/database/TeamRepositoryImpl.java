@@ -1,5 +1,7 @@
 package de.bathesis.spielzeitenplaner.database;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import de.bathesis.spielzeitenplaner.domain.Team;
@@ -27,6 +29,12 @@ public class TeamRepositoryImpl implements TeamRepository {
     public Optional<Team> findById(Integer id) {
         Optional<de.bathesis.spielzeitenplaner.database.Team> loaded = springRepository.findById(id);
         return loaded.map(TeamMapper::toDomainTeam);
+    }
+
+    @Override
+    public Collection<Team> findAll() {
+        // TODO: Implementierung folgt... 
+        return Collections.emptyList();
     }
 
 

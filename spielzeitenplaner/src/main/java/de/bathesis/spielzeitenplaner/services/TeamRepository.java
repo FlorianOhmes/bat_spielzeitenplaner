@@ -1,12 +1,14 @@
 package de.bathesis.spielzeitenplaner.services;
 
+import java.util.Collection;
 import java.util.Optional;
 import de.bathesis.spielzeitenplaner.domain.Team;
 
 
 public interface TeamRepository {
 
-    Team save(Team team);
+    Collection<Team> findAll();
     Optional<Team> findById(Integer id);
+    Team save(Team team);
 
 }
