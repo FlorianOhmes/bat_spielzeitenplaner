@@ -30,4 +30,14 @@ public class TeamService {
         }
     }
 
+    public Team load() {
+        Collection<Team> allEntries = teamRepo.findAll();
+        if (allEntries.isEmpty()) {
+            return new Team(null, "Hier Teamnamen eingeben");
+        }
+        List<Team> entries = new ArrayList<>(allEntries);
+        Team team = entries.get(0);
+        return team;
+    }
+
 }

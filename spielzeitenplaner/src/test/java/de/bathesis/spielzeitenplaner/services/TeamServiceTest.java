@@ -50,4 +50,18 @@ class TeamServiceTest {
         assertThat(argumentCaptor.getValue().name()).isEqualTo(team.name());
     }
 
+    @Test
+    @DisplayName("Das Team-Objekt wird korrekt geladen.")
+    void test_03() {
+        TeamService teamService = new TeamService(teamRepo);
+        Team team = new Team(1020, "FC Heidenheim");
+        when(teamRepo.findAll()).thenReturn(Collections.singletonList(team));
+
+        Team loaded = teamService.load();
+
+        verify(teamRepo).findAll();
+        assertThat(loaded.id()).isEqualTo(team.id());
+        assertThat(loaded.name()).isEqualTo(team.name());
+    }
+
 }

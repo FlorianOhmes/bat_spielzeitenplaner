@@ -1,9 +1,11 @@
 package de.bathesis.spielzeitenplaner.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 
 
@@ -19,7 +21,9 @@ public class TeamController {
 
 
     @GetMapping
-    public String team() {
+    public String team(Model model) {
+        Team team = teamService.load();
+        model.addAttribute("team", team);
         return "team/team";
     }
 

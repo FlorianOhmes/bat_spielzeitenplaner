@@ -1,11 +1,13 @@
 package de.bathesis.spielzeitenplaner.templates.team;
 
+import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.TeamController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +32,8 @@ class TeamPageTest {
 
 
     @BeforeEach
-    void getTeamPage() throws Exception {
+    void setUpTeamPage() throws Exception {
+        when(teamService.load()).thenReturn(new Team(77, "Spring Boot FC"));
         teamPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/team");
     }
 
