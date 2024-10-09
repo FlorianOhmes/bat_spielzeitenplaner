@@ -79,6 +79,12 @@ class TeamControllerTest {
     void test_06() throws Exception {
         mvc.perform(post("/team/teamname").param("name", ""))
            .andExpect(model().attributeErrorCount("teamForm", 1));
+
+        mvc.perform(post("/team/teamname").param("name", """
+                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                """))
+           .andExpect(model().attributeErrorCount("teamForm", 1));
     }
 
 }
