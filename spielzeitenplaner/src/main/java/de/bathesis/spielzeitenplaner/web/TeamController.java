@@ -3,9 +3,12 @@ package de.bathesis.spielzeitenplaner.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.forms.TeamForm;
+import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 
 
@@ -23,7 +26,8 @@ public class TeamController {
     @GetMapping
     public String team(Model model) {
         Team team = teamService.load();
-        model.addAttribute("team", team);
+        TeamForm teamForm = TeamMapper.toTeamForm(team);
+        model.addAttribute("teamForm", teamForm);
         return "team/team";
     }
 
@@ -33,8 +37,9 @@ public class TeamController {
     }
 
     @PostMapping("/teamname")
-    public String changeTeamName(String teamName) {
-        teamService.save(teamName);
+    public String changeTeamName(@ModelAttribute TeamForm teamForm) {
+        Team team = TeamMapper.toDomainTeam(teamForm);
+        teamService.save(team);
         return "redirect:/team";
     }
 

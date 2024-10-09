@@ -17,15 +17,14 @@ public class TeamService {
         this.teamRepo = teamRepo;
     }
 
-    public void save(String newTeamName) {
+    public void save(Team team) {
         Collection<Team> allEntries = teamRepo.findAll();
         if (allEntries.isEmpty()) {
-            Team team = new Team(null, newTeamName);
             teamRepo.save(team);
         } else {
             List<Team> entries = new ArrayList<>(allEntries);
-            Team team = entries.get(0);
-            Team newTeam = new Team(team.id(), newTeamName);
+            Team loaded = entries.get(0);
+            Team newTeam = new Team(loaded.id(), team.name());
             teamRepo.save(newTeam);
         }
     }

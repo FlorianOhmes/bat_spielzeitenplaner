@@ -20,29 +20,28 @@ class TeamServiceTest {
     @Test
     @DisplayName("Wenn noch kein Eintrag für den Teamnamen vorhanden, wird dieser gespeichert.")
     void test_01() {
-        String newTeamName = "Spring Boot FC";
+        Team team = new Team(null, "Spring Boot FC");
         ArgumentCaptor<Team> argumentCaptor = ArgumentCaptor.forClass(Team.class);
         TeamService teamService = new TeamService(teamRepo);
         when(teamRepo.findAll()).thenReturn(Collections.emptyList());
 
-        teamService.save(newTeamName);
+        teamService.save(team);
 
         verify(teamRepo).findAll();
         verify(teamRepo).save(argumentCaptor.capture());
         assertThat(argumentCaptor.getValue().id()).isNull();
-        assertThat(argumentCaptor.getValue().name()).isEqualTo(newTeamName);
+        assertThat(argumentCaptor.getValue().name()).isEqualTo(team.name());
     }
 
     @Test
     @DisplayName("Wenn bereits ein Eintrag für den Teamnamen vorhanden ist, wird der Name geupdated.")
     void test_02() {
-        String newTeamName = "FC Heidenheim";
-        Team team = new Team(24, newTeamName);
+        Team team = new Team(24, "FC Heidenheim");
         ArgumentCaptor<Team> argumentCaptor = ArgumentCaptor.forClass(Team.class);
         TeamService teamService = new TeamService(teamRepo);
         when(teamRepo.findAll()).thenReturn(Collections.singletonList(team));
 
-        teamService.save(newTeamName);
+        teamService.save(team);
 
         verify(teamRepo).findAll();
         verify(teamRepo).save(argumentCaptor.capture());

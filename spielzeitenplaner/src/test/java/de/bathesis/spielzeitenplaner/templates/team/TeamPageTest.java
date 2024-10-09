@@ -82,7 +82,7 @@ class TeamPageTest {
             teamPage, "form#teamNameForm[method=\"post\"][action=\"/team/teamname\"]"
         );
         Elements teamNameLabel = teamNameForm.select("label");
-        Elements teamNameField = teamNameForm.select("input[type=\"text\"][name=\"teamName\"]");
+        Elements teamNameField = teamNameForm.select("input[type=\"text\"][name=\"name\"]");
         Elements button = teamNameForm.select("button[type=\"submit\"]");
 
         assertThat(teamNameForm).isNotEmpty();

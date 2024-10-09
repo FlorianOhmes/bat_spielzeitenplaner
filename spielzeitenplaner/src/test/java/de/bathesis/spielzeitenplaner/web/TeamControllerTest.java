@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.forms.TeamForm;
+import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import org.junit.jupiter.api.Test;
@@ -42,10 +43,11 @@ class TeamControllerTest {
     @DisplayName("Das Model für die Team-Seite ist korrekt befüllt.")
     void test_02() throws Exception {
         Team team = new Team(144, "Spring Boot FC");
+        TeamForm teamForm = TeamMapper.toTeamForm(team);
         when(teamService.load()).thenReturn(team);
 
         RequestHelper.performGet(mvc, "/team")
-                     .andExpect(model().attribute("team", team));
+                     .andExpect(model().attribute("teamForm", teamForm));
     }
 
     @Test
@@ -67,9 +69,9 @@ class TeamControllerTest {
     @Test
     @DisplayName("Bei Post-Request über /team/teamname wird die save-Methode des TeamServices aufgerufen.")
     void test_05() throws Exception {
-        String teamName = "Spring Boot FC";
-        mvc.perform(post("/team/teamname").param("teamName", teamName));
-        verify(teamService).save(teamName);
+        Team team = new Team(null, "Spring Boot FC");
+        mvc.perform(post("/team/teamname").param("teamName", team.name()));
+        verify(teamService).save(team);
     }
 
 }
