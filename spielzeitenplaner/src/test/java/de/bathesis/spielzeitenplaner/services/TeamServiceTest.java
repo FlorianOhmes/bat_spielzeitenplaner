@@ -17,12 +17,14 @@ class TeamServiceTest {
 
     TeamRepository teamRepo = mock(TeamRepository.class);
 
+    TeamService teamService = new TeamService(teamRepo);
+
+
     @Test
     @DisplayName("Wenn noch kein Eintrag für den Teamnamen vorhanden, wird dieser gespeichert.")
     void test_01() {
         Team team = new Team(null, "Spring Boot FC");
         ArgumentCaptor<Team> argumentCaptor = ArgumentCaptor.forClass(Team.class);
-        TeamService teamService = new TeamService(teamRepo);
         when(teamRepo.findAll()).thenReturn(Collections.emptyList());
 
         teamService.save(team);
@@ -38,7 +40,6 @@ class TeamServiceTest {
     void test_02() {
         Team team = new Team(24, "FC Heidenheim");
         ArgumentCaptor<Team> argumentCaptor = ArgumentCaptor.forClass(Team.class);
-        TeamService teamService = new TeamService(teamRepo);
         when(teamRepo.findAll()).thenReturn(Collections.singletonList(team));
 
         teamService.save(team);
@@ -52,7 +53,6 @@ class TeamServiceTest {
     @Test
     @DisplayName("Das Team-Objekt wird korrekt geladen.")
     void test_03() {
-        TeamService teamService = new TeamService(teamRepo);
         Team team = new Team(1020, "FC Heidenheim");
         when(teamRepo.findAll()).thenReturn(Collections.singletonList(team));
 
