@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates.team;
 
 import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.TeamController;
@@ -27,6 +28,9 @@ class TeamPageTest {
 
     @MockBean
     TeamService teamService;
+
+    @MockBean
+    PlayerService playerService;
 
     Document teamPage;
 

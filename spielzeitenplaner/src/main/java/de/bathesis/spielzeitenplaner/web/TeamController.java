@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.forms.TeamForm;
 import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
+import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import jakarta.validation.Valid;
 
@@ -20,9 +21,11 @@ import jakarta.validation.Valid;
 public class TeamController {
 
     private final TeamService teamService;
+    private final PlayerService playerService;
 
-    public TeamController(TeamService teamService) {
+    public TeamController(TeamService teamService, PlayerService playerService) {
         this.teamService = teamService;
+        this.playerService = playerService;
     }
 
 
@@ -45,6 +48,12 @@ public class TeamController {
         Team team = TeamMapper.toDomainTeam(teamForm);
         teamService.save(team);
         redirectAttributes.addFlashAttribute("successMessage", "Teamname erfolgreich gespeichert!");
+        return "redirect:/team";
+    }
+
+    @PostMapping("/deletePlayer")
+    public String deletePlayer(Integer id) {
+        playerService.deletePlayer(id);
         return "redirect:/team";
     }
 

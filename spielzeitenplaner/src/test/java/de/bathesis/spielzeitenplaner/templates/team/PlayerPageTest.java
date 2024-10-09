@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.TeamController;
@@ -26,6 +27,9 @@ class PlayerPageTest {
 
     @MockBean
     TeamService teamService;
+
+    @MockBean
+    PlayerService playerService;
 
     Document playerPage;
 
