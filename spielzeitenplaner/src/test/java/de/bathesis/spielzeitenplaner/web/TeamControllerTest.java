@@ -61,7 +61,7 @@ class TeamControllerTest {
     @Test
     @DisplayName("Es werden Post-Request über /team/teamname akzeptiert.")
     void test_04() throws Exception {
-        mvc.perform(post("/team/teamname"))
+        mvc.perform(post("/team/teamname").param("name", "Spring Boot FC"))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/team"));
     }
@@ -70,8 +70,15 @@ class TeamControllerTest {
     @DisplayName("Bei Post-Request über /team/teamname wird die save-Methode des TeamServices aufgerufen.")
     void test_05() throws Exception {
         Team team = new Team(null, "Spring Boot FC");
-        mvc.perform(post("/team/teamname").param("teamName", team.name()));
+        mvc.perform(post("/team/teamname").param("name", team.name()));
         verify(teamService).save(team);
+    }
+
+    @Test
+    @DisplayName("Der Teamname wird im TeamController validiert.")
+    void test_06() throws Exception {
+        mvc.perform(post("/team/teamname").param("name", ""))
+           .andExpect(model().attributeErrorCount("teamForm", 1));
     }
 
 }

@@ -1,8 +1,13 @@
 package de.bathesis.spielzeitenplaner.forms;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 
 public class TeamForm {
 
+    @NotBlank(message = "Der Teamname darf nicht leer sein.")
+    @Size(max = 100, message = "Der Teamname darf maximal 100 Zeichen lang sein.")
     private String name;
 
 
