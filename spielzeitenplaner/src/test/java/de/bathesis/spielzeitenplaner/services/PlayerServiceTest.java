@@ -4,14 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 
 
 class PlayerServiceTest {
@@ -31,7 +28,7 @@ class PlayerServiceTest {
     @Test
     @DisplayName("Die Spielerliste wird geladen.")
     void test_02() {
-        List<Player> players = new ArrayList<>(List.of(new Player(1023, "Jan", "Oblak", "TW", 1)));
+        List<Player> players = TestObjectGenerator.generatePlayers();
         when(playerRepository.findAll()).thenReturn(players);
 
         List<Player> loadedPlayers = playerService.loadPlayers();

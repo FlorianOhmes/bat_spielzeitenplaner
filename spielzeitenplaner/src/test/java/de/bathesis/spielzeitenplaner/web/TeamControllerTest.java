@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.forms.TeamForm;
@@ -12,6 +11,7 @@ import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
+import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.mockito.Mockito.verify;
@@ -20,8 +20,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,7 +53,7 @@ class TeamControllerTest {
         TeamForm teamForm = TeamMapper.toTeamForm(team);
         when(teamService.load()).thenReturn(team);
 
-        List<Player> players = generatePlayers();
+        List<Player> players = TestObjectGenerator.generatePlayers();
         when(playerService.loadPlayers()).thenReturn(players);
 
         RequestHelper.performGet(mvc, "/team")
@@ -114,17 +112,6 @@ class TeamControllerTest {
         Integer playerID = 12;
         mvc.perform(post("/team/deletePlayer").param("id", String.valueOf(playerID)));
         verify(playerService).deletePlayer(playerID);
-    }
-
-
-    private List<Player> generatePlayers() {
-        List<Player> players = new ArrayList<>();
-        players.add(new Player(null, "Jan", "Oblak", "TW", 1));
-        players.add(new Player(null, "Ousmane", "Dembélé", "RF", 10));
-        players.add(new Player(null, "Harry", "Kane", "ST", 9));
-        players.add(new Player(null, "Cristiano", "Ronaldo", "LF", 7));
-        players.add(new Player(null, "Mathijs", "De Ligt", "IV", 5));
-        return players;
     }
 
 }
