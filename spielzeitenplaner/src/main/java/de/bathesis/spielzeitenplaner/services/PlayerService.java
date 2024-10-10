@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class PlayerService {
     }
 
     public List<Player> loadPlayers() {
-        // Implementierung folgt !!! 
-        return new ArrayList<>(List.of(new Player(null, "Jan", "Oblak", "TW", 1)));
+        Collection<Player> allPlayers = playerRepository.findAll();
+        return new ArrayList<>(allPlayers);
     }
 
 }

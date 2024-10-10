@@ -1,5 +1,7 @@
 package de.bathesis.spielzeitenplaner.database;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
@@ -14,6 +16,12 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
     public PlayerRepositoryImpl(SpringDataPlayerRepository springRepository) {
         this.springRepository = springRepository;
+    }
+
+    @Override
+    public Collection<Player> findAll() {
+        // Implementierung folgt !!! 
+        return new ArrayList<>();
     }
 
     @Override
