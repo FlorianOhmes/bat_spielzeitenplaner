@@ -1,8 +1,8 @@
 package de.bathesis.spielzeitenplaner.database;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
 import de.bathesis.spielzeitenplaner.services.PlayerRepository;
@@ -20,8 +20,8 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
     @Override
     public Collection<Player> findAll() {
-        // Implementierung folgt !!! 
-        return new ArrayList<>();
+        Collection<de.bathesis.spielzeitenplaner.database.Player> allPlayers = springRepository.findAll();
+        return allPlayers.stream().map(PlayerMapper::toDomainPlayer).collect(Collectors.toList());
     }
 
     @Override

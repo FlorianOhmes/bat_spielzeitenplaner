@@ -11,7 +11,11 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import de.bathesis.spielzeitenplaner.services.PlayerRepository;
+import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.domain.Player;
+
+import java.util.Collection;
+import java.util.List;
 
 
 @DataJdbcTest
@@ -47,6 +51,19 @@ public class DatabaseTeamTest {
         Optional<Player> loaded = repository.findById(saved.getId());
 
         assertThat(loaded).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Es werden alle Einträge der Player-Tabelle gefunden.")
+    public void test_02() {
+        List<Player> players = TestObjectGenerator.generatePlayers();
+        Player saved1 = repository.save(players.get(0));
+        Player saved2 = repository.save(players.get(1));
+        Player saved3 = repository.save(players.get(2));
+
+        Collection<Player> allEntries = repository.findAll();
+
+        assertThat(allEntries).contains(saved1, saved2, saved3);
     }
 
 }
