@@ -7,13 +7,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import de.bathesis.spielzeitenplaner.services.PlayerRepository;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.domain.Player;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -24,10 +25,18 @@ import java.util.List;
 public class DatabasePlayerTest {
 
     @Container
-    private static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:latest")
+    private static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:15-alpine")
                 .withDatabaseName("testdb")
                 .withUsername("testuser")
                 .withPassword("testpassword");
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", postgresContainer::getUsername);
+        registry.add("spring.datasource.password", postgresContainer::getPassword);
+    }
+
 
     @Autowired
     SpringDataPlayerRepository springRepository;
