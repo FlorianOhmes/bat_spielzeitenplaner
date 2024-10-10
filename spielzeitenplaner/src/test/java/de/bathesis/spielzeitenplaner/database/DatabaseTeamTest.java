@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.database;
 
+import java.util.Collection;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -10,12 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import de.bathesis.spielzeitenplaner.services.PlayerRepository;
-import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
-import de.bathesis.spielzeitenplaner.domain.Player;
-
-import java.util.Collection;
-import java.util.List;
+import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.services.TeamRepository;
 
 
 @DataJdbcTest
@@ -30,40 +27,41 @@ public class DatabaseTeamTest {
                 .withPassword("testpassword");
 
     @Autowired
-    SpringDataPlayerRepository springRepository;
+    SpringDataTeamRepository springRepository;
 
-    PlayerRepository repository;
+    TeamRepository repository;
 
     @Autowired
-    public DatabaseTeamTest(SpringDataPlayerRepository springRepository) {
-        this.repository = new PlayerRepositoryImpl(springRepository);
+    public DatabaseTeamTest(SpringDataTeamRepository springRepository) {
+        this.repository = new TeamRepositoryImpl(springRepository);
     }
 
 
     @Test
-    @DisplayName("Ein Spieler kann gelöscht werden.")
+    @DisplayName("Der Teamname kann gespeichert und geladen werden")
     public void test_01() {
-        Player player = new Player(null, "Konrad", "Kaiser", "TW", 41);
-        Player saved = repository.save(player);
+        String teamName = "Spring Boot FC";
+        Team team = new Team(null, teamName);
 
-        repository.deleteById(saved.getId());
+        Team saved = repository.save(team);
+        Optional<Team> loaded = repository.findById(saved.id());
 
-        Optional<Player> loaded = repository.findById(saved.getId());
-
-        assertThat(loaded).isEmpty();
+        assertThat(loaded.map(Team::name).orElseThrow()).isEqualTo(teamName);
     }
 
     @Test
-    @DisplayName("Es werden alle Einträge der Player-Tabelle gefunden.")
+    @DisplayName("Es werden alle Einträge in der Team-Tabelle gefunden.")
     public void test_02() {
-        List<Player> players = TestObjectGenerator.generatePlayers();
-        Player saved1 = repository.save(players.get(0));
-        Player saved2 = repository.save(players.get(1));
-        Player saved3 = repository.save(players.get(2));
+        Team schalke = new Team(null, "FC Schalke 04");
+        Team dortmund = new Team(null, "Borussia Dortmund");
+        Team bayern = new Team(null, "FC Bayern München");
+        Team savedSchalke = repository.save(schalke);
+        Team savedDortmund = repository.save(dortmund);
+        Team savedBayern = repository.save(bayern);
 
-        Collection<Player> allEntries = repository.findAll();
+        Collection<Team> allEntries = repository.findAll();
 
-        assertThat(allEntries).contains(saved1, saved2, saved3);
+        assertThat(allEntries).contains(savedSchalke, savedDortmund, savedBayern);
     }
 
 }
