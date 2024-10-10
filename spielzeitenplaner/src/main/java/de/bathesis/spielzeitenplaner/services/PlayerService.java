@@ -1,6 +1,11 @@
 package de.bathesis.spielzeitenplaner.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import de.bathesis.spielzeitenplaner.domain.Player;
 
 
 @Service
@@ -14,6 +19,11 @@ public class PlayerService {
 
     public void deletePlayer(Integer id) {
         playerRepository.deleteById(id);
+    }
+
+    public List<Player> loadPlayers() {
+        // Implementierung folgt !!! 
+        return new ArrayList<>(List.of(new Player(null, "Jan", "Oblak", "TW", 1)));
     }
 
 }

@@ -1,5 +1,7 @@
 package de.bathesis.spielzeitenplaner.web;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.forms.TeamForm;
 import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
@@ -34,6 +37,10 @@ public class TeamController {
         Team team = teamService.load();
         TeamForm teamForm = TeamMapper.toTeamForm(team);
         model.addAttribute("teamForm", teamForm);
+
+        List<Player> players = playerService.loadPlayers();
+        model.addAttribute("players", players);
+
         return "team/team";
     }
 
