@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface SpringDataPlayerRepository extends CrudRepository<Player, Integer> {
 
     Optional<Player> findById(Integer id);
+    Player save(Player player);
     void deleteById(Integer id);
 
 }
