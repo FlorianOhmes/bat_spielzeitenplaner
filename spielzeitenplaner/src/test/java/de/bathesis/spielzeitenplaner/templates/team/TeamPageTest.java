@@ -110,19 +110,14 @@ class TeamPageTest {
     void test_06() {
         String expectedCardTitle = "Formation";
         String expectedButtonLabel = "Formation ändern";
-        String expectedButton2Label = "Formationen verwalten";
 
         String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.formation .card-title");
         String formationDisplay = RequestHelper.extractTextFrom(teamPage, "#formationDisplay");
-        Elements formationField = RequestHelper.extractFrom(teamPage, "#formationField");
-        String buttonText = RequestHelper.extractTextFrom(teamPage, "#formationBtn");
-        String button2Text = RequestHelper.extractTextFrom(teamPage, "#addFormationBtn");
+        String buttonText = RequestHelper.extractTextFrom(teamPage, "a#changeFormationBtn[href=\"/settings\"]");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(formationDisplay).isNotBlank();
-        assertThat(formationField).isNotEmpty();
         assertThat(buttonText).isEqualTo(expectedButtonLabel);
-        assertThat(button2Text).isEqualTo(expectedButton2Label);
     }
 
     @Test

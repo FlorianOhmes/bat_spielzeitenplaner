@@ -56,16 +56,10 @@
                     <p id="formationDisplay" class="font-weight-bold mr-3">
                         3-4-3
                     </p>
-                    <div id="formationField" class="form-group flex-grow-1">
-                        <input type="text" class="form-control" id="formationInput">
-                    </div>
                     <div class="formation-buttons">
-                        <button type="button" class="btn btn-primary" id="formationBtn">
+                        <a class="btn btn-primary" id="changeFormationBtn" th:href="@{/settings}">
                             Formation ändern
-                        </button>
-                        <button type="button" class="btn btn-danger" id="addFormationBtn">
-                            Formationen verwalten
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
