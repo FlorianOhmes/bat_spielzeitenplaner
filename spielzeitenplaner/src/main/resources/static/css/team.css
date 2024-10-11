@@ -38,6 +38,20 @@ table tbody tr:nth-of-type(even) {
     background-color: #f5f5dc;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+
+
 
 /* Spieler bearbeiten */ 
 
