@@ -151,7 +151,7 @@ class TeamPageTest {
     }
 
     @Test
-    @DisplayName("Die Spieler-Tabelle enthält die korrekten Daten.")
+    @DisplayName("Die Spieler-Tabelle enthält die korrekten Daten und Elemente.")
     void test_09() {
         List<String> expected = new ArrayList<>(List.of(
             players.get(0).getFirstName(), players.get(0).getLastName(), 
@@ -162,8 +162,12 @@ class TeamPageTest {
 
         String text = tableEntry.text();
         List<String> playerData = Arrays.asList(text.split(" "));
+        Elements deletePlayerForm = tableEntry.select("td form[method=\"post\"][action=\"/team/deletePlayer\"]");
+        Elements deleteButton = deletePlayerForm.select("button[type=\"submit\"]");
 
         assertThat(playerData).containsAll(expected);
+        assertThat(deletePlayerForm).isNotEmpty();
+        assertThat(deleteButton).isNotEmpty();
     }
 
 }

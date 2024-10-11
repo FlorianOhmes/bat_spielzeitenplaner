@@ -59,8 +59,9 @@ public class TeamController {
     }
 
     @PostMapping("/deletePlayer")
-    public String deletePlayer(Integer id) {
+    public String deletePlayer(Integer id, RedirectAttributes redirectAttributes) {
         playerService.deletePlayer(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Spieler erfolgreich entfernt!");
         return "redirect:/team";
     }
 

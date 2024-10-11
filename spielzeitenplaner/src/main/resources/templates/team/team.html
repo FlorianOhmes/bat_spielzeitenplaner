@@ -101,7 +101,11 @@
                                 <td class="d-none d-lg-table-cell">9,2</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm">Bearbeiten</button>
-                                    <button class="btn btn-danger btn-sm">Entfernen</button>
+                                    <!-- Formular zum Löschen eines Spielers -->
+                                    <form method="post" th:action="@{/team/deletePlayer}">
+                                        <input type="text" name="id" th:value="${player.id}" style="display: none;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Entfernen</button>
+                                    </form>
                                 </td>
                             </tr>
                         </tbody>
