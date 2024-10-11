@@ -1,15 +1,18 @@
 package de.bathesis.spielzeitenplaner.templates.team;
 
+import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
+import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.TeamController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 @WebMvcTest(TeamController.class)
@@ -34,10 +38,16 @@ class TeamPageTest {
 
     Document teamPage;
 
+    private static List<Player> players = TestObjectGenerator.generatePlayers();
+
 
     @BeforeEach
     void setUpTeamPage() throws Exception {
+        // Generierung der benötigten Test-Objekte
         when(teamService.load()).thenReturn(new Team(77, "Spring Boot FC"));
+        when(playerService.loadPlayers()).thenReturn(players);
+
+        // Ausführen des Requests und Bereitstellen der Team-Seite
         teamPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/team");
     }
 
@@ -131,13 +141,29 @@ class TeamPageTest {
     }
 
     @Test
-    @DisplayName("Die Tabelle mit den Spielern im Team hat die korrekten Überschriften")
+    @DisplayName("Die Tabelle mit den Spielern im Team hat die korrekten Überschriften.")
     void test_08() {
         List<String> expectedHeadings = new ArrayList<>(List.of(
-            "Name:", "Pos.:", "Trikotnr.:", "T:", "L:", "S:", "E:", "Ges.:", "Aktionen:"
+            "Name:", "Position:", "Trikotnummer:", "Gesamtscore:", "Aktionen:"
         ));
         String headings = RequestHelper.extractTextFrom(teamPage, ".card.team .card-body table thead tr");
         assertThat(headings).contains(expectedHeadings);
+    }
+
+    @Test
+    @DisplayName("Die Spieler-Tabelle enthält die korrekten Daten.")
+    void test_09() {
+        List<String> expected = new ArrayList<>(List.of(
+            players.get(0).getFirstName(), players.get(0).getLastName(), 
+            players.get(0).getPosition(), String.valueOf(players.get(0).getJerseyNumber())
+        ));
+
+        Element tableEntry = RequestHelper.extractFrom(teamPage, "table#playerTable tbody tr").first();
+
+        String text = tableEntry.text();
+        List<String> playerData = Arrays.asList(text.split(" "));
+
+        assertThat(playerData).containsAll(expected);
     }
 
 }

@@ -78,88 +78,27 @@
                     Spieler im Team
                 </h2>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table id="playerTable" class="table">
                         <thead>
                             <!-- Kopfzeile -->
                             <tr>
                                 <th>Name:</th>
-                                <th class="d-none d-sm-table-cell">Pos.:</th>
-                                <th class="d-none d-md-table-cell">Trikotnr.:</th>
-                                <th class="d-none d-xl-table-cell">T:</th>
-                                <th class="d-none d-xl-table-cell">L:</th>
-                                <th class="d-none d-xl-table-cell">S:</th>
-                                <th class="d-none d-xl-table-cell">E:</th>
-                                <th class="d-none d-lg-table-cell">Ges.:</th>
+                                <th class="d-none d-sm-table-cell">Position:</th>
+                                <th class="d-none d-md-table-cell">Trikotnummer:</th>
+                                <th class="d-none d-lg-table-cell">Gesamtscore:</th>
                                 <th>Aktionen:</th>
                             </tr>
                         </thead>
                         <!-- Tabellenzeilen -->
                         <tbody>
-                            <tr>
-                                <td>Jan Oblak</td>
-                                <td class="d-none d-sm-table-cell">TW</td>
-                                <td class="d-none d-md-table-cell">#1</td>
-                                <td class="d-none d-xl-table-cell">8</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-xl-table-cell">7</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-lg-table-cell">33</td>
+                            <tr th:each="player: ${players}">
                                 <td>
-                                    <button class="btn btn-primary btn-sm">Bearbeiten</button>
-                                    <button class="btn btn-danger btn-sm">Entfernen</button>
+                                    <span th:text="${player.firstName}">Vorname</span> 
+                                    <span><strong th:text="${player.lastName}">Nachname</strong></span>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>Ousmane Dembélé</td>
-                                <td class="d-none d-sm-table-cell">RF</td>
-                                <td class="d-none d-md-table-cell">#10</td>
-                                <td class="d-none d-xl-table-cell">8</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-xl-table-cell">7</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-lg-table-cell">33</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Bearbeiten</button>
-                                    <button class="btn btn-danger btn-sm">Entfernen</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Harry Kane</td>
-                                <td class="d-none d-sm-table-cell">ST</td>
-                                <td class="d-none d-md-table-cell">#9</td>
-                                <td class="d-none d-xl-table-cell">8</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-xl-table-cell">7</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-lg-table-cell">33</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Bearbeiten</button>
-                                    <button class="btn btn-danger btn-sm">Entfernen</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Cristiano Ronaldo</td>
-                                <td class="d-none d-sm-table-cell">LF</td>
-                                <td class="d-none d-md-table-cell">#7</td>
-                                <td class="d-none d-xl-table-cell">8</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-xl-table-cell">7</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-lg-table-cell">33</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Bearbeiten</button>
-                                    <button class="btn btn-danger btn-sm">Entfernen</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Mathijs De Light</td>
-                                <td class="d-none d-sm-table-cell">IV</td>
-                                <td class="d-none d-md-table-cell">#5</td>
-                                <td class="d-none d-xl-table-cell">8</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-xl-table-cell">7</td>
-                                <td class="d-none d-xl-table-cell">9</td>
-                                <td class="d-none d-lg-table-cell">33</td>
+                                <td th:text="${player.position}" class="d-none d-sm-table-cell">TW</td>
+                                <td th:text="${player.jerseyNumber}" class="d-none d-md-table-cell">1</td>
+                                <td class="d-none d-lg-table-cell">9,2</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm">Bearbeiten</button>
                                     <button class="btn btn-danger btn-sm">Entfernen</button>
