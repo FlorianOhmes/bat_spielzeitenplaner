@@ -48,4 +48,39 @@ class SettingsPageTest {
         assertThat(footer).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Seite Einstellungen wird die Formation-Card korrekt angezeigt.")
+    void test_04() {
+        String expectedTitle = "Formation";
+
+        Elements formationCard = RequestHelper.extractFrom(settingsPage, ".card#formationCard");
+        String cardTitle = RequestHelper.extractTextFrom(formationCard, ".card-body h2.card-title");
+        Elements form = RequestHelper.extractFrom(formationCard, "form#formationForm");
+
+        assertThat(formationCard).isNotEmpty();
+        assertThat(cardTitle).isEqualTo(expectedTitle);
+        assertThat(form).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Das Formation-Formular der Formation-Card wird korrekt angezeigt.")
+    void test_05() {
+        String expectedNameLabel = "Bezeichnung:";
+        String expectedPositionLabel = "Position 1:";
+        String expectedButtonLabel = "Speichern";
+
+        Elements form = RequestHelper.extractFrom(settingsPage, "form#formationForm");
+        String nameLabel = RequestHelper.extractTextFrom(form, "label[for=\"name\"]");
+        Elements nameInput = RequestHelper.extractFrom(form, "input[type=\"text\"][name=\"name\"]");
+        String positionLabel = RequestHelper.extractTextFrom(form, "label[for=\"position1\"]");
+        Elements positionInput = RequestHelper.extractFrom(form, "input[type=\"text\"][name=\"positions[0]\"]");
+        String buttonLabel = RequestHelper.extractTextFrom(form, "button");
+
+        assertThat(nameLabel).isEqualTo(expectedNameLabel);
+        assertThat(nameInput).isNotEmpty();
+        assertThat(positionLabel).isEqualTo(expectedPositionLabel);
+        assertThat(positionInput).isNotEmpty();
+        assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
+    }
+
 }

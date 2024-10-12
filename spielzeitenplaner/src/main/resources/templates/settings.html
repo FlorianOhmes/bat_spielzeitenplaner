@@ -19,6 +19,32 @@
     <div class="container mt-4">
         <!-- H1-Überschrift -->
         <h1>Einstellungen</h1>
+
+        <!-- Card: Formation -->
+        <div class="card" id="formationCard">
+            <div class="card-body">
+                <h2 class="card-title">
+                    Formation
+                </h2>
+                <!-- Formular zum Speichern der Formation -->
+                <form id="formationForm">
+                    <div class="form-group">
+                        <label for="name">Bezeichnung:</label>
+                        <input type="text" class="form-control" name="name" placeholder="z.B.: 4-2-3-1">
+                    </div>
+
+                    <!-- Felder für die einzelnen Positionen -->
+                    <div class="form-row">
+                        <div th:each="i : ${#numbers.sequence(1, 11)}" class="form-group col-md-3">
+                            <label th:for="'position' + ${i}">Position [[${i}]]:</label>
+                            <input type="text" class="form-control mb-2" th:id="'position' + ${i}" th:name="'positions[' + ${i-1} + ']'" placeholder="z.B.: ZDM">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary">Speichern</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
