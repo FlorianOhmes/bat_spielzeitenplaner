@@ -1,4 +1,4 @@
-package de.bathesis.spielzeitenplaner.web;
+package de.bathesis.spielzeitenplaner.web.controller;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
-import de.bathesis.spielzeitenplaner.forms.TeamForm;
 import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
+import de.bathesis.spielzeitenplaner.web.forms.TeamForm;
 import jakarta.validation.Valid;
 
 

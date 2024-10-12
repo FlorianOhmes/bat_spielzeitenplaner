@@ -1,7 +1,8 @@
 package de.bathesis.spielzeitenplaner.templates;
 
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
-import de.bathesis.spielzeitenplaner.web.MainController;
+import de.bathesis.spielzeitenplaner.web.controller.MainController;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.junit.jupiter.api.Test;

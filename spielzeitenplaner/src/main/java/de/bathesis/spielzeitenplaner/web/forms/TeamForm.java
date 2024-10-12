@@ -1,4 +1,4 @@
-package de.bathesis.spielzeitenplaner.forms;
+package de.bathesis.spielzeitenplaner.web.forms;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

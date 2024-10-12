@@ -14,7 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
-import de.bathesis.spielzeitenplaner.web.TeamController;
+import de.bathesis.spielzeitenplaner.web.controller.TeamController;
+
 import java.util.List;
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package de.bathesis.spielzeitenplaner.mapper;
 
 import de.bathesis.spielzeitenplaner.domain.Team;
-import de.bathesis.spielzeitenplaner.forms.TeamForm;
+import de.bathesis.spielzeitenplaner.web.forms.TeamForm;
 
 
 public class TeamMapper {
@@ -14,7 +14,7 @@ public class TeamMapper {
         return new de.bathesis.spielzeitenplaner.database.Team(domainTeam.id(), domainTeam.name());
     }
 
-    public static Team toDomainTeam(de.bathesis.spielzeitenplaner.forms.TeamForm teamForm) {
+    public static Team toDomainTeam(de.bathesis.spielzeitenplaner.web.forms.TeamForm teamForm) {
         return new Team(null, teamForm.getName());
     }
 

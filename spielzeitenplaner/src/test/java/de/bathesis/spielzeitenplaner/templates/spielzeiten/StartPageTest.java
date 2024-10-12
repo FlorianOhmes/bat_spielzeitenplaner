@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
-import de.bathesis.spielzeitenplaner.web.SpielzeitenController;
+import de.bathesis.spielzeitenplaner.web.controller.SpielzeitenController;
 
 
 @WebMvcTest(SpielzeitenController.class)
