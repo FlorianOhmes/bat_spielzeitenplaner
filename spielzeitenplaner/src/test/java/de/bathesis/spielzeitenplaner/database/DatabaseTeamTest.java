@@ -13,6 +13,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import de.bathesis.spielzeitenplaner.database.repoimpl.TeamRepositoryImpl;
+import de.bathesis.spielzeitenplaner.database.springrepos.SpringDataTeamRepository;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.services.repos.TeamRepository;
 

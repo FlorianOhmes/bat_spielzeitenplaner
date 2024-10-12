@@ -6,15 +6,15 @@ import de.bathesis.spielzeitenplaner.web.forms.TeamForm;
 
 public class TeamMapper {
 
-    public static Team toDomainTeam(de.bathesis.spielzeitenplaner.database.Team dbTeam) {
+    public static Team toDomainTeam(de.bathesis.spielzeitenplaner.database.entities.Team dbTeam) {
         return new Team(dbTeam.id(), dbTeam.name());
     }
     
-    public static de.bathesis.spielzeitenplaner.database.Team toDatabaseTeam(Team domainTeam) {
-        return new de.bathesis.spielzeitenplaner.database.Team(domainTeam.id(), domainTeam.name());
+    public static de.bathesis.spielzeitenplaner.database.entities.Team toDatabaseTeam(Team domainTeam) {
+        return new de.bathesis.spielzeitenplaner.database.entities.Team(domainTeam.id(), domainTeam.name());
     }
 
-    public static Team toDomainTeam(de.bathesis.spielzeitenplaner.web.forms.TeamForm teamForm) {
+    public static Team toDomainTeam(TeamForm teamForm) {
         return new Team(null, teamForm.getName());
     }
 

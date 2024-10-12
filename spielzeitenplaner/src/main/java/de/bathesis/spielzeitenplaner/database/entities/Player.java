@@ -1,4 +1,4 @@
-package de.bathesis.spielzeitenplaner.database;
+package de.bathesis.spielzeitenplaner.database.entities;
 
 import org.springframework.data.annotation.Id;
 

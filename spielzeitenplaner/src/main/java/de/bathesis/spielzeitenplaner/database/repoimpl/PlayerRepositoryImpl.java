@@ -1,4 +1,4 @@
-package de.bathesis.spielzeitenplaner.database;
+package de.bathesis.spielzeitenplaner.database.repoimpl;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
 import de.bathesis.spielzeitenplaner.services.repos.PlayerRepository;
+import de.bathesis.spielzeitenplaner.database.springrepos.SpringDataPlayerRepository;
 import de.bathesis.spielzeitenplaner.domain.Player;
 
 
@@ -20,20 +21,20 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
     @Override
     public Collection<Player> findAll() {
-        Collection<de.bathesis.spielzeitenplaner.database.Player> allPlayers = springRepository.findAll();
+        Collection<de.bathesis.spielzeitenplaner.database.entities.Player> allPlayers = springRepository.findAll();
         return allPlayers.stream().map(PlayerMapper::toDomainPlayer).collect(Collectors.toList());
     }
 
     @Override
     public Optional<Player> findById(Integer id) {
-        Optional<de.bathesis.spielzeitenplaner.database.Player> loaded = springRepository.findById(id);
+        Optional<de.bathesis.spielzeitenplaner.database.entities.Player> loaded = springRepository.findById(id);
         return loaded.map(PlayerMapper::toDomainPlayer);
     }
     
     @Override
     public Player save(Player domainPlayer) {
-        de.bathesis.spielzeitenplaner.database.Player databasePlayer = PlayerMapper.toDatabasePlayer(domainPlayer);
-        de.bathesis.spielzeitenplaner.database.Player saved = springRepository.save(databasePlayer);
+        de.bathesis.spielzeitenplaner.database.entities.Player databasePlayer = PlayerMapper.toDatabasePlayer(domainPlayer);
+        de.bathesis.spielzeitenplaner.database.entities.Player saved = springRepository.save(databasePlayer);
         return PlayerMapper.toDomainPlayer(saved);
     }
 
