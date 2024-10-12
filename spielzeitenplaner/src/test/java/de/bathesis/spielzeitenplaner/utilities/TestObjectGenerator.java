@@ -2,6 +2,7 @@ package de.bathesis.spielzeitenplaner.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.domain.Player;
 
 
@@ -15,6 +16,17 @@ public class TestObjectGenerator {
         players.add(new Player(null, "Cristiano", "Ronaldo", "LF", 7));
         players.add(new Player(null, "Mathijs", "De Ligt", "IV", 5));
         return players;
+    }
+
+    public static Formation generateFormation() {
+        String name = "4-4-2";
+        List<String> positions = new ArrayList<>(List.of(
+            "TW", 
+            "LV", "LIV", "RIV", "RV", 
+            "LM", "LZM", "RZM", "RM", 
+            "LS", "RS"
+        ));
+        return new Formation(null, name, positions);
     }
 
 }

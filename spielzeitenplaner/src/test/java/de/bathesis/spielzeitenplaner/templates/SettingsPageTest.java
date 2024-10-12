@@ -1,9 +1,11 @@
 package de.bathesis.spielzeitenplaner.templates;
 
+import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.SettingsController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +20,12 @@ class SettingsPageTest {
 
     @Autowired
     MockMvc mvc;
+
+    @MockBean
+    SettingsService settingsService;
+
     Document settingsPage;
+
 
     @BeforeEach
     void getSettingsPage() throws Exception {
