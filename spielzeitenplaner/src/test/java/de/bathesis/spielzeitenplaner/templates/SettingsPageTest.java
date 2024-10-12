@@ -1,8 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates;
 
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
-import de.bathesis.spielzeitenplaner.web.controller.MainController;
-
+import de.bathesis.spielzeitenplaner.web.controller.SettingsController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@WebMvcTest(MainController.class)
+@WebMvcTest(SettingsController.class)
 class SettingsPageTest {
 
     @Autowired
