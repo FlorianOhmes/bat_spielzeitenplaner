@@ -69,12 +69,13 @@ class SettingsPageTest {
         String expectedPositionLabel = "Position 1:";
         String expectedButtonLabel = "Speichern";
 
-        Elements form = RequestHelper.extractFrom(settingsPage, "form#formationForm");
+        Elements form = RequestHelper.extractFrom(settingsPage, 
+            "form#formationForm[method=\"post\"][action=\"/settings/saveFormation\"]");
         String nameLabel = RequestHelper.extractTextFrom(form, "label[for=\"name\"]");
         Elements nameInput = RequestHelper.extractFrom(form, "input[type=\"text\"][name=\"name\"]");
         String positionLabel = RequestHelper.extractTextFrom(form, "label[for=\"position1\"]");
         Elements positionInput = RequestHelper.extractFrom(form, "input[type=\"text\"][name=\"positions[0]\"]");
-        String buttonLabel = RequestHelper.extractTextFrom(form, "button");
+        String buttonLabel = RequestHelper.extractTextFrom(form, "button[type=\"submit\"]");
 
         assertThat(nameLabel).isEqualTo(expectedNameLabel);
         assertThat(nameInput).isNotEmpty();

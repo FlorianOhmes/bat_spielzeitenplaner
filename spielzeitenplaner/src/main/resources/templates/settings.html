@@ -27,7 +27,7 @@
                     Formation
                 </h2>
                 <!-- Formular zum Speichern der Formation -->
-                <form id="formationForm">
+                <form id="formationForm" method="post" th:action="@{/settings/saveFormation}">
                     <div class="form-group">
                         <label for="name">Bezeichnung:</label>
                         <input type="text" class="form-control" name="name" placeholder="z.B.: 4-2-3-1">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary">Speichern</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
                 </form>
             </div>
         </div>
