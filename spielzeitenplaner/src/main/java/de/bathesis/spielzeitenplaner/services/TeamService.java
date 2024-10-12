@@ -3,9 +3,9 @@ package de.bathesis.spielzeitenplaner.services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.services.repos.TeamRepository;
 
 
 @Service

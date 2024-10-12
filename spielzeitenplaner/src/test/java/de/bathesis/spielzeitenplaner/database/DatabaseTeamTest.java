@@ -14,7 +14,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import de.bathesis.spielzeitenplaner.domain.Team;
-import de.bathesis.spielzeitenplaner.services.TeamRepository;
+import de.bathesis.spielzeitenplaner.services.repos.TeamRepository;
 
 
 @DataJdbcTest

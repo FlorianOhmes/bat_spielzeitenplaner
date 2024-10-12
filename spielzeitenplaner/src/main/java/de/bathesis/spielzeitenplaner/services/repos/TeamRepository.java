@@ -1,4 +1,4 @@
-package de.bathesis.spielzeitenplaner.services;
+package de.bathesis.spielzeitenplaner.services.repos;
 
 import java.util.Collection;
 import java.util.Optional;

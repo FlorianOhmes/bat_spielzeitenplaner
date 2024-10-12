@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.Collections;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.services.repos.TeamRepository;
 
 
 class TeamServiceTest {

@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
-import de.bathesis.spielzeitenplaner.services.PlayerRepository;
+import de.bathesis.spielzeitenplaner.services.repos.PlayerRepository;
 import de.bathesis.spielzeitenplaner.domain.Player;
 
 

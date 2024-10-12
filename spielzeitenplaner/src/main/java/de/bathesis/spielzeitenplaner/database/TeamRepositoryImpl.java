@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
-import de.bathesis.spielzeitenplaner.services.TeamRepository;
+import de.bathesis.spielzeitenplaner.services.repos.TeamRepository;
 
 
 @Repository

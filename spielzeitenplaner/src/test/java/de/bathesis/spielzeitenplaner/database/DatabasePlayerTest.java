@@ -12,9 +12,9 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import de.bathesis.spielzeitenplaner.services.PlayerRepository;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.services.repos.PlayerRepository;
 import java.util.Collection;
 import java.util.List;
 
