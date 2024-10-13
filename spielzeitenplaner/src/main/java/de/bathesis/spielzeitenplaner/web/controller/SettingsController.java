@@ -30,7 +30,7 @@ public class SettingsController {
     @PostMapping("/saveFormation")
     public String saveFormation(FormationForm formationForm) {
         Formation formation = FormationMapper.toDomainFormation(formationForm);
-        settingsService.save(formation);
+        settingsService.saveFormation(formation);
         return "redirect:/settings";
     }
 

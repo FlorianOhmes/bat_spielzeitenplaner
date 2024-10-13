@@ -56,7 +56,7 @@ class SettingsControllerTest {
                 .param("name", formation.getName())
                 .param("positions", formation.getPositions().stream().collect(Collectors.joining(",")))
         );
-        verify(settingsService).save(formation);
+        verify(settingsService).saveFormation(formation);
     }
 
 }
