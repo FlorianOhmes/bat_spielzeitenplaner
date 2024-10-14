@@ -68,7 +68,7 @@ class PlayerPageTest {
     void test_04() {
         String expectedCardTitle = "Spieler-Daten";
         List<String> expectedAttributes = new ArrayList<>(List.of(
-            "Name", "Trikotnummer", "Position"
+            "Vorname", "Nachname", "Trikotnummer", "Position"
         ));
 
         String cardTitle = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body .card-title");
@@ -79,10 +79,18 @@ class PlayerPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Button Spieler bearbeiten korrekt angezeigt.")
+    @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird das Spieler-Formular korrekt angezeigt.")
     void test_05() {
-        String expectedButtonLabel = "Spieler-Daten bearbeiten";
-        String buttonLabel = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body button");
+        String expectedButtonLabel = "Speichern";
+
+        Elements playerForm = RequestHelper.extractFrom(playerPage, "form#playerForm");
+        Elements labels = RequestHelper.extractFrom(playerForm, "label");
+        Elements inputs = RequestHelper.extractFrom(playerForm, "input");
+        String buttonLabel = RequestHelper.extractTextFrom(playerForm, "button");
+
+        assertThat(playerForm).isNotEmpty();
+        assertThat(labels).isNotEmpty();
+        assertThat(inputs).isNotEmpty();
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
     }
 

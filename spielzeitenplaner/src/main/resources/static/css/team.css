@@ -52,36 +52,10 @@ table tbody tr:nth-of-type(even) {
 }
 
 
-
 /* Spieler bearbeiten */ 
 
-.player-info p, .player-scores p {
-    margin: 0;
-    font-size: 1rem;
-}
-
-.info-container, .scores-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.info-container p, .scores-container p {
-    flex: 1 1 calc(33% - 10px);
-}
-
-.scores-container p {
-    flex: 1 1 calc(25% - 10px);
-}
-
-@media (max-width: 768px) {
-    .info-container p, .scores-container p {
-        flex: 1 1 100%;
-    }
-}
-
-#editPlayerButton {
+.center-button {
     display: flex;
     justify-content: center;
-    margin: 15px auto 0 auto;
+    margin-top: 20px;
 }
