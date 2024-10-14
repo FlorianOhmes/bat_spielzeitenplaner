@@ -2,6 +2,7 @@ package de.bathesis.spielzeitenplaner.templates;
 
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
+import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.controller.SettingsController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 
 @WebMvcTest(SettingsController.class)
@@ -29,6 +31,10 @@ class SettingsPageTest {
 
     @BeforeEach
     void getSettingsPage() throws Exception {
+        // Generierung der benötigten Test-Objekte
+        when(settingsService.loadFormation()).thenReturn(TestObjectGenerator.generateFormation());
+
+        // Ausführen des Requests und Bereitstellen der SettingsPage
         settingsPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/settings");
     }
 

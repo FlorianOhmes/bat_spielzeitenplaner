@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,10 @@ public class SettingsController {
 
 
     @GetMapping
-    public String settings() {
+    public String settings(Model model) {
+        Formation formation = settingsService.loadFormation();
+        FormationForm formationForm = FormationMapper.toFormationForm(formation);
+        model.addAttribute("formationForm", formationForm);
         return "settings";
     }
 

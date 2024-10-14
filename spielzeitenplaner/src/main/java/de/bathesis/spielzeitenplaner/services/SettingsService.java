@@ -2,6 +2,7 @@ package de.bathesis.spielzeitenplaner.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class SettingsService {
 
     public SettingsService(FormationRepository formationRepository) {
         this.formationRepository = formationRepository;
+    }
+
+    public Formation loadFormation() {
+        // TODO: Implementierung folgt !!! 
+        return new Formation(null, "", Collections.emptyList());
     }
 
     public void saveFormation(Formation formation) {

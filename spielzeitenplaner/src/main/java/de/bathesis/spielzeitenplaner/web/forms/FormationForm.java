@@ -42,4 +42,35 @@ public class FormationForm {
         return "FormationForm [name=" + name + ", positions=" + positions + "]";
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((positions == null) ? 0 : positions.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        FormationForm other = (FormationForm) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (positions == null) {
+            if (other.positions != null)
+                return false;
+        } else if (!positions.equals(other.positions))
+            return false;
+        return true;
+    }
+
 }
