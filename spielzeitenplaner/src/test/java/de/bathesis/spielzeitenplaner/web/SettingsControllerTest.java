@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @WebMvcTest(SettingsController.class)
@@ -69,6 +70,30 @@ class SettingsControllerTest {
     void test_04() throws Exception {
         mvc.perform(postSuccessful());
         verify(settingsService).saveFormation(template);
+    }
+
+    @Test
+    @DisplayName("Die Formation wird im Controller validiert.")
+    void test_05() throws Exception {
+        mvc.perform(post("/settings/saveFormation")
+                      .param("name", "")
+                      .param("positions", 
+                            template.getPositions().stream()
+                                .map(Position::getName)
+                                .collect(Collectors.joining(","))
+                      )
+                    )
+           .andExpect(status().isOk())
+           .andExpect(model().attributeErrorCount("formationForm", 1));
+
+        mvc.perform(post("/settings/saveFormation")
+                      .param("name", template.getName())
+                      .param("positions", 
+                            Stream.generate(() -> "").limit(11).collect(Collectors.joining(","))
+                      )
+                    )
+           .andExpect(status().isOk())
+           .andExpect(model().attributeErrorCount("formationForm", 11));
     }
 
 

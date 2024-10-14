@@ -27,17 +27,19 @@
                     Formation
                 </h2>
                 <!-- Formular zum Speichern der Formation -->
-                <form id="formationForm" method="post" th:action="@{/settings/saveFormation}">
+                <form id="formationForm" method="post" th:action="@{/settings/saveFormation}" th:object="${formationForm}">
                     <div class="form-group">
                         <label for="name">Bezeichnung:</label>
-                        <input type="text" class="form-control" name="name" placeholder="z.B.: 4-2-3-1">
+                        <input type="text" class="form-control" th:field="*{name}" placeholder="z.B.: 4-2-3-1">
+                        <div class="error text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                     </div>
 
                     <!-- Felder für die einzelnen Positionen -->
                     <div class="form-row">
-                        <div th:each="i : ${#numbers.sequence(1, 11)}" class="form-group col-md-3">
-                            <label th:for="'position' + ${i}">Position [[${i}]]:</label>
-                            <input type="text" class="form-control mb-2" th:id="'position' + ${i}" th:name="'positions[' + ${i-1} + ']'" placeholder="z.B.: ZDM">
+                        <div th:each="i : ${#numbers.sequence(0, 10)}" class="form-group col-md-3">
+                            <label th:for="'position' + ${i}">Position [[${i+1}]]:</label>
+                            <input type="text" class="form-control mb-2" th:id="'position' + ${i}" th:field="*{positions[__${i}__]}" placeholder="z.B.: ZDM">
+                            <div class="error text-danger" th:if="${#fields.hasErrors('positions[' + i + ']')}" th:errors="*{positions[__${i}__]}"></div>
                         </div>
                     </div>
 

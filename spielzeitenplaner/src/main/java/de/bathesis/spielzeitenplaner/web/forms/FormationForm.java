@@ -1,20 +1,17 @@
 package de.bathesis.spielzeitenplaner.web.forms;
 
-// import jakarta.validation.constraints.NotBlank;
-// import jakarta.validation.constraints.NotEmpty;
-// import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 
 public class FormationForm {
 
-    // @NotBlank(message = "Der Name der Formation darf nicht blank sein.")
+    @NotBlank(message = "Der Name der Formation darf nicht blank sein.")
     private String name;
 
-    // @Size(min = 11, max = 11, message = "Es müssen genau 11 Positionen angegeben werden.")
-    private List<
-        // @NotEmpty(message = "Position darf nicht leer sein.") 
-        String> positions;
+    private List<@NotEmpty(message = "Position darf nicht leer sein.") 
+                 String> positions;
 
     public FormationForm(String name, List<String> positions) {
         this.name = name;

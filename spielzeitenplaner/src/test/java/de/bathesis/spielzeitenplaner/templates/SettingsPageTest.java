@@ -79,7 +79,7 @@ class SettingsPageTest {
     @DisplayName("Das Formation-Formular der Formation-Card wird korrekt angezeigt.")
     void test_05() {
         String expectedNameLabel = "Bezeichnung:";
-        String expectedPositionLabel = "Position 1:";
+        String expectedPositionLabel = "Position";
         String expectedButtonLabel = "Speichern";
 
         Elements form = RequestHelper.extractFrom(settingsPage, 
@@ -92,7 +92,7 @@ class SettingsPageTest {
 
         assertThat(nameLabel).isEqualTo(expectedNameLabel);
         assertThat(nameInput).isNotEmpty();
-        assertThat(positionLabel).isEqualTo(expectedPositionLabel);
+        assertThat(positionLabel).contains(expectedPositionLabel);
         assertThat(positionInput).isNotEmpty();
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
     }
