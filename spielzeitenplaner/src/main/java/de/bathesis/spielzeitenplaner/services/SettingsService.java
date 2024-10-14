@@ -20,8 +20,12 @@ public class SettingsService {
     }
 
     public Formation loadFormation() {
-        // TODO: Implementierung folgt !!! 
-        return new Formation(null, "", Collections.emptyList());
+        Collection<Formation> allEntries = formationRepository.findAll();
+        if (allEntries.isEmpty()) {
+            return new Formation(null, null, Collections.emptyList());
+        }
+        Formation formation = new ArrayList<>(allEntries).get(0);
+        return formation;
     }
 
     public void saveFormation(Formation formation) {

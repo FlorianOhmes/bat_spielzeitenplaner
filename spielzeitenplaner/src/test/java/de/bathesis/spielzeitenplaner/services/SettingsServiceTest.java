@@ -52,4 +52,18 @@ public class SettingsServiceTest {
         assertThat(formationCaptor.getValue().getPositions()).isEqualTo(formation.getPositions());
     }
 
+    @Test
+    @DisplayName("Das Formation-Objekt wird korrekt geladen.")
+    void test_03() {
+        Formation formation = TestObjectGenerator.generateFormation();
+        when(formationRepository.findAll()).thenReturn(Collections.singletonList(formation));
+
+        Formation loaded = settingsService.loadFormation();
+
+        verify(formationRepository).findAll();
+        assertThat(loaded.getId()).isEqualTo(formation.getId());
+        assertThat(loaded.getName()).isEqualTo(formation.getName());
+        assertThat(loaded.getPositions()).isEqualTo(formation.getPositions());
+    }
+
 }
