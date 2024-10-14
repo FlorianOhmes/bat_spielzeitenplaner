@@ -2,6 +2,8 @@ package de.bathesis.spielzeitenplaner.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +67,25 @@ public class DatabaseFormationTest {
 
         assertThat(loaded.map(Formation::getName).orElseThrow()).isEqualTo(formation.getName());
         assertThat(loadedPositions).containsExactlyInAnyOrderElementsOf(saved.getPositions());
+    }
+
+    @Test
+    @DisplayName("Es werden alle Formationen gefunden.")
+    void test_02() {
+        Formation formation = TestObjectGenerator.generateFormation();
+        List<String> positionsAsString = new ArrayList<>(List.of(
+            "TW", "LIV", "ZIV" ,"RIV", 
+            "LAV", "LZM", "RZM", "RAV", 
+            "LF", "ST", "RF"
+        ));
+        List<Position> positions = positionsAsString.stream().map(s -> new Position(null, s)).toList();
+        Formation formation2 = new Formation(null, "3-4-3", positions);
+        Formation savedFormation = repository.save(formation);
+        Formation savedFormation2 = repository.save(formation2);
+
+        Collection<Formation> allEntries = repository.findAll();
+
+        assertThat(allEntries).contains(savedFormation, savedFormation2);
     }
 
 }

@@ -6,6 +6,8 @@ import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import java.util.Collections;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,14 +21,33 @@ public class SettingsServiceTest {
 
 
     @Test
-    @DisplayName("Die Formation wird gespeichert.")
+    @DisplayName("Wenn noch kein Eintrag für die Formation vorhanden, wird diese gespeichert.")
     void test_01() {
         Formation formation = TestObjectGenerator.generateFormation();
         ArgumentCaptor<Formation> formationCaptor = ArgumentCaptor.forClass(Formation.class);
+        when(formationRepository.findAll()).thenReturn(Collections.emptyList());
 
         settingsService.saveFormation(formation);
 
+        verify(formationRepository).findAll();
         verify(formationRepository).save(formationCaptor.capture());
+        assertThat(formationCaptor.getValue().getId()).isNull();
+        assertThat(formationCaptor.getValue().getName()).isEqualTo(formation.getName());
+        assertThat(formationCaptor.getValue().getPositions()).isEqualTo(formation.getPositions());
+    }
+
+    @Test
+    @DisplayName("Wenn bereits ein Eintrag für die Formation vorhanden ist, wird der Name geupdated.")
+    void test_02() {
+        Formation formation = TestObjectGenerator.generateFormation();
+        ArgumentCaptor<Formation> formationCaptor = ArgumentCaptor.forClass(Formation.class);
+        when(formationRepository.findAll()).thenReturn(Collections.singletonList(formation));
+
+        settingsService.saveFormation(formation);
+
+        verify(formationRepository).findAll();
+        verify(formationRepository).save(formationCaptor.capture());
+        assertThat(formationCaptor.getValue().getId()).isEqualTo(formation.getId());
         assertThat(formationCaptor.getValue().getName()).isEqualTo(formation.getName());
         assertThat(formationCaptor.getValue().getPositions()).isEqualTo(formation.getPositions());
     }
