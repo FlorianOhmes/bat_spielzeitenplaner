@@ -38,7 +38,7 @@
                     <div class="form-row">
                         <div th:each="i : ${#numbers.sequence(0, 10)}" class="form-group col-md-3">
                             <label th:for="'position' + ${i}">Position [[${i+1}]]:</label>
-                            <input type="text" class="form-control mb-2" th:id="'position' + ${i}" th:field="*{positions[__${i}__]}" placeholder="z.B.: ZDM">
+                            <input type="text" class="form-control mb-2" th:id="'position' + ${i}" th:field="*{positions[__${i}__]}" th:placeholder="'z.B.: ' + ${templatePositions[__${i}__]}">
                             <div class="error text-danger" th:if="${#fields.hasErrors('positions[' + i + ']')}" th:errors="*{positions[__${i}__]}"></div>
                         </div>
                     </div>
