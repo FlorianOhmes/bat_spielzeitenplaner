@@ -1,18 +1,14 @@
 package de.bathesis.spielzeitenplaner.domain;
 
-import java.util.List;
 
-
-public class Formation {
+public class Position {
 
     private final Integer id;
     private final String name;
-    private final List<Position> positions;
 
-    public Formation(Integer id, String name, List<Position> positions) {
+    public Position(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.positions = positions;
     }
 
     public Integer getId() {
@@ -23,17 +19,9 @@ public class Formation {
         return name;
     }
 
-    public List<Position> getPositions() {
-        return positions;
-    }
-
-    public Position getPosition(int index) {
-        return positions.get(index);
-    }
-
     @Override
     public String toString() {
-        return "Formation [id=" + id + ", name=" + name + "]";
+        return "Position [id=" + id + ", name=" + name + "]";
     }
 
     @Override
@@ -52,7 +40,7 @@ public class Formation {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Formation other = (Formation) obj;
+        Position other = (Position) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

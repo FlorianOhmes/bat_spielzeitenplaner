@@ -15,7 +15,7 @@ public class SettingsService {
     }
 
     public void saveFormation(Formation formation) {
-        formationRepository.saveFormation(formation);
+        formationRepository.save(formation);
     }
 
 }

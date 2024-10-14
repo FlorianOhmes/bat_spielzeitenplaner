@@ -26,7 +26,7 @@ public class SettingsServiceTest {
 
         settingsService.saveFormation(formation);
 
-        verify(formationRepository).saveFormation(formationCaptor.capture());
+        verify(formationRepository).save(formationCaptor.capture());
         assertThat(formationCaptor.getValue().getName()).isEqualTo(formation.getName());
         assertThat(formationCaptor.getValue().getPositions()).isEqualTo(formation.getPositions());
     }
