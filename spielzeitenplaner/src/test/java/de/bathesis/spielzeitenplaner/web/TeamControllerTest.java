@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
@@ -16,7 +18,11 @@ import de.bathesis.spielzeitenplaner.web.controller.TeamController;
 import de.bathesis.spielzeitenplaner.web.forms.PlayerForm;
 import de.bathesis.spielzeitenplaner.web.forms.TeamForm;
 import org.junit.jupiter.api.Test;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.DisplayName;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,6 +43,8 @@ class TeamControllerTest {
 
     @MockBean
     PlayerService playerService;
+
+    Player player = new Player(null, "Thibaut", "Curtois", "TW", 1);
 
 
     @Test
@@ -133,7 +141,7 @@ class TeamControllerTest {
     @Test
     @DisplayName("Es werden Post-Requests über /team/savePlayer akzeptiert.")
     void test_10() throws Exception {
-        mvc.perform(post("/team/savePlayer"))
+        mvc.perform(postSuccessful())
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/team/player"));
     }
@@ -141,14 +149,39 @@ class TeamControllerTest {
     @Test
     @DisplayName("Bei Post-Requests über /team/savePlayer wird die save-Methode des PlayerServices aufgerufen.")
     void test_11() throws Exception {
-        Player player = new Player(null, "Thibaut", "Curtois", "TW", 1);
-        mvc.perform(post("/team/savePlayer")
-                      .param("firstName", player.getFirstName())
-                      .param("lastName", player.getLastName())
-                      .param("position", player.getPosition())
-                      .param("jerseyNumber", String.valueOf(player.getJerseyNumber()))
-        );
+        mvc.perform(postSuccessful());
         verify(playerService).savePlayer(player);
+    }
+
+    @Test
+    @DisplayName("Das Spieler-Formular wird im TeamController validiert und mögliche Fehler werden auf der Spieler-Seite ausgegeben.")
+    void test_12() throws Exception {
+        String html = mvc.perform(post("/team/savePlayer")
+                                    .param("firstName", "")
+                                    .param("lastName", "")
+                                    .param("position", ""))
+                        .andExpect(model().attributeErrorCount("playerForm", 5))
+                        .andReturn().getResponse().getContentAsString();
+        String html2 = mvc.perform(post("/team/savePlayer")
+                                    .param("firstName", "Joshua")
+                                    .param("lastName", "Kimmich")
+                                    .param("position", "RV")
+                                    .param("jerseyNumber", "132"))
+                        .andExpect(model().attributeErrorCount("playerForm", 1))
+                        .andReturn().getResponse().getContentAsString();
+
+        Elements errors = Jsoup.parse(html).select(".error");
+        Elements errors2 = Jsoup.parse(html2).select(".error");
+        assertThat(errors).hasSize(4);
+        assertThat(errors2).hasSize(1);
+    }
+
+    private MockHttpServletRequestBuilder postSuccessful() {
+        return post("/team/savePlayer")
+                .param("firstName", player.getFirstName())
+                .param("lastName", player.getLastName())
+                .param("position", player.getPosition())
+                .param("jerseyNumber", String.valueOf(player.getJerseyNumber()));
     }
 
 }

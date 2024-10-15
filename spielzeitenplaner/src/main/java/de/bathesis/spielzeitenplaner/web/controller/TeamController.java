@@ -71,7 +71,8 @@ public class TeamController {
     }
 
     @PostMapping("/savePlayer")
-    public String savePlayer(PlayerForm playerForm) {
+    public String savePlayer(@Valid PlayerForm playerForm, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {return "/team/player";}
         Player player = PlayerMapper.toDomainPlayer(playerForm);
         playerService.savePlayer(player);
         return "redirect:/team/player";

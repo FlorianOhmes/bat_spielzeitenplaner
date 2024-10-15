@@ -37,18 +37,22 @@
                             <div class="form-group">
                                 <strong><label for="firstName">Vorname:</label></strong>
                                 <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="z.B.: Max">
+                                <div class="error text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                             </div>
                             <div class="form-group">
                                 <strong><label for="lastName">Nachname:</label></strong>
                                 <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="z.B.: Mustermann">
+                                <div class="error text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                             </div>
                             <div class="form-group">
                                 <strong><label for="position">Position:</label></strong>
                                 <input type="text" class="form-control" id="position" th:field="*{position}" placeholder="z.B.: ST">
+                                <div class="error text-danger" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></div>
                             </div>
                             <div class="form-group">
                                 <strong><label for="jerseyNumber">Trikotnummer:</label></strong>
                                 <input type="text" class="form-control" id="jerseyNumber" th:field="*{jerseyNumber}" placeholder="z.B.: 11">
+                                <div class="error text-danger" th:if="${#fields.hasErrors('jerseyNumber')}" th:errors="*{jerseyNumber}"></div>
                             </div>
                             <div class="center-button">
                                 <button type="submit" class="btn btn-primary">Speichern</button>

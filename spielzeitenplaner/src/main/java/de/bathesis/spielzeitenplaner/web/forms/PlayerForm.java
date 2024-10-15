@@ -1,12 +1,29 @@
 package de.bathesis.spielzeitenplaner.web.forms;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 
 public class PlayerForm {
 
     private Integer id;
+
+    @NotBlank(message = "Vorname darf nicht leer sein.")
     private String firstName;
-    private String LastName;
+
+    @NotBlank(message = "Nachname darf nicht leer sein.")
+    private String lastName;
+
+    @NotBlank(message = "Position darf nicht leer sein.")
+    @Size(min = 2, max = 5, message = "Position muss zwischen 2 und 5 Zeichen lang sein.")
     private String position;
+
+    @NotNull(message = "Trikotnummer darf nicht leer sein.")
+    @Min(value = 1, message = "Trikotnummer muss zwischen 1 und 99 sein.")
+    @Max(value = 99, message = "Trikotnummer muss zwischen 1 und 99 sein.")
     private Integer jerseyNumber;
 
     public Integer getId() {
@@ -26,11 +43,11 @@ public class PlayerForm {
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getPosition() {
@@ -51,7 +68,7 @@ public class PlayerForm {
 
     @Override
     public String toString() {
-        return "PlayerForm [firstName=" + firstName + ", LastName=" + LastName + ", position=" + position
+        return "PlayerForm [firstName=" + firstName + ", LastName=" + lastName + ", position=" + position
                 + ", jerseyNumber=" + jerseyNumber + "]";
     }
 
@@ -60,7 +77,7 @@ public class PlayerForm {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-        result = prime * result + ((LastName == null) ? 0 : LastName.hashCode());
+        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         result = prime * result + ((jerseyNumber == null) ? 0 : jerseyNumber.hashCode());
         return result;
@@ -80,10 +97,10 @@ public class PlayerForm {
                 return false;
         } else if (!firstName.equals(other.firstName))
             return false;
-        if (LastName == null) {
-            if (other.LastName != null)
+        if (lastName == null) {
+            if (other.lastName != null)
                 return false;
-        } else if (!LastName.equals(other.LastName))
+        } else if (!lastName.equals(other.lastName))
             return false;
         if (position == null) {
             if (other.position != null)
