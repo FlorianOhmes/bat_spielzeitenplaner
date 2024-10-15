@@ -110,16 +110,23 @@ class TeamControllerTest {
     }
 
     @Test
-    @DisplayName("Der Teamname wird im TeamController validiert.")
+    @DisplayName("Der Teamname wird im TeamController validiert und mögliche Fehler auf der Team-Seite ausgegeben.")
     void test_07() throws Exception {
-        mvc.perform(post("/team/teamname").param("name", ""))
-           .andExpect(model().attributeErrorCount("teamForm", 1));
+        String html = mvc.perform(post("/team/teamname").param("name", ""))
+           .andExpect(model().attributeErrorCount("teamForm", 1))
+           .andReturn().getResponse().getContentAsString();
 
-        mvc.perform(post("/team/teamname").param("name", """
+        String html2 = mvc.perform(post("/team/teamname").param("name", """
                 hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
                 hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
                 """))
-           .andExpect(model().attributeErrorCount("teamForm", 1));
+           .andExpect(model().attributeErrorCount("teamForm", 1))
+           .andReturn().getResponse().getContentAsString();
+
+        Elements errors = Jsoup.parse(html).select(".error");
+        Elements errors2 = Jsoup.parse(html2).select(".error");
+        assertThat(errors).hasSize(1);
+        assertThat(errors2).hasSize(1);
     }
 
     @Test
