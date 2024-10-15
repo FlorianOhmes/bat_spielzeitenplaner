@@ -86,7 +86,7 @@ class TeamControllerTest {
     }
 
     @Test
-    @DisplayName("Es werden Post-Request über /team/teamname akzeptiert.")
+    @DisplayName("Es werden Post-Requests über /team/teamname akzeptiert.")
     void test_05() throws Exception {
         mvc.perform(post("/team/teamname").param("name", "Spring Boot FC"))
            .andExpect(status().is3xxRedirection())
@@ -94,7 +94,7 @@ class TeamControllerTest {
     }
 
     @Test
-    @DisplayName("Bei Post-Request über /team/teamname wird die save-Methode des TeamServices aufgerufen.")
+    @DisplayName("Bei Post-Requests über /team/teamname wird die save-Methode des TeamServices aufgerufen.")
     void test_06() throws Exception {
         Team team = new Team(null, "Spring Boot FC");
         mvc.perform(post("/team/teamname").param("name", team.name()));
@@ -115,7 +115,7 @@ class TeamControllerTest {
     }
 
     @Test
-    @DisplayName("Es werden Post-Request über /team/deletePlayer akzeptiert.")
+    @DisplayName("Es werden Post-Requests über /team/deletePlayer akzeptiert.")
     void test_08() throws Exception {
         mvc.perform(post("/team/deletePlayer"))
            .andExpect(status().is3xxRedirection())
@@ -123,11 +123,19 @@ class TeamControllerTest {
     }
 
     @Test
-    @DisplayName("Bei Post-Request über /team/deletePlayer wird die deletePlayer-Methode des PlayerServices aufgerufen.")
+    @DisplayName("Bei Post-Requests über /team/deletePlayer wird die deletePlayer-Methode des PlayerServices aufgerufen.")
     void test_09() throws Exception {
         Integer playerID = 12;
         mvc.perform(post("/team/deletePlayer").param("id", String.valueOf(playerID)));
         verify(playerService).deletePlayer(playerID);
+    }
+
+    @Test
+    @DisplayName("Es werden Post-Requests über /team/savePlayer akzeptiert.")
+    void test_10() throws Exception {
+        mvc.perform(post("/team/savePlayer"))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/team/player"));
     }
 
 }

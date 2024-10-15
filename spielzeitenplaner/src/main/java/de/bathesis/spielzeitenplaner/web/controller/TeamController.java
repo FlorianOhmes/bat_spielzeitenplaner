@@ -70,4 +70,9 @@ public class TeamController {
         return "redirect:/team";
     }
 
+    @PostMapping("/savePlayer")
+    public String savePlayer() {
+        return "redirect:/team/player";
+    }
+
 }
