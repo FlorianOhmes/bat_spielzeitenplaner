@@ -12,9 +12,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
 import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
+import de.bathesis.spielzeitenplaner.web.forms.PlayerForm;
 import de.bathesis.spielzeitenplaner.web.forms.TeamForm;
 import jakarta.validation.Valid;
 
@@ -45,7 +47,10 @@ public class TeamController {
     }
 
     @GetMapping("/player")
-    public String player() {
+    public String player(Integer id, Model model) {
+        Player player = playerService.loadPlayer(id);
+        PlayerForm playerForm = PlayerMapper.toPlayerForm(player);
+        model.addAttribute("playerForm", playerForm);
         return "team/player";
     }
 

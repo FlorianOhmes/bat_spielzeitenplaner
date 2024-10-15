@@ -32,22 +32,23 @@
                 </h2>
                 <div class="player-info">
                     <div class="info-container">
-                        <form id="playerForm">
+                        <form id="playerForm" th:object="${playerForm}">
+                            <input disabled type="text" id="id" th:field="*{id}" style="display: none;">
                             <div class="form-group">
                                 <strong><label for="firstName">Vorname:</label></strong>
-                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="z.B.: Max">
+                                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="z.B.: Max">
                             </div>
                             <div class="form-group">
                                 <strong><label for="lastName">Nachname:</label></strong>
-                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="z.B.: Mustermann">
+                                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="z.B.: Mustermann">
                             </div>
                             <div class="form-group">
                                 <strong><label for="position">Position:</label></strong>
-                                <input type="text" class="form-control" id="position" name="position" placeholder="z.B.: ST">
+                                <input type="text" class="form-control" id="position" th:field="*{position}" placeholder="z.B.: ST">
                             </div>
                             <div class="form-group">
                                 <strong><label for="jerseyNumber">Trikotnummer:</label></strong>
-                                <input type="text" class="form-control" id="jerseyNumber" name="jerseyNumber" placeholder="z.B.: 11">
+                                <input type="text" class="form-control" id="jerseyNumber" th:field="*{jerseyNumber}" placeholder="z.B.: 11">
                             </div>
                             <div class="center-button">
                                 <button class="btn btn-primary">Speichern</button>

@@ -6,16 +6,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
+import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.TeamController;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -34,9 +35,12 @@ class PlayerPageTest {
 
     Document playerPage;
 
+    Player player = new Player(14, "Cristiano", "Ronaldo", "LF", 7);
+
 
     @BeforeEach
     void getPlayerPage() throws Exception {
+        when(playerService.loadPlayer(any())).thenReturn(player);
         playerPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/team/player");
     }
 
@@ -102,6 +106,20 @@ class PlayerPageTest {
         Elements playerScores = RequestHelper.extractFrom(playerPage, ".card.scores .card-body .player-scores");
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(playerScores).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Ein Spieler wird korrekt angezeigt.")
+    void test_07() {
+        List<String> expectedValues = new ArrayList<>(List.of(
+            Integer.toString(player.getId()), 
+            player.getFirstName(), player.getLastName(), 
+            player.getPosition(), Integer.toString(player.getJerseyNumber())
+        ));
+
+        List<String> values = playerPage.select("form#playerForm input").eachAttr("value");
+
+        assertThat(values).containsExactlyInAnyOrderElementsOf(expectedValues);
     }
 
 }

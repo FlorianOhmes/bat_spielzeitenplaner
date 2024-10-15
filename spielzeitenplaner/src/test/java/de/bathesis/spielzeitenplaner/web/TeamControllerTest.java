@@ -6,12 +6,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
+import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
 import de.bathesis.spielzeitenplaner.mapper.TeamMapper;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.controller.TeamController;
+import de.bathesis.spielzeitenplaner.web.forms.PlayerForm;
 import de.bathesis.spielzeitenplaner.web.forms.TeamForm;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -65,14 +67,27 @@ class TeamControllerTest {
     @Test
     @DisplayName("Die Seite Spieler bearbeiten/hinzufügen ist erreichbar.")
     void test_03() throws Exception {
+        Player noPlayer = new Player(null, null, null, null, null);
+        when(playerService.loadPlayer(noPlayer.getId())).thenReturn(noPlayer);
         RequestHelper.performGet(mvc, "/team/player")
                      .andExpect(status().isOk())
                      .andExpect(view().name("team/player"));
     }
 
     @Test
-    @DisplayName("Es werden Post-Request über /team/teamname akzeptiert.")
+    @DisplayName("Das Model für die Player-Seite ist korrekt befüllt.")
     void test_04() throws Exception {
+        Player player = new Player(123, "Thomas", "Schütz", "LZDM", 28);
+        when(playerService.loadPlayer(player.getId())).thenReturn(player);
+        PlayerForm playerForm = PlayerMapper.toPlayerForm(player);
+
+        RequestHelper.performGet(mvc, "/team/player?id=" + player.getId())
+                     .andExpect(model().attribute("playerForm", playerForm));
+    }
+
+    @Test
+    @DisplayName("Es werden Post-Request über /team/teamname akzeptiert.")
+    void test_05() throws Exception {
         mvc.perform(post("/team/teamname").param("name", "Spring Boot FC"))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/team"));
@@ -80,7 +95,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("Bei Post-Request über /team/teamname wird die save-Methode des TeamServices aufgerufen.")
-    void test_05() throws Exception {
+    void test_06() throws Exception {
         Team team = new Team(null, "Spring Boot FC");
         mvc.perform(post("/team/teamname").param("name", team.name()));
         verify(teamService).save(team);
@@ -88,7 +103,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("Der Teamname wird im TeamController validiert.")
-    void test_06() throws Exception {
+    void test_07() throws Exception {
         mvc.perform(post("/team/teamname").param("name", ""))
            .andExpect(model().attributeErrorCount("teamForm", 1));
 
@@ -101,7 +116,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("Es werden Post-Request über /team/deletePlayer akzeptiert.")
-    void test_07() throws Exception {
+    void test_08() throws Exception {
         mvc.perform(post("/team/deletePlayer"))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/team"));
@@ -109,7 +124,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("Bei Post-Request über /team/deletePlayer wird die deletePlayer-Methode des PlayerServices aufgerufen.")
-    void test_08() throws Exception {
+    void test_09() throws Exception {
         Integer playerID = 12;
         mvc.perform(post("/team/deletePlayer").param("id", String.valueOf(playerID)));
         verify(playerService).deletePlayer(playerID);

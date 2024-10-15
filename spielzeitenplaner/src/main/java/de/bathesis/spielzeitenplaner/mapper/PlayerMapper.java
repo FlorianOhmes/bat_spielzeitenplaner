@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.mapper;
 
 import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.web.forms.PlayerForm;
 
 
 public class PlayerMapper {
@@ -15,6 +16,16 @@ public class PlayerMapper {
             domainPlayer.getFirstName(), domainPlayer.getLastName(), 
             domainPlayer.getPosition(), domainPlayer.getJerseyNumber()
         );
+    }
+
+    public static PlayerForm toPlayerForm(Player player) {
+        PlayerForm playerForm = new PlayerForm();
+        playerForm.setId(player.getId());
+        playerForm.setFirstName(player.getFirstName());
+        playerForm.setLastName(player.getLastName());
+        playerForm.setPosition(player.getPosition());
+        playerForm.setJerseyNumber(player.getJerseyNumber());
+        return playerForm;
     }
 
 }

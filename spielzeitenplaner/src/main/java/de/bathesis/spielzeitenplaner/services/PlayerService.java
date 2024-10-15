@@ -26,4 +26,9 @@ public class PlayerService {
         return new ArrayList<>(allPlayers);
     }
 
+    public Player loadPlayer(Integer id) {
+        // TODO: Implementierung folgt !!! 
+        return new Player(null, null, null, null, null);
+    }
+
 }
