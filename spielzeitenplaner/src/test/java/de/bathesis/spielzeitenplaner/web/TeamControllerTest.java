@@ -138,4 +138,17 @@ class TeamControllerTest {
            .andExpect(view().name("redirect:/team/player"));
     }
 
+    @Test
+    @DisplayName("Bei Post-Requests über /team/savePlayer wird die save-Methode des PlayerServices aufgerufen.")
+    void test_11() throws Exception {
+        Player player = new Player(null, "Thibaut", "Curtois", "TW", 1);
+        mvc.perform(post("/team/savePlayer")
+                      .param("firstName", player.getFirstName())
+                      .param("lastName", player.getLastName())
+                      .param("position", player.getPosition())
+                      .param("jerseyNumber", String.valueOf(player.getJerseyNumber()))
+        );
+        verify(playerService).savePlayer(player);
+    }
+
 }

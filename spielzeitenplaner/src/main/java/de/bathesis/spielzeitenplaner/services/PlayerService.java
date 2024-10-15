@@ -32,4 +32,8 @@ public class PlayerService {
         return playerRepository.findById(id).orElse(noSuchPlayer);
     }
 
+    public void savePlayer(Player player) {
+        // TODO: Implementierung folgt !!! 
+    }
+
 }

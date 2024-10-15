@@ -28,4 +28,12 @@ public class PlayerMapper {
         return playerForm;
     }
 
+    public static Player toDomainPlayer(PlayerForm playerForm) {
+        return new Player(
+            playerForm.getId(), 
+            playerForm.getFirstName(), playerForm.getLastName(), 
+            playerForm.getPosition(), playerForm.getJerseyNumber()
+        );
+    }
+
 }
