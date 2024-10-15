@@ -71,10 +71,12 @@ public class TeamController {
     }
 
     @PostMapping("/savePlayer")
-    public String savePlayer(@Valid PlayerForm playerForm, BindingResult bindingResult) {
+    public String savePlayer(@Valid PlayerForm playerForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasFieldErrors()) {return "/team/player";}
         Player player = PlayerMapper.toDomainPlayer(playerForm);
         playerService.savePlayer(player);
+        redirectAttributes.addFlashAttribute("successMessage", "Spieler erfolgreich gespeichert!");
+        // TODO: redirect:/team/player?id=999 !!! 
         return "redirect:/team/player";
     }
 

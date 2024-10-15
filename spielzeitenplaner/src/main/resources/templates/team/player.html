@@ -21,6 +21,9 @@
 
     <!-- Hauptbereich zum Bearbeiten und/oder Hinzufügen von Spielern -->
     <div class="container mt-4">
+        <!-- Erfolgsmeldung -->
+        <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
         <!-- H1-Überschrift -->
         <h1>Spieler bearbeiten/hinzufügen</h1>
 
