@@ -27,8 +27,9 @@ public class PlayerService {
     }
 
     public Player loadPlayer(Integer id) {
-        // TODO: Implementierung folgt !!! 
-        return new Player(null, null, null, null, null);
+        Player noSuchPlayer = new Player(null, null, null, null, null);
+        if (id == null) {return noSuchPlayer;}
+        return playerRepository.findById(id).orElse(noSuchPlayer);
     }
 
 }
