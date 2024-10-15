@@ -87,10 +87,12 @@ class PlayerPageTest {
     void test_05() {
         String expectedButtonLabel = "Speichern";
 
-        Elements playerForm = RequestHelper.extractFrom(playerPage, "form#playerForm");
+        Elements playerForm = RequestHelper.extractFrom(playerPage, 
+            "form#playerForm[method=\"post\"][action=\"/team/savePlayer\"]"
+        );
         Elements labels = RequestHelper.extractFrom(playerForm, "label");
         Elements inputs = RequestHelper.extractFrom(playerForm, "input");
-        String buttonLabel = RequestHelper.extractTextFrom(playerForm, "button");
+        String buttonLabel = RequestHelper.extractTextFrom(playerForm, "button[type=\"submit\"]");
 
         assertThat(playerForm).isNotEmpty();
         assertThat(labels).isNotEmpty();

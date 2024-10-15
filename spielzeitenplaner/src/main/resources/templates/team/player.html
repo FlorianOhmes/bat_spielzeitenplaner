@@ -32,7 +32,7 @@
                 </h2>
                 <div class="player-info">
                     <div class="info-container">
-                        <form id="playerForm" th:object="${playerForm}">
+                        <form id="playerForm" method="post" th:action="@{/team/savePlayer}" th:object="${playerForm}">
                             <input disabled type="text" id="id" th:field="*{id}" style="display: none;">
                             <div class="form-group">
                                 <strong><label for="firstName">Vorname:</label></strong>
@@ -51,7 +51,7 @@
                                 <input type="text" class="form-control" id="jerseyNumber" th:field="*{jerseyNumber}" placeholder="z.B.: 11">
                             </div>
                             <div class="center-button">
-                                <button class="btn btn-primary">Speichern</button>
+                                <button type="submit" class="btn btn-primary">Speichern</button>
                             </div>
                         </form>
                     </div>
