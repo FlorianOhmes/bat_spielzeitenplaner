@@ -6,6 +6,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.mapper.FormationMapper;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
@@ -38,6 +40,10 @@ public class SettingsController {
         Formation formation = settingsService.loadFormation();
         FormationForm formationForm = FormationMapper.toFormationForm(formation);
         model.addAttribute("formationForm", formationForm);
+
+        List<Criterion> criteria = settingsService.loadCriteria();
+        model.addAttribute("criteria", criteria);
+
         return "settings";
     }
 

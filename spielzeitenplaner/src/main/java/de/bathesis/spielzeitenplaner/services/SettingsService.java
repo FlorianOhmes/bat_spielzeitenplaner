@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.services.repos.FormationRepository;
 
@@ -38,6 +40,16 @@ public class SettingsService {
             Formation newFormation = new Formation(loaded.getId(), formation.getName(), formation.getPositions());
             formationRepository.save(newFormation);
         }
+    }
+
+    public List<Criterion> loadCriteria() {
+        // TODO: Implementierung folgt !!! 
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(new Criterion(1001, "Training", "T", 0.35));
+        criteria.add(new Criterion(1002, "Leistung", "L", 0.35));
+        criteria.add(new Criterion(1003, "Sozialverhalten", "S", 0.2));
+        criteria.add(new Criterion(1004, "Engagement", "E", 0.1));
+        return criteria;
     }
 
 }

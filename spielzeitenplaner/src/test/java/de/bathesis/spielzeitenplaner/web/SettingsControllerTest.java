@@ -23,6 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.List;
+import de.bathesis.spielzeitenplaner.domain.Criterion;
 
 
 @WebMvcTest(SettingsController.class)
@@ -53,8 +55,12 @@ class SettingsControllerTest {
         FormationForm formationForm = FormationMapper.toFormationForm(formation);
         when(settingsService.loadFormation()).thenReturn(formation);
 
+        List<Criterion> criteria = TestObjectGenerator.generateCriteria();
+        when(settingsService.loadCriteria()).thenReturn(criteria);
+
         RequestHelper.performGet(mvc, "/settings")
-                     .andExpect(model().attribute("formationForm", formationForm));
+                     .andExpect(model().attribute("formationForm", formationForm))
+                     .andExpect(model().attribute("criteria", criteria));
     }
 
     @Test

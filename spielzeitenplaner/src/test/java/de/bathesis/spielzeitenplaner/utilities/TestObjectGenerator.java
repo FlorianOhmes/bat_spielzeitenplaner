@@ -3,6 +3,7 @@ package de.bathesis.spielzeitenplaner.utilities;
 import java.util.ArrayList;
 import java.util.List;
 import de.bathesis.spielzeitenplaner.domain.Position;
+import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.domain.Player;
 
@@ -31,6 +32,15 @@ public class TestObjectGenerator {
                                         .map(s -> new Position(null, s))
                                         .toList();
         return new Formation(null, name, positions);
+    }
+
+    public static List<Criterion> generateCriteria() {
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(new Criterion(null, "Trainingsbeteiligung", "T", 0.35));
+        criteria.add(new Criterion(null, "Leistung", "L", 0.35));
+        criteria.add(new Criterion(null, "Sozialverhalten", "S", 0.2));
+        criteria.add(new Criterion(null, "Engagement", "E", 0.1));
+        return criteria;
     }
 
 }
