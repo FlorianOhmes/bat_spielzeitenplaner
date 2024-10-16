@@ -97,4 +97,32 @@ class SettingsPageTest {
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
     }
 
+    @Test
+    @DisplayName("Auf der Settings-Seite wird die Kriterien-Card korrekt angezeigt.")
+    void test_06() {
+        String expectedTitle = "Kriterien";
+
+        Elements criteriaCard = RequestHelper.extractFrom(settingsPage, ".card#criteriaCard");
+        String cardTitle = RequestHelper.extractTextFrom(criteriaCard, ".card-body h2.card-title");
+        Elements criteriaForm = RequestHelper.extractFrom(criteriaCard, "form#criteriaForm");
+
+        assertThat(cardTitle).isEqualTo(expectedTitle);
+        assertThat(criteriaForm).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Das Kriterien-Formular der Kriterien-Card wird korrekt angezeigt.")
+    void test_07() {
+        String expectedLabel = "Speichern";
+
+        Elements criteriaForm = RequestHelper.extractFrom(settingsPage, "form#criteriaForm");
+        Elements labels = RequestHelper.extractFrom(criteriaForm, "label");
+        Elements inputs = RequestHelper.extractFrom(criteriaForm, "input");
+        String buttonLabel = RequestHelper.extractTextFrom(criteriaForm, "button");
+
+        assertThat(labels).isNotEmpty();
+        assertThat(inputs).isNotEmpty();
+        assertThat(buttonLabel).isEqualTo(expectedLabel);
+    }
+
 }

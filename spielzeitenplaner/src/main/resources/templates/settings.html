@@ -20,6 +20,34 @@
         <!-- H1-Überschrift -->
         <h1>Einstellungen</h1>
 
+        <!-- Card: Kriterien -->
+        <div class="card" id="criteriaCard">
+            <div class="card-body">
+                <h2 class="card-title">
+                    Kriterien
+                </h2>
+                <!-- Formular zum Speichern der Kriterien -->
+                <form id="criteriaForm">
+                    <input type="text" name="id" style="display: none;">
+                    <div class="form-group">
+                        <strong><label for="name">Bezeichnung:</label></strong>
+                        <input type="text" class="form-control" id="name" placeholder="z.B.: Trainingsbeteiligung">
+                    </div>
+                    <div class="form-group">
+                        <strong><label for="abbrev">Abkürzung:</label></strong>
+                        <input type="text" class="form-control" id="abbrev" placeholder="z.B.: T">
+                    </div>
+                    <div class="form-group">
+                        <strong><label for="weight">Gewicht:</label></strong>
+                        <input type="number" class="form-control" id="weight" placeholder="z.B.: 0,35">
+                    </div>
+                    <div class="center-button">
+                        <button class="btn btn-primary">Speichern</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- Card: Formation -->
         <div class="card" id="formationCard">
             <div class="card-body">
