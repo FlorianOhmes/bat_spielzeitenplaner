@@ -65,4 +65,16 @@ class PlayerServiceTest {
         assertThat(loadedPlayer.getJerseyNumber()).isNull();
     }
 
+    @Test
+    @DisplayName("Ein Spieler wird gespeichert.")
+    void test_05() {
+        Player player = new Player(1337, "Thomas", "Müller", "ST", 25);
+        when(playerRepository.save(player)).thenReturn(player);
+
+        Integer savedId = playerService.savePlayer(player);
+
+        verify(playerRepository).save(player);
+        assertThat(savedId).isEqualTo(player.getId());
+    }
+
 }
