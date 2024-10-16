@@ -36,7 +36,7 @@
                 <div class="player-info">
                     <div class="info-container">
                         <form id="playerForm" method="post" th:action="@{/team/savePlayer}" th:object="${playerForm}">
-                            <input disabled type="text" id="id" th:field="*{id}" style="display: none;">
+                            <input type="text" id="id" th:field="*{id}" style="display: none;">
                             <div class="form-group">
                                 <strong><label for="firstName">Vorname:</label></strong>
                                 <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="z.B.: Max">

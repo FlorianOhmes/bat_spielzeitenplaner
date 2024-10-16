@@ -150,7 +150,7 @@ class TeamControllerTest {
     void test_10() throws Exception {
         mvc.perform(postSuccessful())
            .andExpect(status().is3xxRedirection())
-           .andExpect(view().name("redirect:/team/player"));
+           .andExpect(view().name("redirect:/team/player?id=0"));
     }
 
     @Test
