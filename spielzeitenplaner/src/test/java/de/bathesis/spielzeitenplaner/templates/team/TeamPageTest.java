@@ -125,11 +125,11 @@ class TeamPageTest {
     @DisplayName("Auf der Seite zur Teamverwaltung wird der Bereich Spieler im Team korrekt angezeigt.")
     void test_07() {
         String expectedCardTitle = "Spieler im Team";
-        String expectedButtonLabel = "Spieler hinzufügen";
+        String expectedButtonLabel = "Neuen Spieler erstellen";
 
         String cardTitle = RequestHelper.extractTextFrom(teamPage, ".card.team h2");
         Elements table = RequestHelper.extractFrom(teamPage, ".card.team .card-body table");
-        String buttonLabel = RequestHelper.extractTextFrom(teamPage, ".card.team .card-body a");
+        String buttonLabel = RequestHelper.extractTextFrom(teamPage, ".card.team .card-body a[href=\"/team/player\"]");
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(table).isNotEmpty();
@@ -160,10 +160,12 @@ class TeamPageTest {
         List<String> playerData = Arrays.asList(text.split(" "));
         Elements deletePlayerForm = tableEntry.select("td form[method=\"post\"][action=\"/team/deletePlayer\"]");
         Elements deleteButton = deletePlayerForm.select("button[type=\"submit\"]");
+        String hrefAlterButton = tableEntry.select("a").attr("href");
 
         assertThat(playerData).containsAll(expected);
         assertThat(deletePlayerForm).isNotEmpty();
         assertThat(deleteButton).isNotEmpty();
+        assertThat(hrefAlterButton).contains("/team/player?", "id=");
     }
 
 }

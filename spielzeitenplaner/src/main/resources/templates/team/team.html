@@ -94,7 +94,7 @@
                                 <td th:text="${player.jerseyNumber}" class="d-none d-md-table-cell">1</td>
                                 <td class="d-none d-lg-table-cell">9,2</td>
                                 <td class="action-buttons">
-                                    <button class="btn btn-primary btn-sm">Bearbeiten</button>
+                                    <a th:href="@{/team/player?(id=${player.id})}" class="btn btn-primary btn-sm">Bearbeiten</a>
                                     <!-- Formular zum Löschen eines Spielers -->
                                     <form method="post" th:action="@{/team/deletePlayer}">
                                         <input type="text" name="id" th:value="${player.id}" style="display: none;">
@@ -105,7 +105,9 @@
                         </tbody>
                     </table>
                 </div>
-                <a href="#" class="btn btn-primary mt-3">Spieler hinzufügen</a>
+                <div class="center-button">
+                    <a th:href="@{/team/player}" class="btn btn-primary mt-3">Neuen Spieler erstellen</a>
+                </div>
             </div>
         </div>
     </div>
