@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
@@ -38,20 +39,14 @@ public class SettingsController {
     public String settings(Model model) {
         // Befüllung des Models mit Beispielpositionen, die im entsprechenden template jeweils als Placeholder dienen sollen 
         model.addAttribute("templatePositions", templatePositions);
-
-        Formation formation = settingsService.loadFormation();
-        FormationForm formationForm = FormationMapper.toFormationForm(formation);
-        model.addAttribute("formationForm", formationForm);
-
-        List<Criterion> criteria = settingsService.loadCriteria();
-        CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
-        model.addAttribute("criteriaForm", criteriaForm);
-
+        loadAndAddCriteria(model);
+        loadAndAddFormation(model);
         return "settings";
     }
 
     @PostMapping("/saveFormation")
-    public String saveFormation(@Valid FormationForm formationForm, BindingResult bindingResult, Model model) {
+    public String saveFormation(@Valid FormationForm formationForm, BindingResult bindingResult, 
+                                Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             // Befüllung des Models mit den nötigen Attributen 
             model.addAttribute("templatePositions", templatePositions);
@@ -60,11 +55,13 @@ public class SettingsController {
         }
         Formation formation = FormationMapper.toDomainFormation(formationForm);
         settingsService.saveFormation(formation);
+        redirectAttributes.addFlashAttribute("successMessage", "Formation erfolgreich gespeichert!");
         return "redirect:/settings";
     }
 
     @PostMapping("/saveCriteria")
-    public String saveCriteria(@Valid CriteriaForm criteriaForm, BindingResult bindingResult, Model model) {
+    public String saveCriteria(@Valid CriteriaForm criteriaForm, BindingResult bindingResult, 
+                                Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             // Befüllung des Models mit den nötigen Attributen 
             model.addAttribute("templatePositions", templatePositions);
@@ -73,6 +70,7 @@ public class SettingsController {
         }
         List<Criterion> criteria = CriteriaMapper.toDomainCriteria(criteriaForm);
         settingsService.updateCriteria(criteria);
+        redirectAttributes.addFlashAttribute("successMessage", "Kriterien erfolgreich gespeichert!");
         return "redirect:/settings";
     }
 

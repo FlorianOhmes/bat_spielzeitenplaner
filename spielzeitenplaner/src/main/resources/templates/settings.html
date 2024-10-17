@@ -17,6 +17,9 @@
 
     <!-- Hauptinhalt: Einstellungen -->
     <div class="container mt-4">
+        <!-- Erfolgsmeldung -->
+        <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
         <!-- H1-Überschrift -->
         <h1>Einstellungen</h1>
 
