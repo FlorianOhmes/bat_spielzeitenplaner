@@ -50,12 +50,3 @@ table tbody tr:nth-of-type(even) {
         flex-direction: column;
     }
 }
-
-
-/* Spieler bearbeiten */ 
-
-.center-button {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}

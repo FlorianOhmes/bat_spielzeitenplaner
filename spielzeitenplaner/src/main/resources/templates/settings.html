@@ -30,17 +30,28 @@
                 <form id="criteriaForm" th:object="${criteriaForm}">
                     <div th:each="criterionForm, stat: ${criteriaForm.criteria}">
                         <input type="text" th:field="*{criteria[__${stat.index}__].id}" style="display: none;">
-                        <div class="form-group">
-                            <strong><label th:for="'criteria' + ${stat.index} + '.name'">Bezeichnung:</label></strong>
-                            <input type="text" class="form-control" th:field="*{criteria[__${stat.index}__].name}" placeholder="z.B.: Trainingsbeteiligung">
-                        </div>
-                        <div class="form-group">
-                            <strong><label th:for="'criteria' + ${stat.index} + '.abbrev'">Abkürzung:</label></strong>
-                            <input type="text" class="form-control" th:field="*{criteria[__${stat.index}__].abbrev}" placeholder="z.B.: T">
-                        </div>
-                        <div class="form-group">
-                            <strong><label th:for="'criteria' + ${stat.index} + '.weight'">Gewicht:</label></strong>
-                            <input type="number" class="form-control" th:field="*{criteria[__${stat.index}__].weight}" placeholder="z.B.: 0,35">
+
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <strong><label th:for="'criteria' + ${stat.index} + '.name'">Bezeichnung:</label></strong>
+                                    <input type="text" class="form-control" th:field="*{criteria[__${stat.index}__].name}" placeholder="z.B.: Trainingsbeteiligung">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <strong><label th:for="'criteria' + ${stat.index} + '.abbrev'">Abkürzung:</label></strong>
+                                    <input type="text" class="form-control" th:field="*{criteria[__${stat.index}__].abbrev}" placeholder="z.B.: T">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <strong><label th:for="'criteria' + ${stat.index} + '.weight'">Gewicht:</label></strong>
+                                    <input type="number" class="form-control" th:field="*{criteria[__${stat.index}__].weight}" placeholder="z.B.: 0,35">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="center-button">
