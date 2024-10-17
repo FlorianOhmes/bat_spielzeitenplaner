@@ -147,6 +147,26 @@ class SettingsControllerTest {
         assertThat(errors).hasSize(3);
     }
 
+    @Test
+    @DisplayName("Zum Löschen markierte Kriterien werden mit der deleteCriteria-Methode des Settings-Service aufgerufen.")
+    void test_09() throws Exception {
+        Criterion criterion = new Criterion(1333, "Training", "T", 0.4);
+        Criterion criterion2 = new Criterion(1544, "Leistung", "L", 0.4);
+        List<Criterion> toDelete = new ArrayList<>(List.of(criterion2));
+
+        mvc.perform(post("/settings/saveCriteria")
+                      .param("criteria[0].id", criterion.getId().toString()).param("criteria[0].name", criterion.getName())
+                      .param("criteria[0].abbrev", criterion.getAbbrev()).param("criteria[0].weight", criterion.getWeight().toString())
+                      .param("criteria[1].id", criterion2.getId().toString()).param("criteria[1].name", criterion2.getName())
+                      .param("criteria[1].abbrev", criterion2.getAbbrev()).param("criteria[1].weight", criterion2.getWeight().toString())
+                      .param("criteria[1].toDelete", "true")
+
+        );
+
+        verify(settingsService).deleteCriteria(toDelete);
+    }
+
+
 
 
 

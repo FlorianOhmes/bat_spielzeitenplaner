@@ -11,9 +11,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.mapper.CriteriaMapper;
+import de.bathesis.spielzeitenplaner.mapper.CriterionMapper;
 import de.bathesis.spielzeitenplaner.mapper.FormationMapper;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.web.forms.CriteriaForm;
+import de.bathesis.spielzeitenplaner.web.forms.FormCriterion;
 import de.bathesis.spielzeitenplaner.web.forms.FormationForm;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -68,8 +70,20 @@ public class SettingsController {
             loadAndAddFormation(model);
             return "settings";
         }
-        List<Criterion> criteria = CriteriaMapper.toDomainCriteria(criteriaForm);
-        settingsService.updateCriteria(criteria);
+
+        // Kriterien aufteilen in zu löschende und zu speichernde Kriterien
+        List<Criterion> toDelete = criteriaForm.getCriteria().stream()
+                                        .filter(FormCriterion::isToDelete)
+                                        .map(CriterionMapper::toDomainCriterion)
+                                        .toList();
+        List<Criterion> toSave = criteriaForm.getCriteria().stream()
+                                        .filter(c -> !c.isToDelete())
+                                        .map(CriterionMapper::toDomainCriterion)
+                                        .toList();
+
+        settingsService.deleteCriteria(toDelete);
+        settingsService.updateCriteria(toSave);
+
         redirectAttributes.addFlashAttribute("successMessage", "Kriterien erfolgreich gespeichert!");
         return "redirect:/settings";
     }

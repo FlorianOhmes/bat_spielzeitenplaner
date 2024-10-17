@@ -52,4 +52,8 @@ public class SettingsService {
         // TODO: Implementierung folgt 
     }
 
+    public void deleteCriteria(List<Criterion> criteria) {
+        // TODO: Implementierung folgt 
+    }
+
 }
