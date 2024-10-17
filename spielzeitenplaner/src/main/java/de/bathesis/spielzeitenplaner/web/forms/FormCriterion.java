@@ -1,12 +1,27 @@
 package de.bathesis.spielzeitenplaner.web.forms;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class FormCriterion {
 
     private Integer id;
+
+    @NotBlank(message = "Name des Kriteriums darf nicht leer sein.")
     private String name;
+
+    @NotBlank(message = "Abkürzung des Kriteriums darf nicht leer sein.")
+    @Size(min = 1, max = 2, message = "Abkürzung muss zwischen 1 und 2 Zeichen lang sein.")
     private String abbrev;
+
+    @NotNull(message = "Gewicht darf nicht leer sein.")
+    @Min(value = 0, message = "Gewicht muss zwischen 0 und 1 sein.")
+    @Max(value = 1, message = "Gewicht muss zwischen 0 und 1 sein.")
     private Double weight;
+
 
     public Integer getId() {
         return id;

@@ -64,7 +64,13 @@ public class SettingsController {
     }
 
     @PostMapping("/saveCriteria")
-    public String saveCriteria(CriteriaForm criteriaForm) {
+    public String saveCriteria(@Valid CriteriaForm criteriaForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // Befüllung des Models mit den nötigen Attributen 
+            model.addAttribute("templatePositions", templatePositions);
+            loadAndAddFormation(model);
+            return "settings";
+        }
         List<Criterion> criteria = CriteriaMapper.toDomainCriteria(criteriaForm);
         settingsService.updateCriteria(criteria);
         return "redirect:/settings";
@@ -75,6 +81,12 @@ public class SettingsController {
         List<Criterion> criteria = settingsService.loadCriteria();
         CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
         model.addAttribute("criteriaForm", criteriaForm);
+    }
+
+    private void loadAndAddFormation(Model model) {
+        Formation formation = settingsService.loadFormation();
+        FormationForm formationForm = FormationMapper.toFormationForm(formation);
+        model.addAttribute("formationForm", formationForm);
     }
 
 }

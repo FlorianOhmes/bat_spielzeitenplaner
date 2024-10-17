@@ -36,6 +36,7 @@
                                 <div class="form-group">
                                     <strong><label th:for="'criteria' + ${stat.index} + '.name'">Bezeichnung:</label></strong>
                                     <input type="text" class="form-control" th:field="*{criteria[__${stat.index}__].name}" placeholder="z.B.: Trainingsbeteiligung">
+                                    <div class="error text-danger" th:if="${#fields.hasErrors('criteria[' + stat.index + '].name')}" th:errors="*{criteria[__${stat.index}__].name}"></div>
                                 </div>
                             </div>
 
@@ -43,13 +44,15 @@
                                 <div class="form-group">
                                     <strong><label th:for="'criteria' + ${stat.index} + '.abbrev'">Abkürzung:</label></strong>
                                     <input type="text" class="form-control" th:field="*{criteria[__${stat.index}__].abbrev}" placeholder="z.B.: T">
+                                    <div class="error text-danger" th:if="${#fields.hasErrors('criteria[' + stat.index + '].abbrev')}" th:errors="*{criteria[__${stat.index}__].abbrev}"></div>
                                 </div>
                             </div>
 
                             <div class="col-12 col-sm-3">
                                 <div class="form-group">
                                     <strong><label th:for="'criteria' + ${stat.index} + '.weight'">Gewicht:</label></strong>
-                                    <input type="number" class="form-control" th:field="*{criteria[__${stat.index}__].weight}" placeholder="z.B.: 0,35">
+                                    <input type="number" step="0.05" class="form-control" th:field="*{criteria[__${stat.index}__].weight}" placeholder="z.B.: 0,35">
+                                    <div class="error text-danger" th:if="${#fields.hasErrors('criteria[' + stat.index + '].weight')}" th:errors="*{criteria[__${stat.index}__].weight}"></div>
                                 </div>
                             </div>
                         </div>

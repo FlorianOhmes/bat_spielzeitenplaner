@@ -16,7 +16,10 @@ import de.bathesis.spielzeitenplaner.web.controller.SettingsController;
 import de.bathesis.spielzeitenplaner.web.forms.CriteriaForm;
 import de.bathesis.spielzeitenplaner.web.forms.FormationForm;
 import org.junit.jupiter.api.Test;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.DisplayName;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -124,6 +127,25 @@ class SettingsControllerTest {
         mvc.perform(postSuccessfulCriteria());
         verify(settingsService).updateCriteria(criteria);
     }
+
+    @Test
+    @DisplayName("Die Kriterien werden im Controller validiert.")
+    void test_08() throws Exception {
+        when(settingsService.loadFormation()).thenReturn(template);
+
+        String html = mvc.perform(post("/settings/saveCriteria")
+                                    .param("criteria[0].name", "")
+                                    .param("criteria[0].abbrev", "")
+                                    )
+           .andExpect(status().isOk())
+           .andExpect(model().attributeErrorCount("criteriaForm", 4))
+           .andReturn().getResponse().getContentAsString();
+
+        Elements errors = Jsoup.parse(html).select(".error");
+        assertThat(errors).hasSize(3);
+    }
+
+
 
 
     private MockHttpServletRequestBuilder postSuccessfulCriteria() {

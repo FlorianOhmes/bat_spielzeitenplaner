@@ -1,10 +1,12 @@
 package de.bathesis.spielzeitenplaner.web.forms;
 
 import java.util.List;
+import jakarta.validation.Valid;
 
 
 public class CriteriaForm {
 
+    @Valid
     private List<FormCriterion> criteria;
 
     public List<FormCriterion> getCriteria() {
