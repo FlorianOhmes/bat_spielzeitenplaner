@@ -27,7 +27,7 @@
                     Kriterien
                 </h2>
                 <!-- Formular zum Speichern der Kriterien -->
-                <form id="criteriaForm" th:object="${criteriaForm}">
+                <form method="post" th:action="@{/settings/saveCriteria}" id="criteriaForm" th:object="${criteriaForm}">
                     <div th:each="criterionForm, stat: ${criteriaForm.criteria}">
                         <input type="text" th:field="*{criteria[__${stat.index}__].id}" style="display: none;">
 
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="center-button">
-                        <button class="btn btn-primary">Speichern</button>
+                        <button type="submit" class="btn btn-primary">Speichern</button>
                     </div>
                 </form>
             </div>

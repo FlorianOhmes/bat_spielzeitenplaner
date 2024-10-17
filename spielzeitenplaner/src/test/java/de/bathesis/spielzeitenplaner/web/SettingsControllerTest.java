@@ -105,6 +105,14 @@ class SettingsControllerTest {
            .andExpect(model().attributeErrorCount("formationForm", 11));
     }
 
+    @Test
+    @DisplayName("Es werden Post-Requests über /settings/saveCriteria akzeptiert.")
+    void test_06() throws Exception {
+        mvc.perform(post("/settings/saveCriteria"))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/settings"));
+    }
+
 
     private MockHttpServletRequestBuilder postSuccessful() {
         return post("/settings/saveFormation")

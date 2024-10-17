@@ -123,10 +123,11 @@ class SettingsPageTest {
     void test_07() {
         String expectedLabel = "Speichern";
 
-        Elements criteriaForm = RequestHelper.extractFrom(settingsPage, "form#criteriaForm");
+        Elements criteriaForm = RequestHelper.extractFrom(settingsPage, 
+            "form#criteriaForm[method=\"post\"][action=\"/settings/saveCriteria\"]");
         Elements labels = RequestHelper.extractFrom(criteriaForm, "label");
         Elements inputs = RequestHelper.extractFrom(criteriaForm, "input");
-        String buttonLabel = RequestHelper.extractTextFrom(criteriaForm, "button");
+        String buttonLabel = RequestHelper.extractTextFrom(criteriaForm, "button[type=\"submit\"]");
 
         assertThat(labels).isNotEmpty();
         assertThat(inputs).isNotEmpty();
