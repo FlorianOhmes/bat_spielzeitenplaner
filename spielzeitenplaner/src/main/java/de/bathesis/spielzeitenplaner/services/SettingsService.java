@@ -48,4 +48,8 @@ public class SettingsService {
         return new ArrayList<>(allEntries);
     }
 
+    public void updateCriteria(List<Criterion> criteria) {
+        // TODO: Implementierung folgt 
+    }
+
 }

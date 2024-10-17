@@ -15,6 +15,13 @@ public class CriterionMapper {
         return criterionForm;
     }
 
+    public static Criterion toDomainCriterion(FormCriterion formCriterion) {
+        return new Criterion(
+            formCriterion.getId(), formCriterion.getName(), 
+            formCriterion.getAbbrev(), formCriterion.getWeight()
+        );
+    }
+
     public static de.bathesis.spielzeitenplaner.database.entities.Criterion toDatabaseCriterion(Criterion domainCriterion) {
         return new de.bathesis.spielzeitenplaner.database.entities.Criterion(
             domainCriterion.getId(), domainCriterion.getName(), domainCriterion.getAbbrev(), domainCriterion.getWeight()

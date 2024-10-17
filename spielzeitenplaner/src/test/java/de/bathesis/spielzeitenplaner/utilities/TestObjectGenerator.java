@@ -36,10 +36,10 @@ public class TestObjectGenerator {
 
     public static List<Criterion> generateCriteria() {
         List<Criterion> criteria = new ArrayList<>();
-        criteria.add(new Criterion(null, "Trainingsbeteiligung", "T", 0.35));
-        criteria.add(new Criterion(null, "Leistung", "L", 0.35));
-        criteria.add(new Criterion(null, "Sozialverhalten", "S", 0.2));
-        criteria.add(new Criterion(null, "Engagement", "E", 0.1));
+        criteria.add(new Criterion(1876, "Trainingsbeteiligung", "T", 0.35));
+        criteria.add(new Criterion(1877, "Leistung", "L", 0.35));
+        criteria.add(new Criterion(1878, "Sozialverhalten", "S", 0.2));
+        criteria.add(new Criterion(1879, "Engagement", "E", 0.1));
         return criteria;
     }
 

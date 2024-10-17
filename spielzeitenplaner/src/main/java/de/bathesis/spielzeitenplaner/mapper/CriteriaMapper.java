@@ -15,4 +15,8 @@ public class CriteriaMapper {
         return criteriaForm;
     }
 
+    public static List<Criterion> toDomainCriteria(CriteriaForm criteriaForm) {
+        return criteriaForm.getCriteria().stream().map(CriterionMapper::toDomainCriterion).toList();
+    }
+
 }

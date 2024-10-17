@@ -16,7 +16,6 @@ import de.bathesis.spielzeitenplaner.database.repoimpl.CriterionRepositoryImpl;
 import de.bathesis.spielzeitenplaner.database.springrepos.SpringDataCriterionRepository;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.services.repos.CriterionRepository;
-import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 
 
 @DataJdbcTest
@@ -51,7 +50,7 @@ public class DatabaseCriterionTest {
     @Test
     @DisplayName("Ein Kriterium kann gespeichert und geladen werden.")
     void test_01() {
-        Criterion criterion = TestObjectGenerator.generateCriteria().get(0);
+        Criterion criterion = new Criterion(null, "Training", "T", 0.4);
 
         Criterion saved = criterionRepository.save(criterion);
         Criterion loaded = criterionRepository.findById(saved.getId()).get();
@@ -64,8 +63,8 @@ public class DatabaseCriterionTest {
     @Test
     @DisplayName("Es werden alle Kriterien gefunden.")
     void test_02() {
-        Criterion criterion1 = TestObjectGenerator.generateCriteria().get(1);
-        Criterion criterion2 = TestObjectGenerator.generateCriteria().get(2);
+        Criterion criterion1 = new Criterion(null, "Training", "T", 0.4);
+        Criterion criterion2 = new Criterion(null, "Leistung", "L", 0.4);
         Criterion saved1 = criterionRepository.save(criterion1);
         Criterion saved2 = criterionRepository.save(criterion2);
 

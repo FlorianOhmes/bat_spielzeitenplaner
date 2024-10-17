@@ -64,7 +64,9 @@ public class SettingsController {
     }
 
     @PostMapping("/saveCriteria")
-    public String saveCriteria() {
+    public String saveCriteria(CriteriaForm criteriaForm) {
+        List<Criterion> criteria = CriteriaMapper.toDomainCriteria(criteriaForm);
+        settingsService.updateCriteria(criteria);
         return "redirect:/settings";
     }
 

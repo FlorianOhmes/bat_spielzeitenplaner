@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.List;
+import java.util.ArrayList;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 
 
@@ -39,6 +40,10 @@ class SettingsControllerTest {
     SettingsService settingsService;
 
     Formation template = TestObjectGenerator.generateFormation();
+
+    List<Criterion> criteria = new ArrayList<>(List.of(
+            TestObjectGenerator.generateCriteria().get(0), TestObjectGenerator.generateCriteria().get(1)
+    ));
 
 
     @Test
@@ -108,11 +113,30 @@ class SettingsControllerTest {
     @Test
     @DisplayName("Es werden Post-Requests über /settings/saveCriteria akzeptiert.")
     void test_06() throws Exception {
-        mvc.perform(post("/settings/saveCriteria"))
+        mvc.perform(postSuccessfulCriteria())
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/settings"));
     }
 
+    @Test
+    @DisplayName("Bei Post-Requests über /settings/saveCriteria wird die updateCriteria-Methode des SettingsServices aufgerufen.")
+    void test_07() throws Exception {
+        mvc.perform(postSuccessfulCriteria());
+        verify(settingsService).updateCriteria(criteria);
+    }
+
+
+    private MockHttpServletRequestBuilder postSuccessfulCriteria() {
+        return post("/settings/saveCriteria")
+                      .param("criteria[0].id", criteria.get(0).getId().toString())
+                      .param("criteria[0].name", criteria.get(0).getName())
+                      .param("criteria[0].abbrev", criteria.get(0).getAbbrev())
+                      .param("criteria[0].weight", criteria.get(0).getWeight().toString())
+                      .param("criteria[1].id", criteria.get(1).getId().toString())
+                      .param("criteria[1].name", criteria.get(1).getName())
+                      .param("criteria[1].abbrev", criteria.get(1).getAbbrev())
+                      .param("criteria[1].weight", criteria.get(1).getWeight().toString());
+    }
 
     private MockHttpServletRequestBuilder postSuccessful() {
         return post("/settings/saveFormation")
