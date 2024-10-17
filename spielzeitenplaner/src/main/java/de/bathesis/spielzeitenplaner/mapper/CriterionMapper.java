@@ -15,4 +15,16 @@ public class CriterionMapper {
         return criterionForm;
     }
 
+    public static de.bathesis.spielzeitenplaner.database.entities.Criterion toDatabaseCriterion(Criterion domainCriterion) {
+        return new de.bathesis.spielzeitenplaner.database.entities.Criterion(
+            domainCriterion.getId(), domainCriterion.getName(), domainCriterion.getAbbrev(), domainCriterion.getWeight()
+        );
+    }
+
+    public static Criterion toDomainCriterion(de.bathesis.spielzeitenplaner.database.entities.Criterion databaseCriterion) {
+        return new Criterion(
+            databaseCriterion.id(), databaseCriterion.name(), databaseCriterion.abbrev(), databaseCriterion.weight()
+        );
+    }
+
 }
