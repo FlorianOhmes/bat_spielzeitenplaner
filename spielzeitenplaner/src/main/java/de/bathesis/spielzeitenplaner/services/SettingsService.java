@@ -49,11 +49,11 @@ public class SettingsService {
     }
 
     public void updateCriteria(List<Criterion> criteria) {
-        // TODO: Implementierung folgt 
+        criterionRepository.saveAll(criteria);
     }
 
     public void deleteCriteria(List<Criterion> criteria) {
-        // TODO: Implementierung folgt 
+        criterionRepository.deleteAll(criteria);
     }
 
 }

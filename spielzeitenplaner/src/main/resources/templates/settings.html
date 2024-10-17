@@ -33,7 +33,6 @@
                 <form method="post" th:action="@{/settings/saveCriteria}" id="criteriaForm" th:object="${criteriaForm}">
                     <div th:each="criterionForm, stat: ${criteriaForm.criteria}">
                         <input type="text" th:field="*{criteria[__${stat.index}__].id}" style="display: none;">
-
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">

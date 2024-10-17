@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.database.repoimpl;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
@@ -40,6 +41,18 @@ public class CriterionRepositoryImpl implements CriterionRepository {
     public Optional<Criterion> findById(Integer id) {
         Optional<de.bathesis.spielzeitenplaner.database.entities.Criterion> loaded = springRepository.findById(id);
         return loaded.map(CriterionMapper::toDomainCriterion);
+    }
+
+
+    @Override
+    public void saveAll(List<Criterion> criteria) {
+        // TODO: Implementierung folgt 
+    }
+
+
+    @Override
+    public void deleteAll(List<Criterion> criteria) {
+        // TODO: Implementierung folgt 
     }
 
 
