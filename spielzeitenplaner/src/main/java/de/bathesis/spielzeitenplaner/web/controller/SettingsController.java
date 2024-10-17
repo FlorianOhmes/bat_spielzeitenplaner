@@ -76,7 +76,9 @@ public class SettingsController {
 
 
     private void loadAndAddCriteria(Model model) {
-        List<Criterion> criteria = settingsService.loadCriteria();
+        List<Criterion> criteria = new ArrayList<>(settingsService.loadCriteria());
+        // Leeres Kriterium hinzufüen, um die Eingabe eines neuen Kriteriums zu ermöglichen 
+        criteria.add(new Criterion(null, null, null, null));
         CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
         model.addAttribute("criteriaForm", criteriaForm);
     }

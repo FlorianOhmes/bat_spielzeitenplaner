@@ -22,6 +22,8 @@ public class FormCriterion {
     @Max(value = 1, message = "Gewicht muss zwischen 0 und 1 sein.")
     private Double weight;
 
+    private boolean toDelete;
+
 
     public Integer getId() {
         return id;
@@ -53,6 +55,14 @@ public class FormCriterion {
 
     public void setWeight(Double weight) {
         this.weight = weight;
+    }
+
+    public boolean isToDelete() {
+        return toDelete;
+    }
+
+    public void setToDelete(boolean toDelete) {
+        this.toDelete = toDelete;
     }
 
     @Override

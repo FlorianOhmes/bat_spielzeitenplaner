@@ -142,7 +142,7 @@ class SettingsPageTest {
         ));
         List<String> values = RequestHelper.extractFrom(settingsPage, "form#criteriaForm input")
                                            .eachAttr("value");
-        assertThat(values).containsExactlyInAnyOrderElementsOf(expectedValues);
+        assertThat(values).containsAll(expectedValues);
     }
 
 }

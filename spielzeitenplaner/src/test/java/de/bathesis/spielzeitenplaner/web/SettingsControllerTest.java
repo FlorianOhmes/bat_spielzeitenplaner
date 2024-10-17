@@ -14,6 +14,7 @@ import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.controller.SettingsController;
 import de.bathesis.spielzeitenplaner.web.forms.CriteriaForm;
+import de.bathesis.spielzeitenplaner.web.forms.FormCriterion;
 import de.bathesis.spielzeitenplaner.web.forms.FormationForm;
 import org.junit.jupiter.api.Test;
 import org.jsoup.Jsoup;
@@ -67,6 +68,7 @@ class SettingsControllerTest {
 
         List<Criterion> criteria = TestObjectGenerator.generateCriteria();
         CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
+        addEmptyCriterionTo(criteriaForm);
         when(settingsService.loadCriteria()).thenReturn(criteria);
 
         RequestHelper.performGet(mvc, "/settings")
@@ -166,6 +168,12 @@ class SettingsControllerTest {
                 .param("positions", template.getPositions().stream()
                                             .map(Position::getName)
                                             .collect(Collectors.joining(",")));
+    }
+
+    private void addEmptyCriterionTo(CriteriaForm criteriaForm) {
+        List<FormCriterion> newCriteria = new ArrayList<>(criteriaForm.getCriteria());
+        newCriteria.add(new FormCriterion());
+        criteriaForm.setCriteria(newCriteria);
     }
 
 }
