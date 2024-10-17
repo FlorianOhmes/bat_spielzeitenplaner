@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
+import de.bathesis.spielzeitenplaner.mapper.CriteriaMapper;
 import de.bathesis.spielzeitenplaner.mapper.FormationMapper;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
+import de.bathesis.spielzeitenplaner.web.forms.CriteriaForm;
 import de.bathesis.spielzeitenplaner.web.forms.FormationForm;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -42,7 +44,8 @@ public class SettingsController {
         model.addAttribute("formationForm", formationForm);
 
         List<Criterion> criteria = settingsService.loadCriteria();
-        model.addAttribute("criteria", criteria);
+        CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
+        model.addAttribute("criteriaForm", criteriaForm);
 
         return "settings";
     }
@@ -50,13 +53,21 @@ public class SettingsController {
     @PostMapping("/saveFormation")
     public String saveFormation(@Valid FormationForm formationForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            // Befüllung des Models mit Beispielpositionen, die im entsprechenden template jeweils als Placeholder dienen sollen 
+            // Befüllung des Models mit den nötigen Attributen 
             model.addAttribute("templatePositions", templatePositions);
+            loadAndAddCriteria(model);
             return "settings";
         }
         Formation formation = FormationMapper.toDomainFormation(formationForm);
         settingsService.saveFormation(formation);
         return "redirect:/settings";
+    }
+
+
+    private void loadAndAddCriteria(Model model) {
+        List<Criterion> criteria = settingsService.loadCriteria();
+        CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
+        model.addAttribute("criteriaForm", criteriaForm);
     }
 
 }

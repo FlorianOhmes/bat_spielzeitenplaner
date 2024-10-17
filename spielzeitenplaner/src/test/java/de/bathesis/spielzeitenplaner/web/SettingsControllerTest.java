@@ -7,11 +7,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.domain.Position;
+import de.bathesis.spielzeitenplaner.mapper.CriteriaMapper;
 import de.bathesis.spielzeitenplaner.mapper.FormationMapper;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.controller.SettingsController;
+import de.bathesis.spielzeitenplaner.web.forms.CriteriaForm;
 import de.bathesis.spielzeitenplaner.web.forms.FormationForm;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -56,11 +58,12 @@ class SettingsControllerTest {
         when(settingsService.loadFormation()).thenReturn(formation);
 
         List<Criterion> criteria = TestObjectGenerator.generateCriteria();
+        CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
         when(settingsService.loadCriteria()).thenReturn(criteria);
 
         RequestHelper.performGet(mvc, "/settings")
                      .andExpect(model().attribute("formationForm", formationForm))
-                     .andExpect(model().attribute("criteria", criteria));
+                     .andExpect(model().attribute("criteriaForm", criteriaForm));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.templates;
 
+import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
@@ -15,6 +16,9 @@ import org.jsoup.select.Elements;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 
 
 @WebMvcTest(SettingsController.class)
@@ -28,11 +32,15 @@ class SettingsPageTest {
 
     Document settingsPage;
 
+    Criterion criterion = new Criterion(188, "Training", "T", 0.4);
+
+
 
     @BeforeEach
     void getSettingsPage() throws Exception {
         // Generierung der benötigten Test-Objekte
         when(settingsService.loadFormation()).thenReturn(TestObjectGenerator.generateFormation());
+        when(settingsService.loadCriteria()).thenReturn(Collections.singletonList(criterion));
 
         // Ausführen des Requests und Bereitstellen der SettingsPage
         settingsPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/settings");
@@ -123,6 +131,17 @@ class SettingsPageTest {
         assertThat(labels).isNotEmpty();
         assertThat(inputs).isNotEmpty();
         assertThat(buttonLabel).isEqualTo(expectedLabel);
+    }
+
+    @Test
+    @DisplayName("Ein Kriterium wird korrekt angezeigt.")
+    void test_08() {
+        List<String> expectedValues = new ArrayList<>(List.of(
+            criterion.getId().toString(), criterion.getName(), criterion.getAbbrev(), criterion.getWeight().toString()
+        ));
+        List<String> values = RequestHelper.extractFrom(settingsPage, "form#criteriaForm input")
+                                           .eachAttr("value");
+        assertThat(values).containsExactlyInAnyOrderElementsOf(expectedValues);
     }
 
 }
