@@ -1,7 +1,9 @@
 package de.bathesis.spielzeitenplaner.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +50,19 @@ public class DatabaseCriterionTest {
 
 
     @Test
-    @DisplayName("Ein Kriterium kann gespeichert und geladen werden.")
+    @DisplayName("Die Kriterien können gespeichert und geladen werden.")
     void test_01() {
-        Criterion criterion = new Criterion(null, "Training", "T", 0.4);
+        List<Criterion> criteria = new ArrayList<>(List.of(
+            new Criterion(null, "Training", "T", 0.4), 
+            new Criterion(null, "Leistung", "L", 0.4)
+        ));
 
-        Criterion saved = criterionRepository.save(criterion);
-        Criterion loaded = criterionRepository.findById(saved.getId()).get();
+        List<Criterion> saved = criterionRepository.saveAll(criteria);
+        Criterion loaded = criterionRepository.findById(saved.get(0).getId()).get();
+        Criterion loaded2 = criterionRepository.findById(saved.get(1).getId()).get();
 
-        assertThat(loaded.getName()).isEqualTo(criterion.getName());
-        assertThat(loaded.getAbbrev()).isEqualTo(criterion.getAbbrev());
-        assertThat(loaded.getWeight()).isEqualTo(criterion.getWeight());
+        assertThat(loaded).isEqualTo(saved.get(0));
+        assertThat(loaded2).isEqualTo(saved.get(1));
     }
 
     @Test
@@ -71,6 +76,23 @@ public class DatabaseCriterionTest {
         Collection<Criterion> allEntries = criterionRepository.findAll();
 
         assertThat(allEntries).contains(saved1, saved2);
+    }
+
+    @Test
+    @DisplayName("Eine Liste von Kriterien kann gelöscht werden.")
+    void test_03() {
+        List<Criterion> criteria = new ArrayList<>(List.of(
+            new Criterion(null, "Training", "T", 0.4), 
+            new Criterion(null, "Leistung", "L", 0.4)
+        ));
+        List<Criterion> saved = criterionRepository.saveAll(criteria);
+        assertThat(saved).hasSize(2);
+
+        criterionRepository.deleteAll(saved);
+
+        Collection<Criterion> allEntries = criterionRepository.findAll();
+
+        assertThat(allEntries).isEmpty();
     }
 
 }

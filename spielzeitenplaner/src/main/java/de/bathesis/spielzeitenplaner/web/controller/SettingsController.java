@@ -74,6 +74,7 @@ public class SettingsController {
         // Kriterien aufteilen in zu löschende und zu speichernde Kriterien
         List<Criterion> toDelete = criteriaForm.getCriteria().stream()
                                         .filter(FormCriterion::isToDelete)
+                                        .filter(c -> c.getId() != null)
                                         .map(CriterionMapper::toDomainCriterion)
                                         .toList();
         List<Criterion> toSave = criteriaForm.getCriteria().stream()

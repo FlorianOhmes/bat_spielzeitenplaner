@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.database.repoimpl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,13 @@ public class CriterionRepositoryImpl implements CriterionRepository {
 
 
     @Override
+    public Optional<Criterion> findById(Integer id) {
+        Optional<de.bathesis.spielzeitenplaner.database.entities.Criterion> loaded = springRepository.findById(id);
+        return loaded.map(CriterionMapper::toDomainCriterion);
+    }
+
+
+    @Override
     public Criterion save(Criterion criterion) {
         de.bathesis.spielzeitenplaner.database.entities.Criterion databaseCriterion = 
             CriterionMapper.toDatabaseCriterion(criterion);
@@ -38,23 +46,27 @@ public class CriterionRepositoryImpl implements CriterionRepository {
 
 
     @Override
-    public Optional<Criterion> findById(Integer id) {
-        Optional<de.bathesis.spielzeitenplaner.database.entities.Criterion> loaded = springRepository.findById(id);
-        return loaded.map(CriterionMapper::toDomainCriterion);
-    }
+    public List<Criterion> saveAll(List<Criterion> criteria) {
+        List<Criterion> savedCriteria = new ArrayList<>();
+        for (Criterion criterion : criteria) {
+            de.bathesis.spielzeitenplaner.database.entities.Criterion databaseCriterion = 
+                CriterionMapper.toDatabaseCriterion(criterion);
 
+            de.bathesis.spielzeitenplaner.database.entities.Criterion saved = 
+                springRepository.save(databaseCriterion);
 
-    @Override
-    public void saveAll(List<Criterion> criteria) {
-        // TODO: Implementierung folgt 
+            savedCriteria.add(CriterionMapper.toDomainCriterion(saved));
+        }
+        return savedCriteria;
     }
 
 
     @Override
     public void deleteAll(List<Criterion> criteria) {
-        // TODO: Implementierung folgt 
+        List<de.bathesis.spielzeitenplaner.database.entities.Criterion> databaseCriteria = 
+            criteria.stream().map(CriterionMapper::toDatabaseCriterion).toList();
+
+        springRepository.deleteAll(databaseCriteria);
     }
-
-
 
 }
