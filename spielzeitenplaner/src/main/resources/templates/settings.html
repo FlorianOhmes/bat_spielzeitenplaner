@@ -19,6 +19,8 @@
     <div class="container mt-4">
         <!-- Erfolgsmeldung -->
         <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+        <!-- Mögliche Warnungen -->
+        <div class="alert alert-danger" th:if="${warnings}" th:text="${warnings}"></div>
 
         <!-- H1-Überschrift -->
         <h1>Einstellungen</h1>
