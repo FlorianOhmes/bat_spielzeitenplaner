@@ -50,4 +50,11 @@ public class StartPageTest {
         assertThat(footer).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("Auf der Startseite wird ein Paragraph mit einer kurzen Erklärung angezeigt.")
+    void test_04() {
+        String leadText = RequestHelper.extractTextFrom(startPage, "p.lead");
+        assertThat(leadText).isNotBlank();
+    }
+
 }
