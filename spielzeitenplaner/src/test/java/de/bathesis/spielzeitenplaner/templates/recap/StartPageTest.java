@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates.recap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,9 +9,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.RecapController;
+import java.util.List;
 
 
 @WebMvcTest(RecapController.class)
@@ -21,9 +26,15 @@ public class StartPageTest {
 
     Document startPage;
 
+    @MockBean
+    PlayerService playerService;
+
+    Player player = new Player(1777, "Hans", "Sarpei", "RV", 2);
+
 
     @BeforeEach
     void getStartPage() throws Exception {
+        when(playerService.loadPlayers()).thenReturn(List.of(player));
         startPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/recap");
     }
 
@@ -60,10 +71,16 @@ public class StartPageTest {
     @Test
     @DisplayName("Das Attendance-Formular wird korrekt angezeigt.")
     void test_05() {
-        Elements form = RequestHelper.extractFrom(startPage, "form#attendanceForm");
-        Elements button = RequestHelper.extractFrom(form, "button");
+        String expectedLabelText = player.getFirstName() + " " + player.getLastName();
+
+        Elements form = RequestHelper.extractFrom(startPage, "form#attendanceForm[action=\"/recap/assess\"]");
+        List<String> inputs = RequestHelper.extractFrom(form, "input[type=\"checkbox\"]").eachAttr("value");
+        List<String> labels = RequestHelper.extractFrom(form, "label").eachText();
+        Elements button = RequestHelper.extractFrom(form, "button[type=\"submit\"]");
 
         assertThat(form).isNotEmpty();
+        assertThat(inputs).contains(player.getId().toString());
+        assertThat(labels).contains(expectedLabelText);
         assertThat(button).isNotEmpty();
     }
 
