@@ -57,4 +57,14 @@ public class StartPageTest {
         assertThat(leadText).isNotBlank();
     }
 
+    @Test
+    @DisplayName("Das Attendance-Formular wird korrekt angezeigt.")
+    void test_05() {
+        Elements form = RequestHelper.extractFrom(startPage, "form#attendanceForm");
+        Elements button = RequestHelper.extractFrom(form, "button");
+
+        assertThat(form).isNotEmpty();
+        assertThat(button).isNotEmpty();
+    }
+
 }
