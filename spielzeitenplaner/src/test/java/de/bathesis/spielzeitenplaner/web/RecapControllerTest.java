@@ -9,6 +9,7 @@ import de.bathesis.spielzeitenplaner.web.controller.RecapController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
 @WebMvcTest(RecapController.class)
@@ -18,9 +19,19 @@ class RecapControllerTest {
     MockMvc mvc;
 
     @Test
-    @DisplayName("Die Seite Recap ist erreichbar.")
+    @DisplayName("Die Startseite des Recap-Bereichs ist erreichbar.")
     void test_01() throws Exception {
-        RequestHelper.performGet(mvc, "/recap").andExpect(status().isOk());
+        RequestHelper.performGet(mvc, "/recap")
+                     .andExpect(status().isOk())
+                     .andExpect(view().name("/recap/start"));
+    }
+
+    @Test
+    @DisplayName("Die Recap-Seite ist erreichbar.")
+    void test_02() throws Exception {
+        RequestHelper.performGet(mvc, "/recap/assess")
+                     .andExpect(status().isOk())
+                     .andExpect(view().name("/recap/recap"));
     }
 
 }

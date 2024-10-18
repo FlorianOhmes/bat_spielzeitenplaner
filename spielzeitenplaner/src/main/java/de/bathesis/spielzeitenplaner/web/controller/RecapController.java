@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RecapController {
 
     @GetMapping
+    public String start() {
+        return "/recap/start";
+    }
+
+    @GetMapping("/assess")
     public String recap() {
         return "/recap/recap";
     }

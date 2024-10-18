@@ -26,7 +26,7 @@ class RecapPageTest {
 
     @BeforeEach
     void getRecapPage() throws Exception {
-        recapPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/recap");
+        recapPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/recap/assess");
     }
 
 
