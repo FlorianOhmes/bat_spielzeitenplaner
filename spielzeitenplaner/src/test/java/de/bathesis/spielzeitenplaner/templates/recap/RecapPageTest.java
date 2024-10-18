@@ -6,11 +6,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import de.bathesis.spielzeitenplaner.domain.Criterion;
+import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
+import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.RecapController;
 import java.util.List;
@@ -28,10 +34,21 @@ class RecapPageTest {
     @MockBean
     PlayerService playerService;
 
+    @MockBean
+    SettingsService settingsService;
+
+    List<Player> players = new ArrayList<>(List.of(
+        new Player(1787, "Sandro", "Wagner", "ST", 19), 
+        new Player(1199, "Julian", "Nagelsmann", "TW", 1)
+    ));
+    List<Criterion> criteria = new ArrayList<>(List.of(new Criterion(989, "Training", "T", 0.4)));
+
 
     @BeforeEach
     void getRecapPage() throws Exception {
-        recapPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/recap/assess");
+        when(playerService.loadPlayers()).thenReturn(players);
+        when(settingsService.loadCriteria()).thenReturn(criteria);
+        recapPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/recap/assess?players=1787");
     }
 
 
@@ -110,7 +127,7 @@ class RecapPageTest {
     @Test
     @DisplayName("Auf der Seite Recap wird die Ansicht Nach Kriterien sortiert korrekt angezeigt.")
     void test_07() {
-        String expectedCardTitle = "Kriterium auswählen";
+        String expectedCardTitle = "Bewertungen (nach Kriterien sortiert)";
 
         String cardTitle = RequestHelper.extractTextFrom(recapPage, "#criteriaView h2.card-title");
         Elements criteriaForm = RequestHelper.extractFrom(recapPage, "#criteriaView .card-body #criteriaForm");
@@ -122,18 +139,23 @@ class RecapPageTest {
     @Test
     @DisplayName("Das Formular zur Spielerbewertung der Kriterien-Ansicht wird korrekt angezeigt.")
     void test_08() {
-        List<String> expectedNavButtonLabels = new ArrayList<String>(List.of(
-            "← Vorheriges", "Nächstes →"
+        List<String> expectedValues = new ArrayList<>(List.of(
+            criteria.get(0).getId().toString(), players.get(0).getId().toString(), Double.toString(3.0), 
+            criteria.get(0).getId().toString(), players.get(1).getId().toString(), Double.toString(0.0)
         ));
-        String expectedFormButtonText = "Bewertungen speichern";
+        List<String> expectedLabels = new ArrayList<>(players.stream().map(Player::getFirstName).toList());
+        String expectedButtonLabel = "Bewertungen speichern";
 
-        Elements playerContainer = RequestHelper.extractFrom(recapPage, "#criteriaView .card-body form#criteriaForm #criteriaContainer");
-        String navButtonLabels = RequestHelper.extractTextFrom(recapPage, "#criteriaView .card-body form#criteriaForm .navigation-buttons button");
-        String formButtonText = RequestHelper.extractTextFrom(recapPage, "#criteriaView .card-body form#criteriaForm .form-button button");
+        Elements form = RequestHelper.extractFrom(recapPage, "form#criteriaForm");
+        Elements inputs = RequestHelper.extractFrom(form, "input");
+        List<String> values = inputs.eachAttr("value");
+        List<String> labels = RequestHelper.extractFrom(form, "label").eachText();
+        String formButtonText = RequestHelper.extractTextFrom(form, "button");
 
-        assertThat(playerContainer).isNotEmpty();
-        assertThat(navButtonLabels).contains(expectedNavButtonLabels);
-        assertThat(formButtonText).isEqualTo(expectedFormButtonText);
+        assertThat(inputs).hasSize(6);
+        assertThat(values).containsAll(expectedValues);
+        assertThat(labels).containsAll(expectedLabels);
+        assertThat(formButtonText).isEqualTo(expectedButtonLabel);
     }
 
 }

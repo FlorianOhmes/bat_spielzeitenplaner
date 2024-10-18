@@ -89,28 +89,27 @@
         <div class="card" id="criteriaView">
             <div class="card-body">
                 <h2 class="card-title">
-                    Kriterium auswählen
+                    Bewertungen (nach Kriterien sortiert)
                 </h2>
-                <form id="criteriaForm">
-                    <div id="criteriaContainer">
-                        <!-- Kriterien und Spielerlisten sollen hier dynamisch eingefügt werden -->
-                        <div class="form-group">
-                            <label for="criterionName">Kriterium:</label>
-                            <input type="text" class="form-control" id="criterionName" value="Leistung" disabled>
-                        </div>
-                        <div id="criteriaPlayerList" class="criteria-list">
+                <form id="criteriaForm" th:object="${recapForm}">
+                    <div th:each="k : ${#numbers.sequence(0, numberOfCriteria - 1)}">
+                        <h3 th:text="*{assessments[__${k * numberOfPlayers}__].criterionName}" style="margin-top: 50px;"></h3>
+                        <div th:each="i : ${#numbers.sequence(k * numberOfPlayers, (k+1) * numberOfPlayers - 1)}">
+                            <input type="text" style="display: none;"
+                                   th:field="*{assessments[__${i}__].criterionId}">
+                            <input type="text" style="display: none;"
+                                   th:field="*{assessments[__${i}__].playerId}">
+
                             <div class="form-group">
-                                <label class="form-check-label" for="valueOfPlayer">Max Mustermann</label>
-                                <input type="number" class="form-control" id="valueOfPlayer" name="valueOfPlayer" min="1" max="10" placeholder="Score (1-10)">
+                                <label th:for="'assessments' + ${i} + '.value'" 
+                                       th:text="*{assessments[__${i}__].playerName}"></label>
+                                <input type="number" step="0.1" class="form-control" 
+                                       th:field="*{assessments[__${i}__].value}">
                             </div>
                         </div>
                     </div>
-                    <div class="navigation-buttons">
-                        <button type="button" class="btn btn-secondary" id="prevCriterion">← Vorheriges</button>
-                        <button type="button" class="btn btn-secondary" id="nextCriterion">Nächstes →</button>
-                    </div>
                     <div class="form-button">
-                        <button type="submit" class="btn btn-primary">Bewertungen speichern</button>
+                        <button type="button" class="btn btn-primary">Bewertungen speichern</button>
                     </div>
                 </form>
             </div>
