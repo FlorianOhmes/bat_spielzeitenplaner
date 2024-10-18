@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SpielzeitenPlaner: Recap</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/basics.css}" rel="stylesheet">
+    <link th:href="@{/css/recap.css}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Hintergrund-Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Navigation -->
+    <div th:replace="~{fragments/basics :: navbar}"></div>
+
+    <!-- Hauptbereich: Recap-Startseite -->
+    <div class="container mt-4">
+        <!-- H1-Überschrift -->
+        <h1>Recap</h1>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/basics :: footer}"></div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <div th:replace="~{fragments/basics :: bootstrap-dependencies}"></div>
+</body>
+
+</html>
