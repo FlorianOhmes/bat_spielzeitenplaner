@@ -145,4 +145,32 @@ class SettingsPageTest {
         assertThat(values).containsAll(expectedValues);
     }
 
+    @Test
+    @DisplayName("Auf der Settings-Seite wird die Scores-Card korrekt angezeigt.")
+    void test_09() {
+        String expectedTitle = "Scores";
+
+        Elements scoresCard = RequestHelper.extractFrom(settingsPage, ".card#scoresCard");
+        String cardTitle = RequestHelper.extractTextFrom(scoresCard, ".card-body h2.card-title");
+        Elements form = RequestHelper.extractFrom(scoresCard, "form");
+
+        assertThat(cardTitle).isEqualTo(expectedTitle);
+        assertThat(form).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Das Scores-Formular der Scores-Card wird korrekt angezeigt.")
+    void test_10() {
+        String expectedLabel = "Speichern";
+
+        Elements scoresForm = RequestHelper.extractFrom(settingsPage, "form#scoreSettingsForm");
+        Elements labels = RequestHelper.extractFrom(scoresForm, "label");
+        Elements inputs = RequestHelper.extractFrom(scoresForm, "input");
+        String buttonLabel = RequestHelper.extractTextFrom(scoresForm, "button");
+
+        assertThat(labels).hasSize(5);
+        assertThat(inputs).hasSize(5);
+        assertThat(buttonLabel).isEqualTo(expectedLabel);
+    }
+
 }
