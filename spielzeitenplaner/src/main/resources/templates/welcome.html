@@ -22,6 +22,9 @@
     <!-- Jumbotron -->
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
+            <!-- Erfolgsmeldung -->
+            <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
             <!-- H1-Überschrift -->
             <h1 class="display-4">Willkommen beim SpielzeitenPlaner!</h1>
             <p class="lead">

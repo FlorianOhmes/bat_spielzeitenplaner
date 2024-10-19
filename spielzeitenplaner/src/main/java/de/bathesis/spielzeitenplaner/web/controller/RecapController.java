@@ -5,10 +5,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import de.bathesis.spielzeitenplaner.domain.Assessment;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
@@ -18,6 +21,7 @@ import de.bathesis.spielzeitenplaner.services.RecapService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.web.forms.FormAssessment;
 import de.bathesis.spielzeitenplaner.web.forms.RecapForm;
+import jakarta.validation.Valid;
 
 
 @Controller
@@ -57,9 +61,18 @@ public class RecapController {
     }
 
     @PostMapping("/assess/submitAssessment")
-    public String submitAssessment(RecapForm recapForm) {
+    public String submitAssessment(@Valid RecapForm recapForm, BindingResult bindingResult, 
+                                    Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            List<Player> allPlayers = playerService.loadPlayers();
+            List<Criterion> criteria = settingsService.loadCriteria();
+            model.addAttribute("numberOfPlayers", allPlayers.size());
+            model.addAttribute("numberOfCriteria", criteria.size());
+            return "/recap/recap";
+        }
         List<Assessment> assessments = AssessmentMapper.toDomainAssessments(recapForm);
         recapService.submitAssessments(assessments);
+        redirectAttributes.addFlashAttribute("successMessage", "Bewertungen erfolgreich gespeichert!");
         return "redirect:/";
     }
 

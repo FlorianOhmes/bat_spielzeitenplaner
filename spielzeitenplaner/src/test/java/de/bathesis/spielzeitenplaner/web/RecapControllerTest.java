@@ -5,7 +5,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
 import de.bathesis.spielzeitenplaner.domain.Assessment;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
@@ -15,14 +14,16 @@ import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.RecapController;
 import org.junit.jupiter.api.Test;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.junit.jupiter.api.DisplayName;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,44 @@ class RecapControllerTest {
         mvc.perform(postSuccessful());
         verify(recapService).submitAssessments(assessments);
     }
+
+    @Test
+    @DisplayName("Das Recap-Formular wird im Controller validiert.")
+    void test_05() throws Exception {
+        when(playerService.loadPlayers()).thenReturn(players);
+        when(settingsService.loadCriteria()).thenReturn(criteria);
+
+        String html = mvc.perform(post("/recap/assess/submitAssessment")
+                            .param("assessments[0].playerId", assessments.get(0).getPlayerId().toString())
+                            .param("assessments[0].criterionId", assessments.get(0).getCriterionId().toString())
+                            .param("assessments[1].playerId", assessments.get(1).getPlayerId().toString())
+                            .param("assessments[1].criterionId", assessments.get(1).getCriterionId().toString())
+                        )
+                        .andExpect(status().isOk())
+                        .andExpect(model().attributeErrorCount("recapForm", 3))
+                        .andReturn().getResponse().getContentAsString();
+
+        String html2 = mvc.perform(post("/recap/assess/submitAssessment")
+                            .param("date", "5034-12-31")
+                            .param("assessments[0].playerId", assessments.get(0).getPlayerId().toString())
+                            .param("assessments[0].criterionId", assessments.get(0).getCriterionId().toString())
+                            .param("assessments[0].value", "-0.2")
+                            .param("assessments[1].playerId", assessments.get(1).getPlayerId().toString())
+                            .param("assessments[1].criterionId", assessments.get(1).getCriterionId().toString())
+                            .param("assessments[1].value", "14.2")
+                        )
+                        .andExpect(status().isOk())
+                        .andExpect(model().attributeErrorCount("recapForm", 3))
+                        .andReturn().getResponse().getContentAsString();
+
+        Elements errors = Jsoup.parse(html).select(".error");
+        Elements errors2 = Jsoup.parse(html2).select(".error");
+        assertThat(errors).hasSize(3);
+        assertThat(errors2).hasSize(3);
+    }
+
+
+
 
 
     private MockHttpServletRequestBuilder postSuccessful() {

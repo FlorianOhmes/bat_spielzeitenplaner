@@ -1,5 +1,9 @@
 package de.bathesis.spielzeitenplaner.web.forms;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+
 
 public class FormAssessment {
 
@@ -7,6 +11,10 @@ public class FormAssessment {
     private String criterionName;
     private Integer playerId;
     private String playerName;
+
+    @NotNull(message = "Bewertung darf nicht leer sein.")
+    @DecimalMin(value = "0.0", message = "Bewertung muss zwischen 0.0 und 5.0 liegen.")
+    @DecimalMax(value = "5.0", message = "Bewertung muss zwischen 0.0 und 5.0 liegen.")
     private Double value;
 
 

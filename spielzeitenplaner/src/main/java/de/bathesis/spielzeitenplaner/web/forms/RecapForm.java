@@ -2,14 +2,20 @@ package de.bathesis.spielzeitenplaner.web.forms;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 
 public class RecapForm {
 
+    @NotNull(message = "Datum darf nicht leer sein.")
+    @PastOrPresent(message = "Datum muss in der Vergangenheit oder Gegenwart liegen.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
+    @Valid
     private List<FormAssessment> assessments;
 
 
