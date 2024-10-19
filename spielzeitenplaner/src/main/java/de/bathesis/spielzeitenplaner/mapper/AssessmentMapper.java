@@ -17,4 +17,18 @@ public class AssessmentMapper {
         return assessments;
     }
 
+    public static Assessment toDomainAssessment(de.bathesis.spielzeitenplaner.database.entities.Assessment databaseAssessment) {
+        return new Assessment(
+            databaseAssessment.id(), databaseAssessment.date(), 
+            databaseAssessment.criterionId(), databaseAssessment.playerId(), databaseAssessment.value()
+        );
+    }
+
+    public static de.bathesis.spielzeitenplaner.database.entities.Assessment toDatabaseAssessment(Assessment domainAssessment) {
+        return new de.bathesis.spielzeitenplaner.database.entities.Assessment(
+            domainAssessment.getId(), domainAssessment.getDate(), 
+            domainAssessment.getCriterionId(), domainAssessment.getPlayerId(), domainAssessment.getValue()
+        );
+    }
+
 }
