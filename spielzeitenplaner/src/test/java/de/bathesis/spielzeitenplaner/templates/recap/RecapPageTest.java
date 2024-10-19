@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
+import de.bathesis.spielzeitenplaner.services.RecapService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.RecapController;
@@ -33,9 +34,10 @@ class RecapPageTest {
 
     @MockBean
     PlayerService playerService;
-
     @MockBean
     SettingsService settingsService;
+    @MockBean
+    RecapService recapService;
 
     List<Player> players = new ArrayList<>(List.of(
         new Player(1787, "Sandro", "Wagner", "ST", 19), 

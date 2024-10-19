@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import de.bathesis.spielzeitenplaner.domain.Assessment;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.mapper.AssessmentMapper;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
+import de.bathesis.spielzeitenplaner.services.RecapService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.web.forms.FormAssessment;
 import de.bathesis.spielzeitenplaner.web.forms.RecapForm;
@@ -23,10 +26,12 @@ public class RecapController {
 
     private final PlayerService playerService;
     private final SettingsService settingsService;
+    private final RecapService recapService;
 
-    public RecapController(PlayerService playerService, SettingsService settingsService) {
+    public RecapController(PlayerService playerService, SettingsService settingsService, RecapService recapService) {
         this.playerService = playerService;
         this.settingsService = settingsService;
+        this.recapService = recapService;
     }
 
 
@@ -52,7 +57,9 @@ public class RecapController {
     }
 
     @PostMapping("/assess/submitAssessment")
-    public String submitAssessment() {
+    public String submitAssessment(RecapForm recapForm) {
+        List<Assessment> assessments = AssessmentMapper.toDomainAssessments(recapForm);
+        recapService.submitAssessments(assessments);
         return "redirect:/";
     }
 
