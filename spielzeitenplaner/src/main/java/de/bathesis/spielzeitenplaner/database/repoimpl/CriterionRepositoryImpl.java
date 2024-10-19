@@ -69,4 +69,10 @@ public class CriterionRepositoryImpl implements CriterionRepository {
         springRepository.deleteAll(databaseCriteria);
     }
 
+    @Override
+    public Criterion findByName(String name) {
+        // TODO: Implementierung folgt !!! 
+        return new Criterion(null, null, null, null);
+    }
+
 }

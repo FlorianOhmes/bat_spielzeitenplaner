@@ -10,8 +10,11 @@ public interface CriterionRepository {
 
     Collection<Criterion> findAll();
     Optional<Criterion> findById(Integer id);
+    Criterion findByName(String name);
+
     Criterion save(Criterion criterion);
     List<Criterion> saveAll(List<Criterion> criteria);
+
     void deleteAll(List<Criterion> criteria);
 
 }
