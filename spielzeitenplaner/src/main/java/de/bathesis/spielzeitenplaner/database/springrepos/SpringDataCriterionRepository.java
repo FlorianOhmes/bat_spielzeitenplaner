@@ -9,8 +9,11 @@ import de.bathesis.spielzeitenplaner.database.entities.Criterion;
 public interface SpringDataCriterionRepository extends CrudRepository<Criterion, Integer> {
 
     Collection<Criterion> findAll();
-    Criterion save(Criterion criterion);
     Optional<Criterion> findById(Integer id);
+    Criterion findByName(String name);
+
+    Criterion save(Criterion criterion);
+
     void deleteAll(Iterable<? extends Criterion> criteria);
 
 }

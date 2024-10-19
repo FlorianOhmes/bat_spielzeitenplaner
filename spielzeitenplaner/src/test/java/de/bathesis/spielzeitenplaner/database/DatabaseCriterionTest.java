@@ -95,4 +95,18 @@ public class DatabaseCriterionTest {
         assertThat(allEntries).isEmpty();
     }
 
+    @Test
+    @DisplayName("Ein Kriterium kann nach seinem Namen gefunden werden.")
+    void test_04() {
+        Criterion criterion = new Criterion(null, "Trainingsbeteiligung", "T", 0.4);
+        Criterion saved = criterionRepository.save(criterion);
+
+        Criterion loaded = criterionRepository.findById(saved.getId()).get();
+        assertThat(loaded).isEqualTo(saved);
+
+        Criterion foundByName = criterionRepository.findByName(criterion.getName());
+
+        assertThat(foundByName).isEqualTo(saved);
+    }
+
 }

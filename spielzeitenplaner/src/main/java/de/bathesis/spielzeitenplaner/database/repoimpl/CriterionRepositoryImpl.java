@@ -71,8 +71,8 @@ public class CriterionRepositoryImpl implements CriterionRepository {
 
     @Override
     public Criterion findByName(String name) {
-        // TODO: Implementierung folgt !!! 
-        return new Criterion(null, null, null, null);
+        de.bathesis.spielzeitenplaner.database.entities.Criterion foundByName = springRepository.findByName(name);
+        return CriterionMapper.toDomainCriterion(foundByName);
     }
 
 }
