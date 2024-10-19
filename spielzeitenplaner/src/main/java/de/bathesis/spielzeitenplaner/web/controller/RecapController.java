@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
@@ -47,6 +48,11 @@ public class RecapController {
         model.addAttribute("numberOfCriteria", criteria.size());
 
         return "/recap/recap";
+    }
+
+    @PostMapping("/assess/submitAssessment")
+    public String submitAssessment() {
+        return "redirect:/";
     }
 
 

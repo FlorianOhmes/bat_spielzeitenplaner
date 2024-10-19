@@ -146,11 +146,13 @@ class RecapPageTest {
         List<String> expectedLabels = new ArrayList<>(players.stream().map(Player::getFirstName).toList());
         String expectedButtonLabel = "Bewertungen speichern";
 
-        Elements form = RequestHelper.extractFrom(recapPage, "form#criteriaForm");
+        Elements form = RequestHelper.extractFrom(recapPage, 
+            "form#criteriaForm[method=\"post\"][action=\"/recap/assess/submitAssessment\"]"
+        );
         Elements inputs = RequestHelper.extractFrom(form, "input");
         List<String> values = inputs.eachAttr("value");
         List<String> labels = RequestHelper.extractFrom(form, "label").eachText();
-        String formButtonText = RequestHelper.extractTextFrom(form, "button");
+        String formButtonText = RequestHelper.extractTextFrom(form, "button[type=\"submit\"]");
 
         assertThat(inputs).hasSize(6);
         assertThat(values).containsAll(expectedValues);

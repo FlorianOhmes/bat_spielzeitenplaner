@@ -15,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -61,6 +62,14 @@ class RecapControllerTest {
 
         verify(playerService).loadPlayers();
         verify(settingsService).loadCriteria();
+    }
+
+    @Test
+    @DisplayName("Es werden Post-Requests über /recap/assess akzeptiert.")
+    void test_03() throws Exception {
+        mvc.perform(post("/recap/assess/submitAssessment"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
     }
 
 }

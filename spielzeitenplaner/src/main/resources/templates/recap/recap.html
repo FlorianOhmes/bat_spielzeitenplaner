@@ -91,7 +91,7 @@
                 <h2 class="card-title">
                     Bewertungen (nach Kriterien sortiert)
                 </h2>
-                <form id="criteriaForm" th:object="${recapForm}">
+                <form method="post" th:action="@{/recap/assess/submitAssessment}" id="criteriaForm" th:object="${recapForm}">
                     <div th:each="k : ${#numbers.sequence(0, numberOfCriteria - 1)}">
                         <h3 th:text="*{assessments[__${k * numberOfPlayers}__].criterionName}" style="margin-top: 50px;"></h3>
                         <div th:each="i : ${#numbers.sequence(k * numberOfPlayers, (k+1) * numberOfPlayers - 1)}">
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <div class="form-button">
-                        <button type="button" class="btn btn-primary">Bewertungen speichern</button>
+                        <button type="submit" class="btn btn-primary">Bewertungen speichern</button>
                     </div>
                 </form>
             </div>
