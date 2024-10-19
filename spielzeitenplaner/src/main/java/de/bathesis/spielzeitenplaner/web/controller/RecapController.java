@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.web.controller;
 
 import java.util.List;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +42,7 @@ public class RecapController {
         List<Player> allPlayers = playerService.loadPlayers();
         List<Criterion> criteria = settingsService.loadCriteria();
 
-        RecapForm recapForm = generateRecapForm(attendanceIds, allPlayers, criteria, model);
+        RecapForm recapForm = generateRecapForm(attendanceIds, allPlayers, criteria);
 
         model.addAttribute("recapForm", recapForm);
         model.addAttribute("numberOfPlayers", allPlayers.size());
@@ -60,14 +61,14 @@ public class RecapController {
 
 
     private RecapForm generateRecapForm(List<Integer> attendanceIds, List<Player> allPlayers, 
-                                        List<Criterion> criteria, Model model) {
+                                        List<Criterion> criteria) {
         List<Player> playersPresent = allPlayers.stream()
                                             .filter(p -> attendanceIds.contains(p.getId()))
                                             .toList();
         List<Player> playersAbsent = allPlayers.stream()
                                             .filter(p -> !attendanceIds.contains(p.getId()))
                                             .toList();
-        RecapForm recapForm = new RecapForm(new ArrayList<FormAssessment>(List.of()));
+        RecapForm recapForm = new RecapForm(LocalDate.now(), new ArrayList<FormAssessment>(List.of()));
 
         for (Criterion criterion: criteria) {
             for (Player player: playersPresent) {

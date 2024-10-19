@@ -92,6 +92,10 @@
                     Bewertungen (nach Kriterien sortiert)
                 </h2>
                 <form method="post" th:action="@{/recap/assess/submitAssessment}" id="criteriaForm" th:object="${recapForm}">
+                    <div class="form-group">
+                        <label for="date">Datum:</label>
+                        <input type="date" th:field="*{date}" class="form-control">
+                    </div>
                     <div th:each="k : ${#numbers.sequence(0, numberOfCriteria - 1)}">
                         <h3 th:text="*{assessments[__${k * numberOfPlayers}__].criterionName}" style="margin-top: 50px;"></h3>
                         <div th:each="i : ${#numbers.sequence(k * numberOfPlayers, (k+1) * numberOfPlayers - 1)}">

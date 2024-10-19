@@ -154,7 +154,7 @@ class RecapPageTest {
         List<String> labels = RequestHelper.extractFrom(form, "label").eachText();
         String formButtonText = RequestHelper.extractTextFrom(form, "button[type=\"submit\"]");
 
-        assertThat(inputs).hasSize(6);
+        assertThat(inputs).hasSize(7);
         assertThat(values).containsAll(expectedValues);
         assertThat(labels).containsAll(expectedLabels);
         assertThat(formButtonText).isEqualTo(expectedButtonLabel);
