@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.domain.Setting;
 import de.bathesis.spielzeitenplaner.services.repos.CriterionRepository;
 import de.bathesis.spielzeitenplaner.services.repos.FormationRepository;
+import de.bathesis.spielzeitenplaner.services.repos.SettingRepository;
 
 
 @Service
@@ -17,10 +19,13 @@ public class SettingsService {
 
     private final FormationRepository formationRepository;
     private final CriterionRepository criterionRepository;
+    private final SettingRepository settingRepository;
 
-    public SettingsService(FormationRepository formationRepository, CriterionRepository criterionRepository) {
+    public SettingsService(FormationRepository formationRepository, CriterionRepository criterionRepository, 
+                           SettingRepository settingRepository) {
         this.formationRepository = formationRepository;
         this.criterionRepository = criterionRepository;
+        this.settingRepository = settingRepository;
     }
 
     public Formation loadFormation() {
@@ -58,14 +63,10 @@ public class SettingsService {
     }
 
     public List<Setting> loadScoreSettings() {
-        // TODO: Implementierung folgt !!! 
-        return new ArrayList<>(List.of(
-            new Setting(17, "weeksGeneral", 6.0), 
-            new Setting(18, "weeksShortTerm", 3.0), 
-            new Setting(19, "weightShortTerm", 0.5), 
-            new Setting(20, "weeksLongTerm", 12.0), 
-            new Setting(21, "weightLongTerm", 0.5)
-        ));
+        List<Setting> scoreSettings = IntStream.range(1195, 1200)
+                                               .mapToObj(i -> settingRepository.findById(i).get())
+                                               .toList();
+        return scoreSettings;
     }
 
 }
