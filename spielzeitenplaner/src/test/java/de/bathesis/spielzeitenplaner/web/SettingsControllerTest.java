@@ -82,12 +82,12 @@ class SettingsControllerTest {
         FormationForm formationForm = FormationMapper.toFormationForm(template);
         CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
         addEmptyCriterionTo(criteriaForm);
-        ScoreSettingsForm settingsForm = SettingsMapper.toScoreSettingsForm(settings);
+        ScoreSettingsForm scoreSettingsForm = SettingsMapper.toScoreSettingsForm(settings);
 
         RequestHelper.performGet(mvc, "/settings")
                      .andExpect(model().attribute("formationForm", formationForm))
                      .andExpect(model().attribute("criteriaForm", criteriaForm))
-                     .andExpect(model().attribute("settingsForm", settingsForm));
+                     .andExpect(model().attribute("scoreSettingsForm", scoreSettingsForm));
     }
 
     @Test
@@ -193,6 +193,31 @@ class SettingsControllerTest {
     void test_11() throws Exception {
         mvc.perform(postSuccessfulScoreSettings());
         verify(settingsService).saveScoreSettings(settings);
+    }
+
+    @Test
+    @DisplayName("Die Score-Settings werden im Controller validiert.")
+    void test_12() throws Exception {
+        String html = mvc.perform(post("/settings/saveSettings"))
+                            .andExpect(status().isOk())
+                            .andExpect(model().attributeErrorCount("scoreSettingsForm", 5))
+                            .andReturn().getResponse().getContentAsString();
+
+        String html2 = mvc.perform(post("/settings/saveSettings")
+                                    .param("weeksGeneral", "999")
+                                    .param("weeksShortTerm", "0")
+                                    .param("weightShortTerm", "3")
+                                    .param("weeksLongTerm", "999")
+                                    .param("weightLongTerm", "-4")
+                                )
+                            .andExpect(status().isOk())
+                            .andExpect(model().attributeErrorCount("scoreSettingsForm", 5))
+                            .andReturn().getResponse().getContentAsString();
+
+        Elements errors = Jsoup.parse(html).select(".error");
+        Elements errors2 = Jsoup.parse(html2).select(".error");
+        assertThat(errors).hasSize(5);
+        assertThat(errors2).hasSize(5);
     }
 
 

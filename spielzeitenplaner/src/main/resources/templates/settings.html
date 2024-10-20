@@ -31,13 +31,14 @@
                 <h2 class="card-title">
                     Scores
                 </h2>
-                <form method="post" th:action="@{/settings/saveSettings}" id="scoreSettingsForm" th:object="${settingsForm}">
+                <form method="post" th:action="@{/settings/saveSettings}" id="scoreSettingsForm" th:object="${scoreSettingsForm}">
                     <div class="row form-group">
                         <div class="col-12 col-md-4 d-flex align-items-center">
                             <strong><label for="weeksGeneral">Berechnung anhand der letzten:</label></strong>
                         </div>
                         <div class="col-6 col-md-2 d-flex align-items-center">
                             <input type="number" class="form-control" th:field="*{weeksGeneral}">
+                            <div class="error text-danger" th:if="${#fields.hasErrors('weeksGeneral')}" th:errors="*{weeksGeneral}"></div>
                         </div>
                         <div class="col-6 col-md-1 d-flex align-items-center">
                             Wochen
@@ -49,6 +50,7 @@
                         </div>
                         <div class="col-6 col-md-2 d-flex align-items-center">
                             <input type="number" class="form-control" th:field="*{weeksShortTerm}">
+                            <div class="error text-danger" th:if="${#fields.hasErrors('weeksShortTerm')}" th:errors="*{weeksShortTerm}"></div>
                         </div>
                         <div class="col-6 col-md-1 d-flex align-items-center">
                             Wochen
@@ -60,6 +62,7 @@
                         </div>
                         <div class="col-6 col-sm-2 d-flex align-items-center">
                             <input type="number" class="form-control" th:field="*{weightShortTerm}">
+                            <div class="error text-danger" th:if="${#fields.hasErrors('weightShortTerm')}" th:errors="*{weightShortTerm}"></div>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -68,6 +71,7 @@
                         </div>
                         <div class="col-6 col-md-2 d-flex align-items-center">
                             <input type="number" class="form-control" th:field="*{weeksLongTerm}">
+                            <div class="error text-danger" th:if="${#fields.hasErrors('weeksLongTerm')}" th:errors="*{weeksLongTerm}"></div>
                         </div>
                         <div class="col-6 col-md-1 d-flex align-items-center">
                             Wochen
@@ -79,6 +83,7 @@
                         </div>
                         <div class="col-6 col-sm-2 d-flex align-items-center">
                             <input type="number" class="form-control" th:field="*{weightLongTerm}">
+                            <div class="error text-danger" th:if="${#fields.hasErrors('weightLongTerm')}" th:errors="*{weightLongTerm}"></div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Speichern</button>

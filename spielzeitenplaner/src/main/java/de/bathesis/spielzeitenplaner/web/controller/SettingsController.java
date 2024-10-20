@@ -102,8 +102,14 @@ public class SettingsController {
     }
 
     @PostMapping("/saveSettings")
-    public String saveSettings(ScoreSettingsForm settingsForm) {
-        List<Setting> settings = SettingsMapper.toDomainSettings(settingsForm);
+    public String saveSettings(@Valid ScoreSettingsForm scoreSettingsForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("templatePositions", templatePositions);
+            loadAndAddFormation(model);
+            loadAndAddCriteria(model);
+            return "settings";
+        }
+        List<Setting> settings = SettingsMapper.toDomainSettings(scoreSettingsForm);
         settingsService.saveScoreSettings(settings);
         return "redirect:/settings";
     }
@@ -129,8 +135,8 @@ public class SettingsController {
 
     private void loadAndAddSettings(Model model) {
         List<Setting> settings = settingsService.loadScoreSettings();
-        ScoreSettingsForm settingsForm = SettingsMapper.toScoreSettingsForm(settings);
-        model.addAttribute("settingsForm", settingsForm);
+        ScoreSettingsForm scoreSettingsForm = SettingsMapper.toScoreSettingsForm(settings);
+        model.addAttribute("scoreSettingsForm", scoreSettingsForm);
     }
 
 }

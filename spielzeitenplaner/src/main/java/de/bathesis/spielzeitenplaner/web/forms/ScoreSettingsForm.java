@@ -1,13 +1,38 @@
 package de.bathesis.spielzeitenplaner.web.forms;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public class ScoreSettingsForm {
 
+    @NotNull(message = "Darf nicht leer sein")
+    @Min(value = 1, message = "Muss zwischen 1 und 36 Wochen liegen.")
+    @Max(value = 36, message = "Muss zwischen 1 und 36 Wochen liegen.")
     private Integer weeksGeneral;
+
+    @NotNull(message = "Darf nicht leer sein")
+    @Min(value = 1, message = "Muss zwischen 1 und 12 Wochen liegen.")
+    @Max(value = 12, message = "Muss zwischen 1 und 12 Wochen liegen.")
     private Integer weeksShortTerm;
+
+    @NotNull(message = "Darf nicht leer sein")
+    @DecimalMin(value = "0.0", message = "Muss zwischen 0 und 1 sein.")
+    @DecimalMax(value = "1.0", message = "Muss zwischen 0 und 1 sein.")
     private Double weightShortTerm;
+
+    @NotNull(message = "Darf nicht leer sein")
+    @Min(value = 1, message = "Muss zwischen 1 und 36 Wochen liegen.")
+    @Max(value = 36, message = "Muss zwischen 1 und 36 Wochen liegen.")
     private Integer weeksLongTerm;
+
+    @NotNull(message = "Darf nicht leer sein")
+    @DecimalMin(value = "0.0", message = "Muss zwischen 0 und 1 sein.")
+    @DecimalMax(value = "1.0", message = "Muss zwischen 0 und 1 sein.")
     private Double weightLongTerm;
+
 
     public Integer getWeeksGeneral() {
         return weeksGeneral;
