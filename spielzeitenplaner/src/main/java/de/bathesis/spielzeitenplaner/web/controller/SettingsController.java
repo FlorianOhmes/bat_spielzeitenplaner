@@ -101,6 +101,14 @@ public class SettingsController {
         return "redirect:/settings";
     }
 
+    @PostMapping("/saveSettings")
+    public String saveSettings() {
+        return "redirect:/settings";
+    }
+
+
+
+
 
     private List<Criterion> loadAndAddCriteria(Model model) {
         List<Criterion> criteria = new ArrayList<>(settingsService.loadCriteria());

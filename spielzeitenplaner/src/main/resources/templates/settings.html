@@ -31,7 +31,7 @@
                 <h2 class="card-title">
                     Scores
                 </h2>
-                <form id="scoreSettingsForm" th:object="${settingsForm}">
+                <form method="post" th:action="@{/settings/saveSettings}" id="scoreSettingsForm" th:object="${settingsForm}">
                     <div class="row form-group">
                         <div class="col-12 col-md-4 d-flex align-items-center">
                             <strong><label for="weeksGeneral">Berechnung anhand der letzten:</label></strong>
@@ -81,7 +81,7 @@
                             <input type="number" class="form-control" th:field="*{weightLongTerm}">
                         </div>
                     </div>
-                    <button class="btn btn-primary">Speichern</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
                 </form>
             </div>
         </div>

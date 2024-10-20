@@ -172,10 +172,12 @@ class SettingsPageTest {
     void test_10() {
         String expectedLabel = "Speichern";
 
-        Elements scoresForm = RequestHelper.extractFrom(settingsPage, "form#scoreSettingsForm");
+        Elements scoresForm = RequestHelper.extractFrom(settingsPage, 
+            "form#scoreSettingsForm[method=\"post\"][action=\"/settings/saveSettings\"]"
+        );
         Elements labels = RequestHelper.extractFrom(scoresForm, "label");
         Elements inputs = RequestHelper.extractFrom(scoresForm, "input");
-        String buttonLabel = RequestHelper.extractTextFrom(scoresForm, "button");
+        String buttonLabel = RequestHelper.extractTextFrom(scoresForm, "button[type=\"submit\"]");
 
         assertThat(labels).hasSize(5);
         assertThat(inputs).hasSize(5);

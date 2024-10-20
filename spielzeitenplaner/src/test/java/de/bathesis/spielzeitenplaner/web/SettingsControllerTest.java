@@ -180,6 +180,14 @@ class SettingsControllerTest {
         verify(settingsService).deleteCriteria(toDelete);
     }
 
+    @Test
+    @DisplayName("Es werden Post-Requests über /settings/saveSettings akzeptiert.")
+    void test_10() throws Exception {
+        mvc.perform(post("/settings/saveSettings"))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/settings"));
+    }
+
 
 
 
