@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS setting (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    value DOUBLE PRECISION
+);

@@ -17,4 +17,16 @@ public class SettingsMapper {
         return scoreSettingsForm;
     }
 
+    public static de.bathesis.spielzeitenplaner.database.entities.Setting toDatabaseSetting(Setting domainSetting) {
+        return new de.bathesis.spielzeitenplaner.database.entities.Setting(
+            domainSetting.getId(), domainSetting.getName(), domainSetting.getValue()
+        );
+    }
+
+    public static Setting toDomainSetting(de.bathesis.spielzeitenplaner.database.entities.Setting databaseSetting) {
+        return new Setting(
+            databaseSetting.id(), databaseSetting.name(), databaseSetting.value()
+        );
+    }
+
 }
