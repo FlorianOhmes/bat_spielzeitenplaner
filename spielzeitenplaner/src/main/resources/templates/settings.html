@@ -31,13 +31,13 @@
                 <h2 class="card-title">
                     Scores
                 </h2>
-                <form id="scoreSettingsForm">
+                <form id="scoreSettingsForm" th:object="${settingsForm}">
                     <div class="row form-group">
                         <div class="col-12 col-md-4 d-flex align-items-center">
-                            <strong><label for="">Berechnung anhand der letzten:</label></strong>
+                            <strong><label for="weeksGeneral">Berechnung anhand der letzten:</label></strong>
                         </div>
                         <div class="col-6 col-md-2 d-flex align-items-center">
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" th:field="*{weeksGeneral}">
                         </div>
                         <div class="col-6 col-md-1 d-flex align-items-center">
                             Wochen
@@ -45,40 +45,40 @@
                     </div>
                     <div class="row form-group">
                         <div class="col-12 col-md-4 d-flex align-items-center">
-                            <strong><label for="">Trainingsbeteiligung (Kurzfrist):</label></strong>
+                            <strong><label for="weeksShortTerm">Trainingsbeteiligung (Kurzfrist):</label></strong>
                         </div>
                         <div class="col-6 col-md-2 d-flex align-items-center">
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" th:field="*{weeksShortTerm}">
                         </div>
                         <div class="col-6 col-md-1 d-flex align-items-center">
                             Wochen
                         </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-6 col-sm-4 d-flex align-items-center">
-                            <label for="">Gewicht:</label>
+                        <div class="col-12 col-sm-4 d-flex align-items-center">
+                            <label for="weightShortTerm">Gewicht:</label>
                         </div>
                         <div class="col-6 col-sm-2 d-flex align-items-center">
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" th:field="*{weightShortTerm}">
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-12 col-md-4 d-flex align-items-center">
-                            <strong><label for="">Trainingsbeteiligung (Langfrist):</label></strong>
+                            <strong><label for="weeksLongTerm">Trainingsbeteiligung (Langfrist):</label></strong>
                         </div>
                         <div class="col-6 col-md-2 d-flex align-items-center">
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" th:field="*{weeksLongTerm}">
                         </div>
                         <div class="col-6 col-md-1 d-flex align-items-center">
                             Wochen
                         </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-6 col-sm-4 d-flex align-items-center">
-                            <label for="">Gewicht:</label>
+                        <div class="col-12 col-sm-4 d-flex align-items-center">
+                            <label for="weightLongTerm">Gewicht:</label>
                         </div>
                         <div class="col-6 col-sm-2 d-flex align-items-center">
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" th:field="*{weightLongTerm}">
                         </div>
                     </div>
                     <button class="btn btn-primary">Speichern</button>

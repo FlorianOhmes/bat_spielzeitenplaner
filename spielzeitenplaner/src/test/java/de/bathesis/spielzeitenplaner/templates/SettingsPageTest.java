@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.templates;
 
 import de.bathesis.spielzeitenplaner.domain.Criterion;
+import de.bathesis.spielzeitenplaner.domain.Setting;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
@@ -33,6 +34,13 @@ class SettingsPageTest {
     Document settingsPage;
 
     Criterion criterion = new Criterion(188, "Training", "T", 0.4);
+    List<Setting> settings = new ArrayList<>(List.of(
+            new Setting(17, "weeksGeneral", 6.0), 
+            new Setting(18, "weeksShortTerm", 3.0), 
+            new Setting(19, "weightShortTerm", 0.5), 
+            new Setting(20, "weeksLongTerm", 12.0), 
+            new Setting(21, "weightLongTerm", 0.5)
+        ));
 
 
 
@@ -41,6 +49,7 @@ class SettingsPageTest {
         // Generierung der benötigten Test-Objekte
         when(settingsService.loadFormation()).thenReturn(TestObjectGenerator.generateFormation());
         when(settingsService.loadCriteria()).thenReturn(Collections.singletonList(criterion));
+        when(settingsService.loadScoreSettings()).thenReturn(settings);
 
         // Ausführen des Requests und Bereitstellen der SettingsPage
         settingsPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/settings");
@@ -171,6 +180,22 @@ class SettingsPageTest {
         assertThat(labels).hasSize(5);
         assertThat(inputs).hasSize(5);
         assertThat(buttonLabel).isEqualTo(expectedLabel);
+    }
+
+    @Test
+    @DisplayName("Die Score-Einstellungen werden korrekt angezeigt.")
+    void test_11() {
+        List<String> expectedValues = new ArrayList<>(List.of(
+            Integer.toString(settings.get(0).getValue().intValue()), 
+            Integer.toString(settings.get(1).getValue().intValue()),
+            settings.get(2).getValue().toString(), 
+            Integer.toString(settings.get(3).getValue().intValue()), 
+            settings.get(4).getValue().toString()
+        ));
+        List<String> values = RequestHelper.extractFrom(settingsPage, "form#scoreSettingsForm input")
+                                           .eachAttr("value");
+
+        assertThat(values).containsAll(expectedValues);
     }
 
 }

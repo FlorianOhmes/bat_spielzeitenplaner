@@ -7,8 +7,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.domain.Position;
+import de.bathesis.spielzeitenplaner.domain.Setting;
 import de.bathesis.spielzeitenplaner.mapper.CriteriaMapper;
 import de.bathesis.spielzeitenplaner.mapper.FormationMapper;
+import de.bathesis.spielzeitenplaner.mapper.SettingsMapper;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
@@ -16,9 +18,11 @@ import de.bathesis.spielzeitenplaner.web.controller.SettingsController;
 import de.bathesis.spielzeitenplaner.web.forms.CriteriaForm;
 import de.bathesis.spielzeitenplaner.web.forms.FormCriterion;
 import de.bathesis.spielzeitenplaner.web.forms.FormationForm;
+import de.bathesis.spielzeitenplaner.web.forms.ScoreSettingsForm;
 import org.junit.jupiter.api.Test;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -44,16 +48,29 @@ class SettingsControllerTest {
     SettingsService settingsService;
 
     Formation template = TestObjectGenerator.generateFormation();
-
     List<Criterion> criteria = new ArrayList<>(List.of(
             TestObjectGenerator.generateCriteria().get(0), TestObjectGenerator.generateCriteria().get(1)
     ));
+    List<Setting> settings = new ArrayList<>(List.of(
+            new Setting(17, "weeksGeneral", 6.0), 
+            new Setting(18, "weeksShortTerm", 3.0), 
+            new Setting(19, "weightShortTerm", 0.5), 
+            new Setting(20, "weeksLongTerm", 12.0), 
+            new Setting(21, "weightLongTerm", 0.5)
+    ));
+
+
+    @BeforeEach
+    void setUp() {
+        when(settingsService.loadFormation()).thenReturn(template);
+        when(settingsService.loadCriteria()).thenReturn(criteria);
+        when(settingsService.loadScoreSettings()).thenReturn(settings);
+    }
 
 
     @Test
     @DisplayName("Die Seite Einstellungen ist erreichbar.")
     void test_01() throws Exception {
-        when(settingsService.loadFormation()).thenReturn(template);
         RequestHelper.performGet(mvc, "/settings")
                      .andExpect(status().isOk())
                      .andExpect(view().name("settings"));
@@ -62,18 +79,15 @@ class SettingsControllerTest {
     @Test
     @DisplayName("Das Model für die Settings-Seite ist korrekt befüllt.")
     void test_02() throws Exception {
-        Formation formation = TestObjectGenerator.generateFormation();
-        FormationForm formationForm = FormationMapper.toFormationForm(formation);
-        when(settingsService.loadFormation()).thenReturn(formation);
-
-        List<Criterion> criteria = TestObjectGenerator.generateCriteria();
+        FormationForm formationForm = FormationMapper.toFormationForm(template);
         CriteriaForm criteriaForm = CriteriaMapper.toCriteriaForm(criteria);
         addEmptyCriterionTo(criteriaForm);
-        when(settingsService.loadCriteria()).thenReturn(criteria);
+        ScoreSettingsForm settingsForm = SettingsMapper.toScoreSettingsForm(settings);
 
         RequestHelper.performGet(mvc, "/settings")
                      .andExpect(model().attribute("formationForm", formationForm))
-                     .andExpect(model().attribute("criteriaForm", criteriaForm));
+                     .andExpect(model().attribute("criteriaForm", criteriaForm))
+                     .andExpect(model().attribute("settingsForm", settingsForm));
     }
 
     @Test

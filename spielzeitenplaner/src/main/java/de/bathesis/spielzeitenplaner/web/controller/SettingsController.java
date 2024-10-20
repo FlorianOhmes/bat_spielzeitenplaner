@@ -7,16 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
+import de.bathesis.spielzeitenplaner.domain.Setting;
 import de.bathesis.spielzeitenplaner.mapper.CriteriaMapper;
 import de.bathesis.spielzeitenplaner.mapper.CriterionMapper;
 import de.bathesis.spielzeitenplaner.mapper.FormationMapper;
+import de.bathesis.spielzeitenplaner.mapper.SettingsMapper;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.web.forms.CriteriaForm;
 import de.bathesis.spielzeitenplaner.web.forms.FormCriterion;
 import de.bathesis.spielzeitenplaner.web.forms.FormationForm;
+import de.bathesis.spielzeitenplaner.web.forms.ScoreSettingsForm;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class SettingsController {
         model.addAttribute("templatePositions", templatePositions);
         loadAndAddFormation(model);
         List<Criterion> criteria = loadAndAddCriteria(model);
+        loadAndAddSettings(model);
 
         // Mögliche Warnungen ins Model schreiben 
         Double sumOfWeights = criteria.stream().filter(c -> c.getWeight() != null).mapToDouble(Criterion::getWeight).sum();
@@ -60,6 +63,7 @@ public class SettingsController {
             // Befüllung des Models mit den nötigen Attributen 
             model.addAttribute("templatePositions", templatePositions);
             loadAndAddCriteria(model);
+            loadAndAddSettings(model);
             return "settings";
         }
         Formation formation = FormationMapper.toDomainFormation(formationForm);
@@ -75,6 +79,7 @@ public class SettingsController {
             // Befüllung des Models mit den nötigen Attributen 
             model.addAttribute("templatePositions", templatePositions);
             loadAndAddFormation(model);
+            loadAndAddSettings(model);
             return "settings";
         }
 
@@ -110,6 +115,12 @@ public class SettingsController {
         Formation formation = settingsService.loadFormation();
         FormationForm formationForm = FormationMapper.toFormationForm(formation);
         model.addAttribute("formationForm", formationForm);
+    }
+
+    private void loadAndAddSettings(Model model) {
+        List<Setting> settings = settingsService.loadScoreSettings();
+        ScoreSettingsForm settingsForm = SettingsMapper.toScoreSettingsForm(settings);
+        model.addAttribute("settingsForm", settingsForm);
     }
 
 }

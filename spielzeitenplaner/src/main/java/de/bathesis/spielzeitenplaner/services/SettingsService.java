@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
+import de.bathesis.spielzeitenplaner.domain.Setting;
 import de.bathesis.spielzeitenplaner.services.repos.CriterionRepository;
 import de.bathesis.spielzeitenplaner.services.repos.FormationRepository;
 
@@ -54,6 +55,17 @@ public class SettingsService {
 
     public void deleteCriteria(List<Criterion> criteria) {
         criterionRepository.deleteAll(criteria);
+    }
+
+    public List<Setting> loadScoreSettings() {
+        // TODO: Implementierung folgt !!! 
+        return new ArrayList<>(List.of(
+            new Setting(17, "weeksGeneral", 6.0), 
+            new Setting(18, "weeksShortTerm", 3.0), 
+            new Setting(19, "weightShortTerm", 0.5), 
+            new Setting(20, "weeksLongTerm", 12.0), 
+            new Setting(21, "weightLongTerm", 0.5)
+        ));
     }
 
 }
