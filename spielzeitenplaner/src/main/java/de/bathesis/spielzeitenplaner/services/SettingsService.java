@@ -70,7 +70,7 @@ public class SettingsService {
     }
 
     public void saveScoreSettings(List<Setting> settings) {
-        // TODO: Implementierung folgt 
+        settings.stream().forEach(settingRepository::save);
     }
 
 }
