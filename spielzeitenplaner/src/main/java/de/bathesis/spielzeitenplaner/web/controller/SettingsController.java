@@ -102,7 +102,9 @@ public class SettingsController {
     }
 
     @PostMapping("/saveSettings")
-    public String saveSettings() {
+    public String saveSettings(ScoreSettingsForm settingsForm) {
+        List<Setting> settings = SettingsMapper.toDomainSettings(settingsForm);
+        settingsService.saveScoreSettings(settings);
         return "redirect:/settings";
     }
 

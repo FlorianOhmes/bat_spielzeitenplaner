@@ -52,11 +52,11 @@ class SettingsControllerTest {
             TestObjectGenerator.generateCriteria().get(0), TestObjectGenerator.generateCriteria().get(1)
     ));
     List<Setting> settings = new ArrayList<>(List.of(
-            new Setting(17, "weeksGeneral", 6.0), 
-            new Setting(18, "weeksShortTerm", 3.0), 
-            new Setting(19, "weightShortTerm", 0.5), 
-            new Setting(20, "weeksLongTerm", 12.0), 
-            new Setting(21, "weightLongTerm", 0.5)
+            new Setting(1195, "weeksGeneral", 6.0), 
+            new Setting(1196, "weeksShortTerm", 3.0), 
+            new Setting(1197, "weightShortTerm", 0.5), 
+            new Setting(1198, "weeksLongTerm", 12.0), 
+            new Setting(1199, "weightLongTerm", 0.5)
     ));
 
 
@@ -183,9 +183,16 @@ class SettingsControllerTest {
     @Test
     @DisplayName("Es werden Post-Requests über /settings/saveSettings akzeptiert.")
     void test_10() throws Exception {
-        mvc.perform(post("/settings/saveSettings"))
+        mvc.perform(postSuccessfulScoreSettings())
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/settings"));
+    }
+
+    @Test
+    @DisplayName("Bei Post-Requests über /settings/saveSettings wird die saveScoreSettings-Methode des SettingsServices aufgerufen.")
+    void test_11() throws Exception {
+        mvc.perform(postSuccessfulScoreSettings());
+        verify(settingsService).saveScoreSettings(settings);
     }
 
 
@@ -210,6 +217,15 @@ class SettingsControllerTest {
                 .param("positions", template.getPositions().stream()
                                             .map(Position::getName)
                                             .collect(Collectors.joining(",")));
+    }
+
+    private MockHttpServletRequestBuilder postSuccessfulScoreSettings() {
+        return post("/settings/saveSettings")
+                        .param("weeksGeneral", "6")
+                        .param("weeksShortTerm", "3")
+                        .param("weightShortTerm", "0.5")
+                        .param("weeksLongTerm", "12")
+                        .param("weightLongTerm", "0.5");
     }
 
     private void addEmptyCriterionTo(CriteriaForm criteriaForm) {

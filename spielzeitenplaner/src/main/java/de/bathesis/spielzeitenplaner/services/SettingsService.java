@@ -69,4 +69,8 @@ public class SettingsService {
         return scoreSettings;
     }
 
+    public void saveScoreSettings(List<Setting> settings) {
+        // TODO: Implementierung folgt 
+    }
+
 }
