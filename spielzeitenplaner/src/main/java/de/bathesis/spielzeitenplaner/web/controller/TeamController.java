@@ -2,7 +2,6 @@ package de.bathesis.spielzeitenplaner.web.controller;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
@@ -43,6 +41,12 @@ public class TeamController {
 
         List<Player> players = playerService.loadPlayers();
         model.addAttribute("players", players);
+
+        List<Double> totalScores = players.stream()
+                        .map(player -> playerService.calculateScores(player.getId()))
+                        .map(playerService::calculateTotalScore)
+                        .toList();
+        model.addAttribute("totalScores", totalScores);
 
         return "team/team";
     }

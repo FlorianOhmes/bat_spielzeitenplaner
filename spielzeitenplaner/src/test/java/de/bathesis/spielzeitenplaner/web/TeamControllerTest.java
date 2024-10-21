@@ -21,6 +21,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -68,9 +69,15 @@ class TeamControllerTest {
         List<Player> players = TestObjectGenerator.generatePlayers();
         when(playerService.loadPlayers()).thenReturn(players);
 
+        List<Double> totalScores = List.of(9.4, 7.4, 8.8 ,8.9, 8.2);
+        when(playerService.calculateTotalScore(any())).thenReturn(9.4).thenReturn(7.4)
+                                                      .thenReturn(8.8).thenReturn(8.9)
+                                                      .thenReturn(8.2);
+
         RequestHelper.performGet(mvc, "/team")
                      .andExpect(model().attribute("teamForm", teamForm))
-                     .andExpect(model().attribute("players", players));
+                     .andExpect(model().attribute("players", players))
+                     .andExpect(model().attribute("totalScores", totalScores));
     }
 
     @Test

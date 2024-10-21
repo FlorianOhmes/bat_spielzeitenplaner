@@ -11,6 +11,7 @@ import de.bathesis.spielzeitenplaner.web.controller.TeamController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -47,6 +48,9 @@ class TeamPageTest {
         // Generierung der benötigten Test-Objekte
         when(teamService.load()).thenReturn(new Team(77, "Spring Boot FC"));
         when(playerService.loadPlayers()).thenReturn(players);
+        when(playerService.calculateTotalScore(any())).thenReturn(9.4).thenReturn(7.4)
+                                                      .thenReturn(8.8).thenReturn(8.9)
+                                                      .thenReturn(8.2);
 
         // Ausführen des Requests und Bereitstellen der Team-Seite
         teamPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/team");
@@ -151,7 +155,8 @@ class TeamPageTest {
     void test_09() {
         List<String> expected = new ArrayList<>(List.of(
             players.get(0).getFirstName(), players.get(0).getLastName(), 
-            players.get(0).getPosition(), String.valueOf(players.get(0).getJerseyNumber())
+            players.get(0).getPosition(), String.valueOf(players.get(0).getJerseyNumber()), 
+            Double.toString(9.4)
         ));
 
         Element tableEntry = RequestHelper.extractFrom(teamPage, "table#playerTable tbody tr").first();
