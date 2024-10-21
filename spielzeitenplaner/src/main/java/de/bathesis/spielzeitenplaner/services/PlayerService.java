@@ -70,10 +70,10 @@ public class PlayerService {
         }
 
         if (criterion.get().getName().equals("Trainingsbeteiligung")) {
-            return calculateScoreTraining(criterionId, playerId);
+            return roundScore(calculateScoreTraining(criterionId, playerId));
         }
 
-        return calculateScoreOther(criterionId, playerId);
+        return roundScore(calculateScoreOther(criterionId, playerId));
     }
 
     private Double calculateScoreTraining(Integer criterionId, Integer playerId) {
@@ -126,17 +126,19 @@ public class PlayerService {
 
         String training = "Trainingsbeteiligung";
         if (!scores.containsKey(training)) {
+            totalScore *= 10.0;
             return roundScore(totalScore);
         }
 
         totalScore += 
             scores.get("Trainingsbeteiligung") * criterionRepository.findByName("Trainingsbeteiligung").getWeight();
 
+        totalScore *= 10.0;
         return roundScore(totalScore);
     }
 
     private Double roundScore(Double score) {
-        return Double.valueOf(Math.round(score * 100)) / 10.0;
+        return Double.valueOf(Math.round(score * 100)) / 100.0;
     }
 
 }
