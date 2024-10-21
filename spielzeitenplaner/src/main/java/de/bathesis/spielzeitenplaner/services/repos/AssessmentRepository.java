@@ -10,6 +10,6 @@ public interface AssessmentRepository {
 
     Assessment save(Assessment assessment);
     Optional<Assessment> findById(Integer id);
-    Collection<Assessment> findByPlayerIdLikeAndCriterionIdLikeAndDateBefore(Integer playerId, Integer criterionId, LocalDate date);
+    Collection<Assessment> findByPlayerIdAndCriterionIdAndDateAfter(Integer playerId, Integer criterionId, LocalDate date);
 
 }

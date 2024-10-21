@@ -100,7 +100,7 @@ class PlayerServiceTest {
         Double expectedScore = assessments.stream().mapToDouble(Assessment::getValue).average().orElseThrow();
 
         when(settingRepository.findById(weeksGeneral.getId())).thenReturn(Optional.of(weeksGeneral));
-        when(assessmentRepository.findByPlayerIdLikeAndCriterionIdLikeAndDateBefore(
+        when(assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
             playerId, criterionId, LocalDate.now().minusWeeks(weeksGeneral.getValue().intValue()).minusDays(1))
         ).thenReturn(assessments);
 

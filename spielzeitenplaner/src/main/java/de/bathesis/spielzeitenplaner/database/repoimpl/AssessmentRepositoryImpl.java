@@ -2,9 +2,7 @@ package de.bathesis.spielzeitenplaner.database.repoimpl;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
-
 import org.springframework.stereotype.Repository;
 import de.bathesis.spielzeitenplaner.database.springrepos.SpringDataAssessmentRepository;
 import de.bathesis.spielzeitenplaner.domain.Assessment;
@@ -36,10 +34,13 @@ public class AssessmentRepositoryImpl implements AssessmentRepository {
     }
 
     @Override
-    public Collection<Assessment> findByPlayerIdLikeAndCriterionIdLikeAndDateBefore(
+    public Collection<Assessment> findByPlayerIdAndCriterionIdAndDateAfter(
         Integer playerId, Integer criterionId, LocalDate date) {
-        // TODO: Implementierung folgt !!! 
-        return Collections.emptyList();
+
+        Collection<de.bathesis.spielzeitenplaner.database.entities.Assessment> loaded = 
+            springRepository.findByPlayerIdAndCriterionIdAndDateAfter(playerId, criterionId, date);
+
+        return loaded.stream().map(AssessmentMapper::toDomainAssessment).toList();
     }
 
 }

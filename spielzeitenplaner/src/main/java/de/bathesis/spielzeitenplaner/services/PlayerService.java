@@ -63,7 +63,7 @@ public class PlayerService {
         LocalDate date = LocalDate.now().minusWeeks(weeksToSubtract).minusDays(1);
 
         Collection<Assessment> assessments = 
-            assessmentRepository.findByPlayerIdLikeAndCriterionIdLikeAndDateBefore(playerId, criterionId, date);
+            assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(playerId, criterionId, date);
         Double score = assessments.stream().mapToDouble(Assessment::getValue).average().orElse(0.0);
 
         return score;
