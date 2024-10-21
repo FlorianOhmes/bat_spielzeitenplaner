@@ -23,67 +23,6 @@
     <div class="container mt-4">
         <!-- H1-Überschrift -->
         <h1>Recap</h1>
-
-        <!-- Auswahl der Ansicht -->
-        <div class="card" id="selectView">
-            <div class="card-body">
-                <h2 class="card-title">
-                    Ansicht wählen
-                </h2>
-                <form id="viewForm">
-                    <div class="form-group">
-                        <label for="viewSelection">
-                            Wähle die für dich passende Ansicht
-                        </label>
-                        <select class="form-control" name="viewSelection" id="viewSelection">
-                            <option value="players">Nach Spielern sortiert</option>
-                            <option value="criteria">Nach Kriterien sortiert</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Ansicht: Nach Spielern sortiert -->
-        <div class="card" id="playersView">
-            <div class="card-body">
-                <h2 class="card-title">
-                    Spielerbewertung
-                </h2>
-                <form id="playerRatingForm">
-                    <div id="playerContainer">
-                        <!-- Einzelne Spieler sollen hier dynamisch eingefügt werden -->
-                        <div class="form-group">
-                            <label for="playerName">Name:</label>
-                            <input type="text" class="form-control" id="playerName" value="Max Mustermann" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="performance">Leistung:</label>
-                            <input type="number" class="form-control" id="performance" name="performance" min="1" max="10" placeholder="Score (1-10)">
-                        </div>
-                        <div class="form-group">
-                            <label for="trainingParticipation">Trainingsbeteiligung:</label>
-                            <input type="number" class="form-control" id="trainingParticipation" name="trainingParticipation" min="1" max="10" placeholder="Score (1-10)">
-                        </div>
-                        <div class="form-group">
-                            <label for="socialBehavior">Sozialverhalten:</label>
-                            <input type="number" class="form-control" id="socialBehavior" name="socialBehavior" min="1" max="10" placeholder="Score (1-10)">
-                        </div>
-                        <div class="form-group">
-                            <label for="engagement">Engagement:</label>
-                            <input type="number" class="form-control" id="engagement" name="engagement" min="1" max="10" placeholder="Score (1-10)">
-                        </div>
-                    </div>
-                    <div class="navigation-buttons">
-                        <button type="button" class="btn btn-secondary" id="prevPlayer">← Vorheriger</button>
-                        <button type="button" class="btn btn-secondary" id="nextPlayer">Nächster →</button>
-                    </div>
-                    <div class="form-button">
-                        <button type="submit" class="btn btn-primary">Bewertungen speichern</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     
         <!-- Ansicht: Nach Kriterien sortiert -->
         <div class="card" id="criteriaView">
