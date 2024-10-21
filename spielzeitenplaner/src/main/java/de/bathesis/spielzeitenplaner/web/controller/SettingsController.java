@@ -102,7 +102,8 @@ public class SettingsController {
     }
 
     @PostMapping("/saveSettings")
-    public String saveSettings(@Valid ScoreSettingsForm scoreSettingsForm, BindingResult bindingResult, Model model) {
+    public String saveSettings(@Valid ScoreSettingsForm scoreSettingsForm, BindingResult bindingResult, 
+                                Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("templatePositions", templatePositions);
             loadAndAddFormation(model);
@@ -111,6 +112,7 @@ public class SettingsController {
         }
         List<Setting> settings = SettingsMapper.toDomainSettings(scoreSettingsForm);
         settingsService.saveScoreSettings(settings);
+        redirectAttributes.addFlashAttribute("successMessage", "Einstellungen erfolgreich gespeichert!");
         return "redirect:/settings";
     }
 
