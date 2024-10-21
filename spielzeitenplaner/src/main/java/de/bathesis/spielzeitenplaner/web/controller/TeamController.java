@@ -89,7 +89,7 @@ public class TeamController {
     private void loadAndAddScores(Integer id, Model model) {
         LinkedHashMap<String, Double> scores = playerService.calculateScores(id);
         model.addAttribute("scores", scores);
-        Double totalScore = playerService.calculateTotalScore(id);
+        Double totalScore = playerService.calculateTotalScore(scores);
         model.addAttribute("totalScore", totalScore);
     }
 

@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Assessment;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
@@ -114,9 +113,30 @@ public class PlayerService {
         return score;
     }
 
-    public Double calculateTotalScore(Integer id) {
-        // TODO: Implementierung folgt !!! 
-        return 8.4;
+    public Double calculateTotalScore(LinkedHashMap<String, Double> scores) {
+        Double totalScore = scores.entrySet().stream()
+                    .filter(entry -> !entry.getKey().equals("Trainingsbeteiligung"))
+                    .mapToDouble(entry -> criterionRepository.findAll().stream()
+                                                .filter(criterion -> criterion.getName().equals(entry.getKey()))
+                                                .findFirst()
+                                                .map(criterion -> entry.getValue() * criterion.getWeight() / 5)
+                                                .orElse(0.0)
+                    )
+                    .sum();
+
+        String training = "Trainingsbeteiligung";
+        if (!scores.containsKey(training)) {
+            return roundScore(totalScore);
+        }
+
+        totalScore += 
+            scores.get("Trainingsbeteiligung") * criterionRepository.findByName("Trainingsbeteiligung").getWeight();
+
+        return roundScore(totalScore);
+    }
+
+    private Double roundScore(Double score) {
+        return Double.valueOf(Math.round(score * 100)) / 10.0;
     }
 
 }

@@ -197,4 +197,21 @@ class PlayerServiceTest {
         assertThat(scores).isEqualTo(expectedResult);
     }
 
+    @Test
+    @DisplayName("Die calculateTotalScore-Methode funktioniert korrekt.")
+    void test_09() {
+        Criterion criterion = new Criterion(1, "Leistung", "L", 0.65);
+        Criterion criterion2 = new Criterion(2, "Engagement", "E", 0.35);
+        LinkedHashMap<String, Double> scores = new LinkedHashMap<>(Map.of(
+            criterion.getName(), 4.0,
+            criterion2.getName(), 2.0
+        ));
+        Double expectedScore = 6.6;
+        when(criterionRepository.findAll()).thenReturn(List.of(criterion, criterion2));
+
+        Double totalScore = playerService.calculateTotalScore(scores);
+
+        assertThat(totalScore).isEqualTo(expectedScore);
+    }
+
 }

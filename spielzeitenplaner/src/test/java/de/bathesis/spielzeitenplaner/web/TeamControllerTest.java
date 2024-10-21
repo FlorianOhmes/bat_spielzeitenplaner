@@ -98,7 +98,7 @@ class TeamControllerTest {
         ));
         Double totalScore = 8.4;
         when(playerService.calculateScores(player.getId())).thenReturn(scores);
-        when(playerService.calculateTotalScore(player.getId())).thenReturn(totalScore);
+        when(playerService.calculateTotalScore(scores)).thenReturn(totalScore);
 
         RequestHelper.performGet(mvc, "/team/player?id=" + player.getId())
                      .andExpect(model().attribute("playerForm", playerForm))
