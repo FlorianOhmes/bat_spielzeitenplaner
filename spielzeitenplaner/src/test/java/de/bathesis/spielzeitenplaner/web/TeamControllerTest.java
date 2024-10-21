@@ -5,7 +5,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Team;
 import de.bathesis.spielzeitenplaner.mapper.PlayerMapper;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.DisplayName;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,7 +27,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @WebMvcTest(TeamController.class)
@@ -89,8 +90,20 @@ class TeamControllerTest {
         when(playerService.loadPlayer(player.getId())).thenReturn(player);
         PlayerForm playerForm = PlayerMapper.toPlayerForm(player);
 
+        LinkedHashMap<String, Double> scores = new LinkedHashMap<>(Map.of(
+            "Trainingsbeteiligung", 7.6, 
+            "Leistung", 9.2, 
+            "Sozialverhalten", 9.6, 
+            "Engagement", 7.1
+        ));
+        Double totalScore = 8.4;
+        when(playerService.calculateScores(player.getId())).thenReturn(scores);
+        when(playerService.calculateTotalScore(player.getId())).thenReturn(totalScore);
+
         RequestHelper.performGet(mvc, "/team/player?id=" + player.getId())
-                     .andExpect(model().attribute("playerForm", playerForm));
+                     .andExpect(model().attribute("playerForm", playerForm))
+                     .andExpect(model().attribute("scores", scores))
+                     .andExpect(model().attribute("totalScore", totalScore));
     }
 
     @Test
@@ -182,6 +195,7 @@ class TeamControllerTest {
         assertThat(errors).hasSize(4);
         assertThat(errors2).hasSize(1);
     }
+
 
     private MockHttpServletRequestBuilder postSuccessful() {
         return post("/team/savePlayer")

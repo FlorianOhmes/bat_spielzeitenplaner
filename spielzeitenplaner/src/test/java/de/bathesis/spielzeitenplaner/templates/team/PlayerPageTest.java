@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +17,10 @@ import de.bathesis.spielzeitenplaner.services.TeamService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.TeamController;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 
 @WebMvcTest(TeamController.class)
@@ -36,12 +38,19 @@ class PlayerPageTest {
     Document playerPage;
 
     Player player = new Player(14, "Cristiano", "Ronaldo", "LF", 7);
+    LinkedHashMap<String, Double> scores = new LinkedHashMap<>(Map.of(
+            "Trainingsbeteiligung", 9.2, 
+            "Leistung", 9.5, 
+            "Sozialverhalten", 8.8, 
+            "Engagement", 8.4
+        ));
 
 
     @BeforeEach
     void getPlayerPage() throws Exception {
-        when(playerService.loadPlayer(any())).thenReturn(player);
-        playerPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/team/player");
+        when(playerService.loadPlayer(player.getId())).thenReturn(player);
+        when(playerService.calculateScores(player.getId())).thenReturn(scores);
+        playerPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/team/player?id=" + player.getId());
     }
 
 
@@ -122,6 +131,21 @@ class PlayerPageTest {
         List<String> values = playerPage.select("form#playerForm input").eachAttr("value");
 
         assertThat(values).containsExactlyInAnyOrderElementsOf(expectedValues);
+    }
+
+    @Test
+    @DisplayName("Die Scores eines Spielers werden korrekt angezeigt.")
+    void test_08() {
+        List<String> expectedElements = scores.entrySet().stream()
+                                            .map(e -> e.getKey() + ": " + e.getValue())
+                                            .collect(Collectors.toList());
+        expectedElements.add("Gesamt-Score: 0.0");
+
+        List<String> playerScores = RequestHelper
+            .extractFrom(playerPage, ".card.scores .card-body .player-scores .scores-container p")
+            .eachText();
+
+        assertThat(playerScores).containsExactlyInAnyOrderElementsOf(expectedElements);
     }
 
 }

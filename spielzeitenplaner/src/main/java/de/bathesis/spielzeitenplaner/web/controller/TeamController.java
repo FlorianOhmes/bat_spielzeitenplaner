@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.web.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -51,6 +52,7 @@ public class TeamController {
         Player player = playerService.loadPlayer(id);
         PlayerForm playerForm = PlayerMapper.toPlayerForm(player);
         model.addAttribute("playerForm", playerForm);
+        loadAndAddScores(id, model);
         return "team/player";
     }
 
@@ -71,12 +73,24 @@ public class TeamController {
     }
 
     @PostMapping("/savePlayer")
-    public String savePlayer(@Valid PlayerForm playerForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasFieldErrors()) {return "/team/player";}
+    public String savePlayer(@Valid PlayerForm playerForm, BindingResult bindingResult, 
+                              Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasFieldErrors()) {
+            loadAndAddScores(playerForm.getId(), model);
+            return "/team/player";
+        }
         Player player = PlayerMapper.toDomainPlayer(playerForm);
         Integer savedId = playerService.savePlayer(player);
         redirectAttributes.addFlashAttribute("successMessage", "Spieler erfolgreich gespeichert!");
         return "redirect:/team/player?id=" + savedId;
+    }
+
+
+    private void loadAndAddScores(Integer id, Model model) {
+        LinkedHashMap<String, Double> scores = playerService.calculateScores(id);
+        model.addAttribute("scores", scores);
+        Double totalScore = playerService.calculateTotalScore(id);
+        model.addAttribute("totalScore", totalScore);
     }
 
 }

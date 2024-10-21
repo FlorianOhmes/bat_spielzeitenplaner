@@ -74,25 +74,31 @@
                 </h2>
                 <div class="player-scores">
                     <div class="scores-container">
-                        <div class="row">
-                            <div class="col-12 col-sm-6">
-                                <p><strong>Leistung (L):</strong> 8</p>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <p><strong>Training (T):</strong> 7</p>
+                        <div th:each="entry, stat : ${scores.entrySet()}">
+                            <div class="row" th:if="${stat.index % 2 == 0}">
+                                <div class="col-12 col-sm-6">
+                                    <p>
+                                        <strong th:text="${entry.key} + ':'"></strong> 
+                                        <span th:text="${entry.value}"></span>
+                                    </p>
+                                </div>                    
+                                <div th:if="${stat.index + 1 < scores.size()}" class="col-12 col-sm-6">
+                                    <div th:each="nextEntry, nextStat : ${scores.entrySet()}" 
+                                         th:if="${nextStat.index == stat.index + 1}">
+                                            <p>
+                                                <strong th:text="${nextEntry.key} + ':'"></strong>
+                                                <span th:text="${nextEntry.value}"></span>
+                                            </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-sm-6">
-                                <p><strong>Sozialverhalten (S):</strong> 9</p>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <p><strong>Engagement (E):</strong> 6</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-sm-6">
-                                <p style="font-size: large;"><strong>Gesamt-Score (Ges.):</strong> 30</p>
+                                <p style="font-size: large;">
+                                    <strong>Gesamt-Score:</strong>
+                                    <span th:text="${totalScore}"></span>
+                                </p>
                             </div>
                         </div>
                     </div>

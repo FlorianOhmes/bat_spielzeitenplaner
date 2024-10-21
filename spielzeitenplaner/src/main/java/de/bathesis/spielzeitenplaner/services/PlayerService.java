@@ -2,6 +2,7 @@ package de.bathesis.spielzeitenplaner.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Player;
@@ -35,6 +36,21 @@ public class PlayerService {
     public Integer savePlayer(Player player) {
         Player saved = playerRepository.save(player);
         return saved.getId();
+    }
+
+    public LinkedHashMap<String, Double> calculateScores(Integer id) {
+        // TODO: Implementierung folgt !!! 
+        LinkedHashMap<String, Double> hashMap = new LinkedHashMap<>();
+        hashMap.put("Trainingsbeteiligung", 7.4);
+        hashMap.put("Leistung", 9.2);
+        hashMap.put("Sozialverhalten", 9.6);
+        hashMap.put("Engagement", 7.1);
+        return hashMap;
+    }
+
+    public Double calculateTotalScore(Integer id) {
+        // TODO: Implementierung folgt !!! 
+        return 8.4;
     }
 
 }
