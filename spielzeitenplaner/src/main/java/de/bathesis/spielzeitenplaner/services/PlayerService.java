@@ -54,14 +54,14 @@ public class PlayerService {
         return saved.getId();
     }
 
-    public LinkedHashMap<String, Double> calculateScores(Integer id) {
-        // TODO: Implementierung folgt !!! 
-        LinkedHashMap<String, Double> hashMap = new LinkedHashMap<>();
-        hashMap.put("Trainingsbeteiligung", 7.4);
-        hashMap.put("Leistung", 9.2);
-        hashMap.put("Sozialverhalten", 9.6);
-        hashMap.put("Engagement", 7.1);
-        return hashMap;
+    public LinkedHashMap<String, Double> calculateScores(Integer playerId) {
+        LinkedHashMap<String, Double> scores = new LinkedHashMap<>();
+        Collection<Criterion> criteria = criterionRepository.findAll();
+        for (Criterion criterion: criteria) {
+            Double score = calculateScore(criterion.getId(), playerId);
+            scores.put(criterion.getName(), score);
+        }
+        return scores;
     }
 
     public Double calculateScore(Integer criterionId, Integer playerId) {
