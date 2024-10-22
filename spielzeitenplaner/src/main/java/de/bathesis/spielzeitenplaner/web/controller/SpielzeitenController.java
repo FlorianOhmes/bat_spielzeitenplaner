@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
@@ -32,7 +33,7 @@ public class SpielzeitenController {
         return "/spielzeiten/start";
     }
 
-    @GetMapping("/kader")
+    @PostMapping("/kader")
     public String kader() {
         return "/spielzeiten/kader";
     }

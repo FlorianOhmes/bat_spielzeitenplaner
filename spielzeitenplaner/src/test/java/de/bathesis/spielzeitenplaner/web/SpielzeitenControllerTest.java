@@ -1,8 +1,10 @@
 package de.bathesis.spielzeitenplaner.web;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,26 +40,20 @@ class SpielzeitenControllerTest {
     }
 
     @Test
-    @DisplayName("Die Seite Kader der Spielzeitenplanung ist erreichbar.")
-    void test_02() throws Exception {
-        RequestHelper.performGet(mvc, "/spielzeiten/kader").andExpect(status().isOk());
-    }
-
-    @Test
     @DisplayName("Die Seite Startelf der Spielzeitenplanung ist erreichbar.")
-    void test_03() throws Exception {
+    void test_02() throws Exception {
         RequestHelper.performGet(mvc, "/spielzeiten/startingXI").andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("Die Seite Wechsel eintragen der Spielzeitenplanung ist erreichbar.")
-    void test_04() throws Exception {
+    void test_03() throws Exception {
         RequestHelper.performGet(mvc, "/spielzeiten/substitutions").andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("Das Model für die Startseite der Spielzeitenplanung ist korrekt befüllt.")
-    void test_05() throws Exception {
+    void test_04() throws Exception {
         List<Player> players = TestObjectGenerator.generatePlayers();
         when(playerService.loadPlayers()).thenReturn(players);
 
@@ -68,6 +64,14 @@ class SpielzeitenControllerTest {
                      .andExpect(model().attributeExists("scoresCriterion2"))
                      .andExpect(model().attribute("nameCriterion1" , ""))
                      .andExpect(model().attribute("nameCriterion2" , ""));
+    }
+
+    @Test
+    @DisplayName("Es werden Post-Requests über /spielzeiten/kader akzeptiert.")
+    void test_05() throws Exception {
+        mvc.perform(post("/spielzeiten/kader").param("availablePlayers", "1,2,3"))
+           .andExpect(status().isOk())
+           .andExpect(view().name("/spielzeiten/kader"));
     }
 
 }

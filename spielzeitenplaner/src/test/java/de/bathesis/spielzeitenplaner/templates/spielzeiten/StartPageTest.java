@@ -79,8 +79,10 @@ class StartPageTest {
     void test_05() {
         String expectedButtonLabel = "Weiter zum Kader";
 
-        Elements form = RequestHelper.extractFrom(startPage, "form#availablePlayers");
-        String buttonLabel = RequestHelper.extractTextFrom(form, ".form-button button");
+        Elements form = RequestHelper.extractFrom(startPage, 
+            "form#availablePlayers[method=\"post\"][action=\"/spielzeiten/kader\"]"
+        );
+        String buttonLabel = RequestHelper.extractTextFrom(form, ".form-button button[type=\"submit\"]");
 
         assertThat(form).isNotEmpty();
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);

@@ -1,11 +1,13 @@
 package de.bathesis.spielzeitenplaner.templates.spielzeiten;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -36,7 +38,9 @@ class KaderPageTest {
 
     @BeforeEach
     void getKaderPage() throws Exception {
-        kaderPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/spielzeiten/kader");
+        String postRequest = mvc.perform(post("/spielzeiten/kader").param("availablePlayers", "1,2,3"))
+                                .andReturn().getResponse().getContentAsString();
+        kaderPage = Jsoup.parse(postRequest);
     }
 
 
