@@ -33,7 +33,7 @@ public class SpielzeitenController {
         return "/spielzeiten/start";
     }
 
-    @PostMapping("/kader")
+    @GetMapping("/kader")
     public String kader() {
         return "/spielzeiten/kader";
     }
@@ -46,6 +46,11 @@ public class SpielzeitenController {
     @GetMapping("/substitutions")
     public String substitutions() {
         return "/spielzeiten/substitutions";
+    }
+
+    @PostMapping("/determineKader")
+    public String determineKader() {
+        return "redirect:/spielzeiten/kader";
     }
 
 

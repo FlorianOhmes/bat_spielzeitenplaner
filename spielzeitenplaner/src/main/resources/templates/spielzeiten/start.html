@@ -30,7 +30,7 @@
         </p>
 
         <!-- Bereich: Spieler auswählen -->
-        <form method="post" th:action="@{/spielzeiten/kader}" id="availablePlayers">
+        <form method="post" th:action="@{/spielzeiten/determineKader}" id="availablePlayers">
             <!-- Liste aller Spieler in der Mannschaft -->
             <div th:each="player, stat : ${players}" class="player-card">
                 <input checked class="form-check-input" type="checkbox" 

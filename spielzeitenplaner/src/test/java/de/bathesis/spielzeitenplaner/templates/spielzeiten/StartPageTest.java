@@ -80,7 +80,7 @@ class StartPageTest {
         String expectedButtonLabel = "Weiter zum Kader";
 
         Elements form = RequestHelper.extractFrom(startPage, 
-            "form#availablePlayers[method=\"post\"][action=\"/spielzeiten/kader\"]"
+            "form#availablePlayers[method=\"post\"][action=\"/spielzeiten/determineKader\"]"
         );
         String buttonLabel = RequestHelper.extractTextFrom(form, ".form-button button[type=\"submit\"]");
 

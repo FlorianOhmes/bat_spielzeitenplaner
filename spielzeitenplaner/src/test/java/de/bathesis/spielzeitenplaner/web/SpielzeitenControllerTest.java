@@ -36,24 +36,34 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Die Startseite zur Spielzeitenplanung ist erreichbar.")
     void test_01() throws Exception {
-        RequestHelper.performGet(mvc, "/spielzeiten").andExpect(status().isOk());
+        RequestHelper.performGet(mvc, "/spielzeiten").andExpect(status().isOk())
+                     .andExpect(view().name("/spielzeiten/start"));
+    }
+
+    @Test
+    @DisplayName("Die Seite Kader der Spielzeitenplanung ist erreichbar.")
+    void test_02() throws Exception {
+        RequestHelper.performGet(mvc, "/spielzeiten/kader").andExpect(status().isOk())
+                     .andExpect(view().name("/spielzeiten/kader"));
     }
 
     @Test
     @DisplayName("Die Seite Startelf der Spielzeitenplanung ist erreichbar.")
-    void test_02() throws Exception {
-        RequestHelper.performGet(mvc, "/spielzeiten/startingXI").andExpect(status().isOk());
+    void test_03() throws Exception {
+        RequestHelper.performGet(mvc, "/spielzeiten/startingXI").andExpect(status().isOk())
+                     .andExpect(view().name("/spielzeiten/startingXI"));
     }
 
     @Test
     @DisplayName("Die Seite Wechsel eintragen der Spielzeitenplanung ist erreichbar.")
-    void test_03() throws Exception {
-        RequestHelper.performGet(mvc, "/spielzeiten/substitutions").andExpect(status().isOk());
+    void test_04() throws Exception {
+        RequestHelper.performGet(mvc, "/spielzeiten/substitutions").andExpect(status().isOk())
+                     .andExpect(view().name("/spielzeiten/substitutions"));
     }
 
     @Test
     @DisplayName("Das Model für die Startseite der Spielzeitenplanung ist korrekt befüllt.")
-    void test_04() throws Exception {
+    void test_05() throws Exception {
         List<Player> players = TestObjectGenerator.generatePlayers();
         when(playerService.loadPlayers()).thenReturn(players);
 
@@ -68,10 +78,10 @@ class SpielzeitenControllerTest {
 
     @Test
     @DisplayName("Es werden Post-Requests über /spielzeiten/kader akzeptiert.")
-    void test_05() throws Exception {
-        mvc.perform(post("/spielzeiten/kader").param("availablePlayers", "1,2,3"))
-           .andExpect(status().isOk())
-           .andExpect(view().name("/spielzeiten/kader"));
+    void test_06() throws Exception {
+        mvc.perform(post("/spielzeiten/determineKader").param("availablePlayers", "1,2,3"))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/spielzeiten/kader"));
     }
 
 }
