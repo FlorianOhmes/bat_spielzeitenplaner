@@ -97,4 +97,15 @@ class SpielzeitenControllerTest {
            .andExpect(view().name("redirect:/spielzeiten/kader"));
     }
 
+    @Test
+    @DisplayName("Wenn weniger als 11 Spieler ausgewählt sind, wird eine Fehlermeldung ausgegeben.")
+    void test_07() throws Exception {
+        String errorMessage = "Es müssen mindestens 11 Spieler ausgewählt werden!";
+
+        mvc.perform(post("/spielzeiten/determineKader"))
+           .andExpect(flash().attribute("errorMessage", errorMessage))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/spielzeiten"));
+    }
+
 }

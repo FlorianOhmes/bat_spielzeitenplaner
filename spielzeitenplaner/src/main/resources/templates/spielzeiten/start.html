@@ -21,6 +21,9 @@
 
     <!-- Hauptbereich: Auswahl der Spieler für die Spielzeitenberechnung -->
     <div class="container mt-4">
+        <!-- Fehlermeldung -->
+        <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
         <!-- H1-Überschrift -->
         <h1>Spielzeiten planen</h1>
 
