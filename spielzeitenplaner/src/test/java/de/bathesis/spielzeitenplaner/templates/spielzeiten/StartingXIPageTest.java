@@ -8,7 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import de.bathesis.spielzeitenplaner.services.PlayerService;
+import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.SpielzeitenController;
@@ -22,7 +25,14 @@ class StartingXIPageTest {
     @Autowired
     MockMvc mvc;
 
+    @MockBean
+    PlayerService playerService;
+
+    @MockBean
+    SettingsService settingsService;
+
     Document startingXIPage;
+
 
 
     @BeforeEach

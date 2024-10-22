@@ -32,47 +32,19 @@
         <!-- Bereich: Spieler auswählen -->
         <form id="availablePlayers">
             <!-- Liste aller Spieler in der Mannschaft -->
-            <div id="allPlayers">
-                <!-- Beispielhafte Daten -->
-                <div class="player-card">
-                    <input class="form-check-input" type="checkbox" id="player1" value="1">
-                    <div class="player-info">
-                        <strong>Max Mustermann</strong>
-                        <span>Position: Stürmer</span>
-                        <span>Nummer: 9</span>
-                        <span>Leistung: 8</span>
-                        <span>Trainingsbeteiligung: 10</span>
-                        <span>Sozialverhalten: 9</span>
-                        <span>Engagement: 7</span>
-                    </div>
-                </div>
-                <div class="player-card">
-                    <input class="form-check-input" type="checkbox" id="player2" value="2">
-                    <div class="player-info">
-                        <strong>Erika Mustermann</strong>
-                        <br>
-                        <span>Position: Torwart</span>
-                        <span>Nummer: 1</span>
-                        <br>
-                        <span>Leistung: 9</span>
-                        <span>Trainingsbeteiligung: 9</span>
-                        <span>Sozialverhalten: 10</span>
-                        <span>Engagement: 8</span>
-                    </div>
-                </div>
-                <div class="player-card">
-                    <input class="form-check-input" type="checkbox" id="player3" value="3">
-                    <div class="player-info">
-                        <strong>Hans Müller</strong>
-                        <br>
-                        <span>Position: Verteidiger</span>
-                        <span>Nummer: 4</span>
-                        <br>
-                        <span>Leistung: 7</span>
-                        <span>Trainingsbeteiligung: 8</span>
-                        <span>Sozialverhalten: 8</span>
-                        <span>Engagement: 6</span>
-                    </div>
+            <div th:each="player, stat : ${players}" class="player-card">
+                <input class="form-check-input" type="checkbox" 
+                        th:id="'player' + ${stat.index}" th:name="'availablePlayers' + ${stat.index}" 
+                        th:value="${player.id}">
+                <div class="player-info">
+                    <label th:for="'player' + ${stat.index}"><strong>
+                        <span th:text="${player.firstName} + ' ' + ${player.lastName}">Max Mustermann</span>
+                    </strong></label>
+                    <span th:text="'Position: ' + ${player.position}">Position: Stürmer</span>
+                    <span th:text="'Trikotnr.: ' + ${player.jerseyNumber}">Nummer: 9</span>
+                    <strong><span th:text="'Gesamt-Score: ' + ${totalScores[stat.index]}">Gesamt-Score: 9,2</span></strong>
+                    <span th:if="${nameCriterion1} != ''" th:text="${nameCriterion1} + ': ' + ${scoresCriterion1[stat.index]}">Kriterium 1: 5,0</span>
+                    <span th:if="${nameCriterion2} != ''" th:text="${nameCriterion2} + ': ' + ${scoresCriterion2[stat.index]}">Kriterium 2: 4,4</span>
                 </div>
             </div>
             <div class="form-button">

@@ -6,12 +6,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.services.PlayerService;
+import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.web.controller.SpielzeitenController;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @WebMvcTest(SpielzeitenController.class)
@@ -20,11 +27,21 @@ class StartPageTest {
     @Autowired
     MockMvc mvc;
 
+    @MockBean
+    PlayerService playerService;
+
+    @MockBean
+    SettingsService settingsService;
+
     Document startPage;
+
+
+    Player player = new Player(42, "Jan", "Oblak", "TW", 13);
 
 
     @BeforeEach
     void getStartPage() throws Exception {
+        when(playerService.loadPlayers()).thenReturn(List.of(player));
         startPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/spielzeiten");
     }
 
@@ -63,12 +80,22 @@ class StartPageTest {
         String expectedButtonLabel = "Weiter zum Kader";
 
         Elements form = RequestHelper.extractFrom(startPage, "form#availablePlayers");
-        Elements playerContainer = RequestHelper.extractFrom(startPage, "#allPlayers");
         String buttonLabel = RequestHelper.extractTextFrom(form, ".form-button button");
 
         assertThat(form).isNotEmpty();
-        assertThat(playerContainer).isNotEmpty();
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
+    }
+
+    @Test
+    @DisplayName("Ein Spieler wird korrekt angezeigt.")
+    void test_06() {
+        List<String> expectedValues = new ArrayList<>(List.of(
+            player.getFirstName(), player.getLastName(), player.getPosition(), 
+            Integer.toString(player.getJerseyNumber()), Double.toString(0.0)
+        ));
+        String playerCard = RequestHelper.extractFrom(startPage, "form#availablePlayers .player-card")
+                                           .text();
+        assertThat(playerCard).contains(expectedValues);
     }
 
 }
