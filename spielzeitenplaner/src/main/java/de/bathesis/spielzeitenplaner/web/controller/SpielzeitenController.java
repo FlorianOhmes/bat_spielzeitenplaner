@@ -6,20 +6,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
+import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 
 
 @Controller
 @RequestMapping("/spielzeiten")
 public class SpielzeitenController {
 
+    private final SpielzeitenService spielzeitenService;
+
     private final PlayerService playerService;
     private final SettingsService settingsService;
 
-    public SpielzeitenController(PlayerService playerService, SettingsService settingsService) {
+    public SpielzeitenController(SpielzeitenService spielzeitenService, PlayerService playerService, 
+                                 SettingsService settingsService) {
+        this.spielzeitenService = spielzeitenService;
         this.playerService = playerService;
         this.settingsService = settingsService;
     }
@@ -49,7 +57,9 @@ public class SpielzeitenController {
     }
 
     @PostMapping("/determineKader")
-    public String determineKader() {
+    public String determineKader(@RequestParam List<Integer> availablePlayers, RedirectAttributes redirectAttributes) {
+        List<Player> squad = spielzeitenService.determineSquad(availablePlayers);
+        redirectAttributes.addFlashAttribute("squad", squad);
         return "redirect:/spielzeiten/kader";
     }
 

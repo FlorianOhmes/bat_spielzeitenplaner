@@ -2,6 +2,8 @@ package de.bathesis.spielzeitenplaner.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
+
 import de.bathesis.spielzeitenplaner.domain.Position;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
@@ -41,6 +43,23 @@ public class TestObjectGenerator {
         criteria.add(new Criterion(1878, "Sozialverhalten", "S", 0.2));
         criteria.add(new Criterion(1879, "Engagement", "E", 0.1));
         return criteria;
+    }
+
+    public static List<Player> generateSquad() {
+        List<String> positions = new ArrayList<>(List.of(
+            "TW", "LV", "LIV", "RIV", "RV", "LM", "LZM", "RZM", "RM", "LS", "RS", 
+            "RS", "LZM", "RZM", "RV", "TW"
+        ));
+        return IntStream.rangeClosed(1, 16)
+                        .mapToObj(i -> {
+                            Integer id = i;
+                            String firstName = "Player" + i;
+                            String lastName = "Last" + i;
+                            String position = positions.get(i - 1);
+                            Integer jerseyNumber = i;
+                            return new Player(id, firstName, lastName, position, jerseyNumber);
+                        })
+                        .toList();
     }
 
 }

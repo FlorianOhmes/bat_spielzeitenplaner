@@ -2,10 +2,12 @@ package de.bathesis.spielzeitenplaner.web;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
+import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.controller.SpielzeitenController;
@@ -27,8 +30,9 @@ class SpielzeitenControllerTest {
     MockMvc mvc;
 
     @MockBean
+    SpielzeitenService spielzeitenService;
+    @MockBean
     PlayerService playerService;
-
     @MockBean
     SettingsService settingsService;
 
@@ -77,9 +81,18 @@ class SpielzeitenControllerTest {
     }
 
     @Test
-    @DisplayName("Es werden Post-Requests über /spielzeiten/kader akzeptiert.")
+    @DisplayName("Es werden Post-Requests über /spielzeiten/determineKader akzeptiert und korrekt verarbeitet.")
     void test_06() throws Exception {
-        mvc.perform(post("/spielzeiten/determineKader").param("availablePlayers", "1,2,3"))
+        List<Player> squad = TestObjectGenerator.generateSquad();
+        List<Integer> ids = squad.stream().map(Player::getId).toList();
+        when(spielzeitenService.determineSquad(ids)).thenReturn(squad);
+
+        mvc.perform(post("/spielzeiten/determineKader")
+                        .param("availablePlayers", 
+                            squad.stream().map(p -> p.getId().toString()).collect(Collectors.joining(","))
+                        )
+                    )
+           .andExpect(flash().attribute("squad", squad))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/spielzeiten/kader"));
     }
