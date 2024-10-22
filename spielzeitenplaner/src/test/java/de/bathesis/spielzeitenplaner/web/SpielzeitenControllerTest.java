@@ -93,6 +93,7 @@ class SpielzeitenControllerTest {
                         )
                     )
            .andExpect(flash().attribute("squad", squad))
+           .andExpect(flash().attribute("notInSquad", List.of()))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/spielzeiten/kader"));
     }

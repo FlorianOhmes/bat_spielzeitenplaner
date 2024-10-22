@@ -59,6 +59,7 @@ public class SpielzeitenController {
     @PostMapping("/determineKader")
     public String determineKader(@RequestParam(required = false) List<Integer> availablePlayers, 
                                   RedirectAttributes redirectAttributes) {
+
         if (availablePlayers == null || availablePlayers.size() < 11) {
             redirectAttributes.addFlashAttribute("errorMessage", 
             "Es müssen mindestens 11 Spieler ausgewählt werden!");
@@ -66,7 +67,12 @@ public class SpielzeitenController {
         }
 
         List<Player> squad = spielzeitenService.determineSquad(availablePlayers);
+        List<Player> notInSquad = availablePlayers.stream()
+                                        .filter(id -> squad.stream().noneMatch(p -> p.getId().equals(id)))
+                                        .map(id -> playerService.loadPlayer(id))
+                                        .toList();
         redirectAttributes.addFlashAttribute("squad", squad);
+        redirectAttributes.addFlashAttribute("notInSquad", notInSquad);
         return "redirect:/spielzeiten/kader";
     }
 
