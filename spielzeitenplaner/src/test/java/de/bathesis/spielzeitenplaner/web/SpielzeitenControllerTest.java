@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.web;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
@@ -36,6 +38,8 @@ class SpielzeitenControllerTest {
     @MockBean
     SettingsService settingsService;
 
+    List<Player> squad = TestObjectGenerator.generateSquad();
+
 
     @Test
     @DisplayName("Die Startseite zur Spielzeitenplanung ist erreichbar.")
@@ -47,8 +51,9 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Die Seite Kader der Spielzeitenplanung ist erreichbar.")
     void test_02() throws Exception {
-        RequestHelper.performGet(mvc, "/spielzeiten/kader").andExpect(status().isOk())
-                     .andExpect(view().name("/spielzeiten/kader"));
+        mvc.perform(getWithFlash())
+           .andExpect(status().isOk())
+           .andExpect(view().name("/spielzeiten/kader"));
     }
 
     @Test
@@ -107,6 +112,28 @@ class SpielzeitenControllerTest {
            .andExpect(flash().attribute("errorMessage", errorMessage))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/spielzeiten"));
+    }
+
+    @Test
+    @DisplayName("Das Model für die Kader-Seite der Spielzeitenplanung ist korrekt befüllt.")
+    void test_08() throws Exception {
+        mvc.perform(getWithFlash())
+           .andExpect(model().attributeExists("totalScoresSquad"))
+           .andExpect(model().attributeExists("totalScoresNotInSquad"))
+           .andExpect(model().attributeExists("scoresCriterion1Squad"))
+           .andExpect(model().attributeExists("scoresCriterion1NotInSquad"))
+           .andExpect(model().attributeExists("scoresCriterion2Squad"))
+           .andExpect(model().attributeExists("scoresCriterion2NotInSquad"))
+           .andExpect(model().attributeExists("scoresCriterion2NotInSquad"))
+           .andExpect(model().attributeExists("nameCriterion1"))
+           .andExpect(model().attributeExists("nameCriterion2"));
+    }
+
+
+    private MockHttpServletRequestBuilder getWithFlash() {
+        return get("/spielzeiten/kader")
+                        .flashAttr("squad", squad)
+                        .flashAttr("notInSquad", List.of());
     }
 
 }

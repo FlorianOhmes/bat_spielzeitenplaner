@@ -1,15 +1,18 @@
 package de.bathesis.spielzeitenplaner.templates.spielzeiten;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
@@ -35,10 +38,17 @@ class KaderPageTest {
 
     Document kaderPage;
 
+    Player player = new Player(42, "Jan", "Oblak", "TW", 13);
+
 
     @BeforeEach
     void getKaderPage() throws Exception {
-        kaderPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/spielzeiten/kader");
+        String html = mvc.perform(get("/spielzeiten/kader")
+                                    .flashAttr("squad", List.of(player))
+                                    .flashAttr("notInSquad", List.of())
+                            )
+                            .andReturn().getResponse().getContentAsString();
+        kaderPage = Jsoup.parse(html);
     }
 
 
@@ -86,6 +96,18 @@ class KaderPageTest {
         assertThat(h2Titles).contains(expectedH2Titles);
         assertThat(playersIn).isNotEmpty();
         assertThat(playersOut).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Ein Spieler wird korrekt angezeigt.")
+    void test_06() {
+        List<String> expectedValues = new ArrayList<>(List.of(
+            player.getFirstName(), player.getLastName(), player.getPosition(), 
+            Integer.toString(player.getJerseyNumber()), Double.toString(0.0)
+        ));
+        String playerCard = RequestHelper.extractFrom(kaderPage, "form#kader .player-card")
+                                           .text();
+        assertThat(playerCard).contains(expectedValues);
     }
 
 }
