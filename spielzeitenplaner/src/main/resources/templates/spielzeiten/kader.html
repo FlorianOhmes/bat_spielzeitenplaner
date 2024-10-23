@@ -29,13 +29,13 @@
         </p>
 
         <!-- Bereich: Kader bestätigen/ändern -->
-        <form id="kader">
+        <form method="post" th:action="@{/spielzeiten/determineStartingXI}" id="kader">
             <h2>Im Kader:</h2>
             <!-- Liste: Im Kader  -->
             <div id="playersIn">
                 <div th:each="player, stat : ${squad}" class="player-card">
                     <input checked class="form-check-input" type="checkbox" 
-                            th:id="'player' + ${stat.index}" th:name="squad" 
+                            th:id="'player' + ${stat.index}" th:name="squadIds" 
                             th:value="${player.id}">
                     <div class="player-info">
                         <label th:for="'player' + ${stat.index}">
@@ -57,7 +57,7 @@
             <div id="playersOut">
                 <div th:each="player, stat : ${notInSquad}" class="player-card">
                     <input class="form-check-input" type="checkbox" 
-                            th:id="'player' + ${squad.size() + stat.index - 1}" th:name="squad" 
+                            th:id="'player' + ${squad.size() + stat.index - 1}" th:name="squadIds" 
                             th:value="${player.id}">
                     <div class="player-info">
                         <label th:for="'player' + ${squad.size() + stat.index - 1}">

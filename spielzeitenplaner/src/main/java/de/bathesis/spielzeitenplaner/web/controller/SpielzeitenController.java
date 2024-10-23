@@ -84,12 +84,26 @@ public class SpielzeitenController {
         List<Player> squad = spielzeitenService.determineSquad(availablePlayers);
         List<Player> notInSquad = availablePlayers.stream()
                                         .filter(id -> squad.stream().noneMatch(p -> p.getId().equals(id)))
-                                        .map(id -> playerService.loadPlayer(id))
+                                        .map(playerService::loadPlayer)
                                         .toList();
 
         redirectAttributes.addFlashAttribute("squad", squad);
         redirectAttributes.addFlashAttribute("notInSquad", notInSquad);
         return "redirect:/spielzeiten/kader";
+    }
+
+    @PostMapping("/determineStartingXI")
+    public String determineStartingXI(@RequestParam(required = false) List<Integer> squadIds, 
+                                       RedirectAttributes redirectAttributes) {
+        List<Player> startingXI = spielzeitenService.determineStartingXI(squadIds);
+        List<Player> bench = squadIds.stream()
+                                .filter(id -> startingXI.stream().noneMatch(p -> p.getId().equals(id)))
+                                .map(playerService::loadPlayer)
+                                .toList();
+
+        redirectAttributes.addFlashAttribute("startingXI", startingXI);
+        redirectAttributes.addFlashAttribute("bench", bench);
+        return "redirect:/spielzeiten/startingXI";
     }
 
 

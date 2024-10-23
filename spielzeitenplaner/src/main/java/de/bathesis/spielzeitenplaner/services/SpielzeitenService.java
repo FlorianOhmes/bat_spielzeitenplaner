@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Player;
+import java.util.Collections;
 
 
 @Service
@@ -28,6 +29,12 @@ public class SpielzeitenService {
                             })
                             .limit(16)
                             .toList();
+    }
+
+
+    public List<Player> determineStartingXI(List<Integer> squad) {
+        // TODO: Implementierung folgt !!! 
+        return Collections.emptyList();
     }
 
 }

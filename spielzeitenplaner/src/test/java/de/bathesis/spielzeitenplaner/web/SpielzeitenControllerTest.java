@@ -129,6 +129,24 @@ class SpielzeitenControllerTest {
            .andExpect(model().attributeExists("nameCriterion2"));
     }
 
+    @Test
+    @DisplayName("Es werden Post-Requests über /spielzeiten/determineStartingXI akzeptiert und korrekt verarbeitet.")
+    void test_09() throws Exception {
+        List<Player> startingXI = TestObjectGenerator.generateSquad().subList(0, 11);
+        List<Integer> ids = startingXI.stream().map(Player::getId).toList();
+        when(spielzeitenService.determineStartingXI(ids)).thenReturn(startingXI);
+
+        mvc.perform(post("/spielzeiten/determineStartingXI")
+                        .param("squadIds", 
+                            ids.stream().map(id -> id.toString()).collect(Collectors.joining(","))
+                        )
+                    )
+           .andExpect(flash().attribute("startingXI", startingXI))
+           .andExpect(flash().attribute("bench", List.of()))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/spielzeiten/startingXI"));
+    }
+
 
     private MockHttpServletRequestBuilder getWithFlash() {
         return get("/spielzeiten/kader")

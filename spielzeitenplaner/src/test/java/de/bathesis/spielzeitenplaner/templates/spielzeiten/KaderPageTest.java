@@ -83,19 +83,23 @@ class KaderPageTest {
     @Test
     @DisplayName("Auf der Seite Kader der Spielzeitenplanung wird der Bereich Kader bestätigen korrekt angezeigt.")
     void test_05() {
+        String expectedLabel = "Weiter zur Startelf";
         List<String> expectedH2Titles = new ArrayList<>(List.of(
             "Im Kader", "Nicht dabei"
         ));
 
-        Elements form = RequestHelper.extractFrom(kaderPage, "form#kader");
+        Elements form = RequestHelper.extractFrom(kaderPage, 
+            "form#kader[method=\"post\"][action=\"/spielzeiten/determineStartingXI\"]");
         String h2Titles = RequestHelper.extractTextFrom(form, "h2");
         Elements playersIn = RequestHelper.extractFrom(form, "#playersIn");
         Elements playersOut = RequestHelper.extractFrom(form, "#playersOut");
+        String buttonLabel = RequestHelper.extractTextFrom(form, "button[type=\"submit\"]");
 
         assertThat(form).isNotEmpty();
         assertThat(h2Titles).contains(expectedH2Titles);
         assertThat(playersIn).isNotEmpty();
         assertThat(playersOut).isNotEmpty();
+        assertThat(buttonLabel).isEqualTo(expectedLabel);
     }
 
     @Test
