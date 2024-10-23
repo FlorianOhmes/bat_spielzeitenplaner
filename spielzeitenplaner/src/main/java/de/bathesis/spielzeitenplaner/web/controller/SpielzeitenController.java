@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
@@ -17,6 +18,7 @@ import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 
 @Controller
 @RequestMapping("/spielzeiten")
+@SessionAttributes({"squad", "notInSquad"})
 public class SpielzeitenController {
 
     private final SpielzeitenService spielzeitenService;
@@ -95,6 +97,13 @@ public class SpielzeitenController {
     @PostMapping("/determineStartingXI")
     public String determineStartingXI(@RequestParam(required = false) List<Integer> squadIds, 
                                        RedirectAttributes redirectAttributes) {
+
+        if (squadIds == null || squadIds.size() < 11) {
+            redirectAttributes.addFlashAttribute("errorMessage", 
+            "Es müssen mindestens 11 Spieler ausgewählt werden!");
+            return "redirect:/spielzeiten/kader";
+        }
+
         List<Player> startingXI = spielzeitenService.determineStartingXI(squadIds);
         List<Player> bench = squadIds.stream()
                                 .filter(id -> startingXI.stream().noneMatch(p -> p.getId().equals(id)))
