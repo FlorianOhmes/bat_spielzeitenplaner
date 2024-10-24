@@ -2,18 +2,22 @@ package de.bathesis.spielzeitenplaner.services;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Player;
-import java.util.Collections;
 
 
 @Service
 public class SpielzeitenService {
 
     private final PlayerService playerService;
+    private final SettingsService settingsService;
 
-    public SpielzeitenService(PlayerService playerService) {
+    public SpielzeitenService(PlayerService playerService, SettingsService settingsService) {
         this.playerService = playerService;
+        this.settingsService = settingsService;
     }
 
 
@@ -32,9 +36,30 @@ public class SpielzeitenService {
     }
 
 
-    public List<Player> determineStartingXI(List<Integer> squad) {
-        // TODO: Implementierung folgt !!! 
-        return Collections.emptyList();
+    public List<Player> determineStartingXI(List<Integer> squadIds) {
+        List<Player> startingXI = new ArrayList<>(Collections.nCopies(11, null));
+        List<Player> squad = squadIds.stream().map(playerService::loadPlayer).toList();
+        List<Double> totalScores = squadIds.stream().map(playerService::calculateScores).map(playerService::calculateTotalScore).toList();
+        List<String> positionen = settingsService.loadFormation().getPositions().stream().map(p -> p.getName()).toList();
+
+        // nach totalScore sortieren
+        List<Integer> indicesSorted = IntStream.range(0, squad.size()).boxed()
+                        .sorted((i, j) -> Double.compare(totalScores.get(j), totalScores.get(i))).toList();
+        List<Player> sortedSquad = indicesSorted.stream().map(squad::get).toList();
+
+        // Startelf befüllen 
+        for (int i = 0; i < 11; i++) {
+            if (i >= sortedSquad.size()) {break;}
+            Player currentPlayer = sortedSquad.get(i);
+            Integer index = positionen.indexOf(currentPlayer.getPosition());
+            if (index == -1) {index = i;}
+            while (startingXI.get(index) != null) {
+                index = (index + 1) % 11;
+            }
+            startingXI.set(index, currentPlayer);
+        }
+
+        return startingXI;
     }
 
 }
