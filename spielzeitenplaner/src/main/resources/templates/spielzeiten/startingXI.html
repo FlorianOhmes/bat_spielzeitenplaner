@@ -42,28 +42,106 @@
                         <div class="col-md-12 text-center mb-3">
                             <h3>Angriff</h3>
                             <div id="attack" class="d-flex justify-content-center">
-                                <!-- Hier kommen die Startelf-Spieler hin, die im Angriff spielen  -->
+                                <div class="player" th:each="i : ${#numbers.sequence(numOfDEF + numOfMID + 1, 10)}">
+                                    <div class="player-name">
+                                        <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
+                                        <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
+                                    </div>
+                                    <div class="player-info">
+                                        <div class="top">
+                                            <div class="player-position" th:text="${positions.get(i)}"></div>
+                                            <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
+                                        </div>
+                                        <div class="bottom">
+                                            <label th:for="'select' + ${i}">Neue Pos.:</label>
+                                            <select th:id="'select' + ${i}">
+                                                <div th:each="position, stat : ${positions}">
+                                                    <option th:value="${stat.index}" th:text="${position}"
+                                                            th:selected="${stat.index == i}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Mittelfeld -->
                         <div class="col-md-12 text-center mb-3">
                             <h3>Mittelfeld</h3>
                             <div id="midfield" class="d-flex justify-content-center">
-                                <!-- Hier kommen die Startelf-Spieler hin, die im Mittelfeld spielen  -->
+                                <div class="player" th:each="i : ${#numbers.sequence(numOfDEF + 1, numOfDEF + numOfMID)}">
+                                    <div class="player-name">
+                                        <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
+                                        <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
+                                    </div>
+                                    <div class="player-info">
+                                        <div class="top">
+                                            <div class="player-position" th:text="${positions.get(i)}"></div>
+                                            <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
+                                        </div>
+                                        <div class="bottom">
+                                            <label th:for="'select' + ${i}">Neue Pos.:</label>
+                                            <select th:id="'select' + ${i}">
+                                                <div th:each="position, stat : ${positions}">
+                                                    <option th:value="${stat.index}" th:text="${position}"
+                                                            th:selected="${stat.index == i}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Verteidigung -->
                         <div class="col-md-12 text-center mb-3">
                             <h3>Abwehr</h3>
                             <div id="defenders" class="d-flex justify-content-center">
-                                <!-- Hier kommen die Startelf-Spieler hin, die in der Abwehr spielen  -->
+                                <div class="player" th:each="i : ${#numbers.sequence(1, numOfDEF)}">
+                                    <div class="player-name">
+                                        <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
+                                        <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
+                                    </div>
+                                    <div class="player-info">
+                                        <div class="top">
+                                            <div class="player-position" th:text="${positions.get(i)}"></div>
+                                            <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
+                                        </div>
+                                        <div class="bottom">
+                                            <label th:for="'select' + ${i}">Neue Pos.:</label>
+                                            <select th:id="'select' + ${i}">
+                                                <div th:each="position, stat : ${positions}">
+                                                    <option th:value="${stat.index}" th:text="${position}"
+                                                            th:selected="${stat.index == i}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- Torwart -->
                         <div class="col-md-12 text-center mb-3">
                             <h3>Torwart</h3>
                             <div id="goalkeeper" class="d-flex justify-content-center">
-                                <!-- Hier kommen die Startelf-Spieler hin, der im Tor steht  -->
+                                <div class="player-name">
+                                    <div class="player-firstname" th:text="${startingXI.get(0).firstName}"></div>
+                                    <div class="player-lastname" th:text="${startingXI.get(0).lastName}"></div>
+                                </div>
+                                <div class="player-info">
+                                    <div class="top">
+                                        <div class="player-position" th:text="${positions.get(0)}"></div>
+                                        <div class="score-gesamt" th:text="${totalScoresStartingXI.get(0)}"></div>
+                                    </div>
+                                    <div class="bottom">
+                                        <label th:for="'select' + ${0}">Neue Pos.:</label>
+                                        <select th:id="'select' + ${0}">
+                                            <div th:each="position, stat : ${positions}">
+                                                <option th:value="${stat.index}" th:text="${position}"
+                                                        th:selected="${stat.index == 0}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

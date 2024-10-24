@@ -59,8 +59,10 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Die Seite Startelf der Spielzeitenplanung ist erreichbar.")
     void test_03() throws Exception {
-        RequestHelper.performGet(mvc, "/spielzeiten/startingXI").andExpect(status().isOk())
-                     .andExpect(view().name("/spielzeiten/startingXI"));
+        when(settingsService.loadFormation()).thenReturn(TestObjectGenerator.generateFormation());
+
+        mvc.perform(getWithFlashStartingXI()).andExpect(status().isOk())
+           .andExpect(view().name("/spielzeiten/startingXI"));
     }
 
     @Test
@@ -158,11 +160,31 @@ class SpielzeitenControllerTest {
            .andExpect(view().name("redirect:/spielzeiten/kader"));
     }
 
+    @Test
+    @DisplayName("Das Model für die Startelf-Seite ist korrekt befüllt.")
+    void test_11() throws Exception {
+        when(settingsService.loadFormation()).thenReturn(TestObjectGenerator.generateFormation());
+
+        mvc.perform(getWithFlashStartingXI())
+           .andExpect(model().attribute("numOfGK", 1))
+           .andExpect(model().attribute("numOfDEF", 4))
+           .andExpect(model().attribute("numOfMID", 4))
+           .andExpect(model().attribute("numOfATK", 2))
+           .andExpect(model().attributeExists("totalScoresStartingXI"))
+           .andExpect(model().attributeExists("totalScoresBench"));
+    }
+
 
     private MockHttpServletRequestBuilder getWithFlash() {
         return get("/spielzeiten/kader")
                         .flashAttr("squad", squad)
                         .flashAttr("notInSquad", List.of());
+    }
+
+    private MockHttpServletRequestBuilder getWithFlashStartingXI() {
+        return get("/spielzeiten/startingXI")
+                        .flashAttr("startingXI", squad.subList(0, 11))
+                        .flashAttr("bench", squad.subList(11, 16));
     }
 
 }

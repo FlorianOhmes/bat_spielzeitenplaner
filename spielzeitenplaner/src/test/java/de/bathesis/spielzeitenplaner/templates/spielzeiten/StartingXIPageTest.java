@@ -1,20 +1,25 @@
 package de.bathesis.spielzeitenplaner.templates.spielzeiten;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
+import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.controller.SpielzeitenController;
 import java.util.List;
 import java.util.ArrayList;
@@ -35,11 +40,18 @@ class StartingXIPageTest {
 
     Document startingXIPage;
 
+    List<Player> squad = TestObjectGenerator.generateSquad();
 
 
     @BeforeEach
     void getStartingXIPage() throws Exception {
-        startingXIPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/spielzeiten/startingXI");
+        when(settingsService.loadFormation()).thenReturn(TestObjectGenerator.generateFormation());
+        String html = mvc.perform(get("/spielzeiten/startingXI")
+                                    .flashAttr("startingXI", squad.subList(0, 11))
+                                    .flashAttr("bench", squad.subList(11, 16))
+                            )
+                            .andReturn().getResponse().getContentAsString();
+        startingXIPage = Jsoup.parse(html);
     }
 
 
@@ -126,6 +138,19 @@ class StartingXIPageTest {
 
         assertThat(cardTitle).isEqualTo(expectedCardTitle);
         assertThat(reserve).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Ein Spieler wird korrekt angezeigt.")
+    void test_09() {
+        Player player = squad.get(2);
+        List<String> expectedValues = new ArrayList<>(List.of(
+            player.getFirstName(), player.getLastName(), player.getPosition(), 
+            Integer.toString(player.getJerseyNumber()), Double.toString(0.0)
+        ));
+        String playerCard = RequestHelper.extractFrom(startingXIPage, "#defenders .player")
+                                           .text();
+        assertThat(playerCard).contains(expectedValues);
     }
 
 }
