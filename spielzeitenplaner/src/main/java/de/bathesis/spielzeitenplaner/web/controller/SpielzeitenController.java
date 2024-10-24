@@ -2,6 +2,7 @@ package de.bathesis.spielzeitenplaner.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -131,6 +132,9 @@ public class SpielzeitenController {
                                    @ModelAttribute("bench") List<Player> bench, 
                                    RedirectAttributes redirectAttributes) {
 
+        List<Integer> changesSorted = sortChanges(changes);
+        System.out.println(changes);
+        System.out.println(changesSorted);
         List<Player> players = new ArrayList<>(startingXI);
         players.addAll(bench);
 
@@ -192,6 +196,26 @@ public class SpielzeitenController {
         model.addAttribute("numOfDEF", numOfDEF);
         model.addAttribute("numOfMID", numOfMID);
         model.addAttribute("numOfATK", numOfATK);
+    }
+
+    private List<Integer> sortChanges(List<Integer> toSort) {
+        List<Integer> formationAsInt = Arrays.asList(settingsService.loadFormation().getName().split("-")).stream()
+                                            .map(Integer::parseInt).toList();
+        List<Integer> indices = new ArrayList<>(List.of(
+            10, 11, 
+            11 - formationAsInt.get(0) - 1, 10, 
+            formationAsInt.get(formationAsInt.size() - 1) , 11 - formationAsInt.get(0) - 1, 
+            0, formationAsInt.get(formationAsInt.size() - 1), 
+            11, toSort.size()
+        ));
+
+        List<Integer> sorted = new ArrayList<>();
+        for (int i = 0; i < indices.size(); i = i + 2) {
+            sorted.addAll(toSort.subList(indices.get(i), indices.get(i + 1)));
+        }
+
+        return sorted;
+
     }
 
 }

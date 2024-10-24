@@ -168,7 +168,7 @@
                                         <div class="bottom">
                                             <label th:for="'select' + ${11 + stat.index}">Neue Pos.:</label>
                                             <select th:id="'select' + ${11 + stat.index}" th:name="changes">
-                                                <option selected th:value="-1" th:text="RES"></option>
+                                                <option selected th:value="${11 + stat.index}" th:text="RES"></option>
                                                 <option th:each="position, statP : ${positions}" 
                                                         th:value="${statP.index}" th:text="${position}"></option>
                                             </select>
