@@ -179,11 +179,12 @@ class SpielzeitenControllerTest {
     @DisplayName("Es werden Post-Requests über /spielzeiten/updateStartingXI akzeptiert und korrekt verarbeitet.")
     void test_12() throws Exception {
         when(spielzeitenService.updateStartingXI(any(), any())).thenReturn(squad);
+        when(settingsService.loadFormation()).thenReturn(TestObjectGenerator.generateFormation());
 
         mvc.perform(post("/spielzeiten/updateStartingXI")
                         .sessionAttr("startingXI", squad.subList(0, 11))
                         .sessionAttr("bench", squad.subList(11, squad.size()))
-                        .param("changes", "1,2,3")
+                        .param("changes", "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16")
                     )
            .andExpect(flash().attribute("startingXI", squad.subList(0, 11)))
            .andExpect(flash().attribute("bench", squad.subList(11, squad.size())))

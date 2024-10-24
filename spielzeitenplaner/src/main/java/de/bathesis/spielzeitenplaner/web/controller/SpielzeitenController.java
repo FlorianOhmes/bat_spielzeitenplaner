@@ -132,13 +132,11 @@ public class SpielzeitenController {
                                    @ModelAttribute("bench") List<Player> bench, 
                                    RedirectAttributes redirectAttributes) {
 
-        List<Integer> changesSorted = sortChanges(changes);
-        System.out.println(changes);
-        System.out.println(changesSorted);
         List<Player> players = new ArrayList<>(startingXI);
         players.addAll(bench);
+        List<Integer> changesSorted = sortChanges(changes);
 
-        List<Player> playersChanged = spielzeitenService.updateStartingXI(players, changes);
+        List<Player> playersChanged = spielzeitenService.updateStartingXI(players, changesSorted);
 
         List<Player> startingXIChanged = playersChanged.subList(0, 11);
         List<Player> benchChanged = playersChanged.subList(11, playersChanged.size());
