@@ -2,6 +2,8 @@ package de.bathesis.spielzeitenplaner.services;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.stream.IntStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,8 +66,21 @@ public class SpielzeitenService {
 
 
     public List<Player> updateStartingXI(List<Player> players, List<Integer> changes) {
-        // TODO: Implementierung folgt !!! 
-        return players;
+        List<Player> updatedPlayers = new ArrayList<>(players);
+        Set<Integer> alreadyChanged = new HashSet<>();
+
+        for (int i = 0; i < changes.size(); i++) {
+            int newIndex = changes.get(i);
+            if (i != newIndex && !alreadyChanged.contains(i)) {
+                Player player = updatedPlayers.get(i);
+                updatedPlayers.set(i, updatedPlayers.get(newIndex));
+                updatedPlayers.set(newIndex, player);
+                alreadyChanged.add(i);
+                alreadyChanged.add(newIndex);
+            }
+        }
+
+        return updatedPlayers;
     }
 
 }

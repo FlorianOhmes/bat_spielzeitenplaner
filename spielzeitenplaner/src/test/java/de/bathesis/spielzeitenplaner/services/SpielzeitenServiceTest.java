@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,6 +75,24 @@ class SpielzeitenServiceTest {
         assertThat(startingXI.get(9)).isEqualTo(player2);
         assertThat(startingXI.get(10)).isEqualTo(player1);
         assertThat(startingXI.get(6)).isEqualTo(player3);
+    }
+
+    @Test
+    @DisplayName("Die Aktualisierung der Startelf funktioniert korrekt.")
+    void test_03() {
+        List<Player> squad = TestObjectGenerator.generateSquad();
+        List<Integer> changes = new ArrayList<>(List.of(
+            10, 1, 8, 3, 4, 2, 6, 7, 5, 9, 0, 11, 12, 13, 14, 15, 16
+        ));
+
+        List<Player> updatedStartingXI = spielzeitenService.updateStartingXI(squad, changes);
+
+        assertThat(updatedStartingXI).hasSize(squad.size());
+        assertThat(updatedStartingXI.get(10)).isEqualTo(squad.get(0));
+        assertThat(updatedStartingXI.get(0)).isEqualTo(squad.get(10));
+        assertThat(updatedStartingXI.get(2)).isEqualTo(squad.get(5));
+        assertThat(updatedStartingXI.get(5)).isEqualTo(squad.get(8));
+        assertThat(updatedStartingXI.get(8)).isEqualTo(squad.get(2));
     }
 
 }
