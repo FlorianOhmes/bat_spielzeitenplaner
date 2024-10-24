@@ -28,7 +28,7 @@
         </p>
 
         <!-- Bereich: Startelf bestätigen/ändern -->
-        <form id="startingXI">
+        <form method="post" th:action="@{/spielzeiten/updateStartingXI}" id="startingXI">
             <!-- Card für die Startelf -->
             <div class="card" id="cardStartingXI">
                 <div class="card-body">
@@ -52,15 +52,14 @@
                                             <div class="player-position" th:text="${positions.get(i)}"></div>
                                             <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
                                         </div>
-                                    </div>
-                                    <div class="player-control">
-                                        <label th:for="'select' + ${i}">Neue Pos.:</label>
-                                        <select th:id="'select' + ${i}">
-                                            <div th:each="position, stat : ${positions}">
-                                                <option th:value="${stat.index}" th:text="${position}"
+                                        <div class="bottom">
+                                            <label th:for="'select' + ${i}">Neue Pos.:</label>
+                                            <select th:id="'select' + ${i}" th:name="changes">
+                                                <option th:each="position, stat : ${positions}" 
+                                                        th:value="${stat.index}" th:text="${position}"
                                                         th:selected="${stat.index == i}"></option>
-                                            </div>
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -81,11 +80,10 @@
                                         </div>
                                         <div class="bottom">
                                             <label th:for="'select' + ${i}">Neue Pos.:</label>
-                                            <select th:id="'select' + ${i}">
-                                                <div th:each="position, stat : ${positions}">
-                                                    <option th:value="${stat.index}" th:text="${position}"
-                                                            th:selected="${stat.index == i}"></option>
-                                                </div>
+                                            <select th:id="'select' + ${i}" th:name="changes">
+                                                <option th:each="position, stat : ${positions}" 
+                                                        th:value="${stat.index}" th:text="${position}"
+                                                        th:selected="${stat.index == i}"></option>
                                             </select>
                                         </div>
                                     </div>
@@ -108,11 +106,10 @@
                                         </div>
                                         <div class="bottom">
                                             <label th:for="'select' + ${i}">Neue Pos.:</label>
-                                            <select th:id="'select' + ${i}">
-                                                <div th:each="position, stat : ${positions}">
-                                                    <option th:value="${stat.index}" th:text="${position}"
-                                                            th:selected="${stat.index == i}"></option>
-                                                </div>
+                                            <select th:id="'select' + ${i}" th:name="changes">
+                                                <option th:each="position, stat : ${positions}" 
+                                                        th:value="${stat.index}" th:text="${position}"
+                                                        th:selected="${stat.index == i}"></option>
                                             </select>
                                         </div>
                                     </div>
@@ -135,11 +132,10 @@
                                         </div>
                                         <div class="bottom">
                                             <label th:for="'select' + ${0}">Neue Pos.:</label>
-                                            <select th:id="'select' + ${0}">
-                                                <div th:each="position, stat : ${positions}">
-                                                    <option th:value="${stat.index}" th:text="${position}"
-                                                            th:selected="${stat.index == 0}"></option>
-                                                </div>
+                                            <select th:id="'select' + ${0}" th:name="changes">
+                                                <option th:each="position, stat : ${positions}" 
+                                                        th:value="${stat.index}" th:text="${position}"
+                                                        th:selected="${stat.index == 0}"></option>
                                             </select>
                                         </div>
                                     </div>
@@ -171,11 +167,10 @@
                                         </div>
                                         <div class="bottom">
                                             <label th:for="'select' + ${11 + stat.index}">Neue Pos.:</label>
-                                            <select th:id="'select' + ${11 + stat.index}">
-                                                <option selected th:value="RES" th:text="RES"></option>
-                                                <div th:each="position, statP : ${positions}">
-                                                    <option th:value="${statP.index}" th:text="${position}"></option>
-                                                </div>
+                                            <select th:id="'select' + ${11 + stat.index}" th:name="changes">
+                                                <option selected th:value="-1" th:text="RES"></option>
+                                                <option th:each="position, statP : ${positions}" 
+                                                        th:value="${statP.index}" th:text="${position}"></option>
                                             </select>
                                         </div>
                                     </div>
@@ -186,7 +181,8 @@
                 </div>
             </div>
             <div class="form-button">
-                <button type="submit" class="btn btn-primary">Weiter zu "Wechsel eintragen"</button>
+                <button type="submit" class="btn btn-primary">Startelf aktualisieren</button>
+                <button class="btn btn-primary">Weiter zu "Wechsel eintragen"</button>
             </div>
         </form>
     </div>

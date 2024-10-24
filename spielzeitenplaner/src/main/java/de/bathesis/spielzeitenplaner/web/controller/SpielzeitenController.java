@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,7 @@ import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 
 @Controller
 @RequestMapping("/spielzeiten")
-@SessionAttributes({"squad", "notInSquad"})
+@SessionAttributes({"squad", "notInSquad", "startingXI", "bench"})
 public class SpielzeitenController {
 
     private final SpielzeitenService spielzeitenService;
@@ -121,6 +122,25 @@ public class SpielzeitenController {
 
         redirectAttributes.addFlashAttribute("startingXI", startingXI);
         redirectAttributes.addFlashAttribute("bench", bench);
+        return "redirect:/spielzeiten/startingXI";
+    }
+
+    @PostMapping("/updateStartingXI")
+    public String updateStartingXI(@RequestParam List<Integer> changes, 
+                                   @ModelAttribute("startingXI") List<Player> startingXI, 
+                                   @ModelAttribute("bench") List<Player> bench, 
+                                   RedirectAttributes redirectAttributes) {
+
+        List<Player> players = new ArrayList<>(startingXI);
+        players.addAll(bench);
+
+        List<Player> playersChanged = spielzeitenService.updateStartingXI(players, changes);
+
+        List<Player> startingXIChanged = playersChanged.subList(0, 11);
+        List<Player> benchChanged = playersChanged.subList(11, playersChanged.size());
+        redirectAttributes.addFlashAttribute("startingXI", startingXIChanged);
+        redirectAttributes.addFlashAttribute("bench", benchChanged);
+
         return "redirect:/spielzeiten/startingXI";
     }
 

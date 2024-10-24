@@ -1,5 +1,6 @@
 package de.bathesis.spielzeitenplaner.web;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -172,6 +173,22 @@ class SpielzeitenControllerTest {
            .andExpect(model().attribute("numOfATK", 2))
            .andExpect(model().attributeExists("totalScoresStartingXI"))
            .andExpect(model().attributeExists("totalScoresBench"));
+    }
+
+    @Test
+    @DisplayName("Es werden Post-Requests über /spielzeiten/updateStartingXI akzeptiert und korrekt verarbeitet.")
+    void test_12() throws Exception {
+        when(spielzeitenService.updateStartingXI(any(), any())).thenReturn(squad);
+
+        mvc.perform(post("/spielzeiten/updateStartingXI")
+                        .sessionAttr("startingXI", squad.subList(0, 11))
+                        .sessionAttr("bench", squad.subList(11, squad.size()))
+                        .param("changes", "1,2,3")
+                    )
+           .andExpect(flash().attribute("startingXI", squad.subList(0, 11)))
+           .andExpect(flash().attribute("bench", squad.subList(11, squad.size())))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/spielzeiten/startingXI"));
     }
 
 

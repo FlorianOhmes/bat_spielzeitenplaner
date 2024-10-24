@@ -62,4 +62,10 @@ public class SpielzeitenService {
         return startingXI;
     }
 
+
+    public List<Player> updateStartingXI(List<Player> players, List<Integer> changes) {
+        // TODO: Implementierung folgt !!! 
+        return players;
+    }
+
 }
