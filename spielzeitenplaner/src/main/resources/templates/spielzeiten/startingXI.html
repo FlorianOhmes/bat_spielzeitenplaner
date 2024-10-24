@@ -47,20 +47,20 @@
                                         <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
                                         <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
                                     </div>
-                                    <div class="player-info">
+                                    <div class="player-info-2">
                                         <div class="top">
                                             <div class="player-position" th:text="${positions.get(i)}"></div>
                                             <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
                                         </div>
-                                        <div class="bottom">
-                                            <label th:for="'select' + ${i}">Neue Pos.:</label>
-                                            <select th:id="'select' + ${i}">
-                                                <div th:each="position, stat : ${positions}">
-                                                    <option th:value="${stat.index}" th:text="${position}"
-                                                            th:selected="${stat.index == i}"></option>
-                                                </div>
-                                            </select>
-                                        </div>
+                                    </div>
+                                    <div class="player-control">
+                                        <label th:for="'select' + ${i}">Neue Pos.:</label>
+                                        <select th:id="'select' + ${i}">
+                                            <div th:each="position, stat : ${positions}">
+                                                <option th:value="${stat.index}" th:text="${position}"
+                                                        th:selected="${stat.index == i}"></option>
+                                            </div>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +74,7 @@
                                         <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
                                         <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
                                     </div>
-                                    <div class="player-info">
+                                    <div class="player-info-2">
                                         <div class="top">
                                             <div class="player-position" th:text="${positions.get(i)}"></div>
                                             <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
@@ -101,7 +101,7 @@
                                         <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
                                         <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
                                     </div>
-                                    <div class="player-info">
+                                    <div class="player-info-2">
                                         <div class="top">
                                             <div class="player-position" th:text="${positions.get(i)}"></div>
                                             <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
@@ -123,23 +123,25 @@
                         <div class="col-md-12 text-center mb-3">
                             <h3>Torwart</h3>
                             <div id="goalkeeper" class="d-flex justify-content-center">
-                                <div class="player-name">
-                                    <div class="player-firstname" th:text="${startingXI.get(0).firstName}"></div>
-                                    <div class="player-lastname" th:text="${startingXI.get(0).lastName}"></div>
-                                </div>
-                                <div class="player-info">
-                                    <div class="top">
-                                        <div class="player-position" th:text="${positions.get(0)}"></div>
-                                        <div class="score-gesamt" th:text="${totalScoresStartingXI.get(0)}"></div>
+                                <div class="player">
+                                    <div class="player-name">
+                                        <div class="player-firstname" th:text="${startingXI.get(0).firstName}"></div>
+                                        <div class="player-lastname" th:text="${startingXI.get(0).lastName}"></div>
                                     </div>
-                                    <div class="bottom">
-                                        <label th:for="'select' + ${0}">Neue Pos.:</label>
-                                        <select th:id="'select' + ${0}">
-                                            <div th:each="position, stat : ${positions}">
-                                                <option th:value="${stat.index}" th:text="${position}"
-                                                        th:selected="${stat.index == 0}"></option>
-                                            </div>
-                                        </select>
+                                    <div class="player-info-2">
+                                        <div class="top">
+                                            <div class="player-position" th:text="${positions.get(0)}"></div>
+                                            <div class="score-gesamt" th:text="${totalScoresStartingXI.get(0)}"></div>
+                                        </div>
+                                        <div class="bottom">
+                                            <label th:for="'select' + ${0}">Neue Pos.:</label>
+                                            <select th:id="'select' + ${0}">
+                                                <div th:each="position, stat : ${positions}">
+                                                    <option th:value="${stat.index}" th:text="${position}"
+                                                            th:selected="${stat.index == 0}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -156,8 +158,28 @@
                     <div class="row">
                         <!-- Ersatzspieler -->
                         <div class="col">
-                            <div id="reserve">
-                                <!-- Hier kommen die Auswechselspieler hin -->
+                            <div id="reserve" class="d-flex justify-content-center">
+                                <div class="player" th:each="player, stat : ${bench}">
+                                    <div class="player-name">
+                                        <div class="player-firstname" th:text="${player.firstName}"></div>
+                                        <div class="player-lastname" th:text="${player.lastName}"></div>
+                                    </div>
+                                    <div class="player-info-2">
+                                        <div class="top">
+                                            <div class="player-position" th:text="${player.position}"></div>
+                                            <div class="score-gesamt" th:text="${totalScoresBench.get(stat.index)}"></div>
+                                        </div>
+                                        <div class="bottom">
+                                            <label th:for="'select' + ${11 + stat.index}">Neue Pos.:</label>
+                                            <select th:id="'select' + ${11 + stat.index}">
+                                                <option selected th:value="RES" th:text="RES"></option>
+                                                <div th:each="position, statP : ${positions}">
+                                                    <option th:value="${statP.index}" th:text="${position}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
