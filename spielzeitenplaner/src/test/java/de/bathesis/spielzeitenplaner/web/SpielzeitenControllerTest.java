@@ -208,7 +208,9 @@ class SpielzeitenControllerTest {
     void test_14() throws Exception {
         mvc.perform(post("/spielzeiten/addSubstitution")
                         .sessionAttr("substitutions", new ArrayList<>()))
-           .andExpect(flash().attributeExists("substitutions"));
+           .andExpect(flash().attributeExists("substitutions"))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/spielzeiten/substitutions"));
     }
 
 
