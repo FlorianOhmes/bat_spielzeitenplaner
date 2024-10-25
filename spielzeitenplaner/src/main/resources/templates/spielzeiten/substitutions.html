@@ -196,17 +196,25 @@
                     </ul>
                 </form>
                 <!-- Formular zum Eintragen eines neuen Wechsels -->
-                <form id="addSubstitution" class="d-flex align-items-center justify-content-start">
+                <form id="addSubstitution" class="d-flex align-items-center justify-content-start" style="margin-top: 50px;">
+                    <div class="form-group mr-3">
+                        <label for="minute">Minute:</label>
+                        <input type="number" id="minute" class="form-control" value="35">
+                    </div>
                     <div class="form-group mr-3">
                         <label for="playerIn">Einwechselspieler:</label>
                         <select class="form-control" id="playerIn" name="playerIn">
-                            <option value="" disabled selected>Spieler auswählen</option>
+                            <option th:each="player, stat : ${squad}" th:text="${player.firstName + ' ' + player.lastName}" 
+                                    th:value="${player.firstName + ' ' + player.lastName}"
+                                    th:selected="${stat.index == 2}">Spieler auswählen</option>
                         </select>
                     </div>
                     <div class="form-group mr-3">
                         <label for="playerOut">Auswechselspieler:</label>
                         <select class="form-control" id="playerOut" name="playerOut">
-                            <option value="" disabled selected>Spieler auswählen</option>
+                            <option th:each="player, stat : ${squad}" th:text="${player.firstName + ' ' + player.lastName}" 
+                                    th:value="${player.firstName + ' ' + player.lastName}"
+                                    th:selected="${stat.index == 15}">Spieler auswählen</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" style="margin-top: 14px;">Wechsel eintragen</button>
