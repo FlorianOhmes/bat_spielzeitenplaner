@@ -183,7 +183,7 @@
                     <ul th:each="substitution : ${substitutions}">
                         <div class="substitution">
                             <div class="substitution-content">
-                                <div class="substitution-time" th:text="${substitution.minute}">35'</div>
+                                <div class="substitution-time" th:text="${substitution.minute} + '\':'">35'</div>
                                 <div class="player-in">
                                     <div class="player-name" th:text="${substitution.playerIn}"></div>
                                 </div>
@@ -196,7 +196,7 @@
                     </ul>
                 </form>
                 <!-- Formular zum Eintragen eines neuen Wechsels -->
-                <form id="addSubstitution" class="d-flex align-items-center justify-content-center">
+                <form id="addSubstitution" class="d-flex align-items-center justify-content-start">
                     <div class="form-group mr-3">
                         <label for="playerIn">Einwechselspieler:</label>
                         <select class="form-control" id="playerIn" name="playerIn">

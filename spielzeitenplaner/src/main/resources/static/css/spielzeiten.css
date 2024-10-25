@@ -135,3 +135,40 @@ label {
 select {
     margin-top: 5px; 
 }
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.substitution {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 15px;
+    background-color: #e0e0e0;
+    border: 1px solid #8f8d8d;
+    border-radius: 8px;
+    width: 50%;
+}
+.substitution-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+}
+.substitution-arrow {
+    margin: 0 10px;
+    font-size: 1.5rem;
+    color: black;
+}
+.substitution-time {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.player-out .player-name {
+    color: #ff0000; /* Rot für den Spieler, der ausgewechselt wird */
+}
+.player-in .player-name {
+    color: #007f00; /* Grün für den Spieler, der eingewechselt wird */
+}
