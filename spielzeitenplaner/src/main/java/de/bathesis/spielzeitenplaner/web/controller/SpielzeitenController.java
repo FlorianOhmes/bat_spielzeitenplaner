@@ -25,7 +25,7 @@ import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 @RequestMapping("/spielzeiten")
 @SessionAttributes({
     "squad", "notInSquad", "startingXI", "bench", "numOfGK", "numOfDEF", "numOfMID", "numOfATK", 
-    "positions", "totalScoresStartingXI", "totalScoresBench"
+    "positions", "totalScoresStartingXI", "totalScoresBench", "substitutions"
 })
 public class SpielzeitenController {
 
@@ -86,12 +86,7 @@ public class SpielzeitenController {
     @GetMapping("/substitutions")
     public String substitutions(Model model) {
         if (!model.containsAttribute("substitutions")) {
-            // TEMPORÄR !!! 
-            model.addAttribute("substitutions", new ArrayList<>(List.of(
-                new Substitution(1, 20, "Nevin Atonnimal", "Nazmi Kista"), 
-                new Substitution(1, 35, "Max Hauke", "Emirhan Övus"), 
-                new Substitution(1, 50, "Jonas Bahr", "Nicolas Wissmann")
-            )));
+            model.addAttribute("substitutions", new ArrayList<>());
         }
         return "/spielzeiten/substitutions";
     }
@@ -156,6 +151,14 @@ public class SpielzeitenController {
         redirectAttributes.addFlashAttribute("bench", benchChanged);
 
         return "redirect:/spielzeiten/startingXI";
+    }
+
+    @PostMapping("/addSubstitution")
+    public String addSubstitution(Substitution substitution, @ModelAttribute("substitutions") List<Substitution> substitutions, 
+                                  RedirectAttributes redirectAttributes) {
+        substitutions.add(substitution);
+        redirectAttributes.addFlashAttribute("substitutions", substitutions);
+        return "redirect:/spielzeiten/substitutions";
     }
 
 

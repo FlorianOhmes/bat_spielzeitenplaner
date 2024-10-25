@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -201,6 +201,14 @@ class SpielzeitenControllerTest {
     void test_13() throws Exception {
         mvc.perform(getWithSession())
            .andExpect(model().attributeExists("substitutions"));
+    }
+
+    @Test
+    @DisplayName("Es werden Post-Requests über /spielzeiten/addSubstitution akzeptiert.")
+    void test_14() throws Exception {
+        mvc.perform(post("/spielzeiten/addSubstitution")
+                        .sessionAttr("substitutions", new ArrayList<>()))
+           .andExpect(flash().attributeExists("substitutions"));
     }
 
 

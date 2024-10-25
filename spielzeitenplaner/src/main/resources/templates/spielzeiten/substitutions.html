@@ -196,16 +196,18 @@
                     </ul>
                 </form>
                 <!-- Formular zum Eintragen eines neuen Wechsels -->
-                <form id="addSubstitution" class="d-flex align-items-center justify-content-start" style="margin-top: 50px;">
+                <form method="post" th:action="@{/spielzeiten/addSubstitution}" id="addSubstitution" class="d-flex align-items-center justify-content-start" style="margin-top: 50px;">
+                    <input type="text" name="id" th:value="${substitutions.size() + 1}" style="display: none;">
                     <div class="form-group mr-3">
                         <label for="minute">Minute:</label>
-                        <input type="number" id="minute" class="form-control" value="35">
+                        <input type="number" id="minute" class="form-control" th:name="minute" value="35">
                     </div>
                     <div class="form-group mr-3">
                         <label for="playerIn">Einwechselspieler:</label>
                         <select class="form-control" id="playerIn" name="playerIn">
                             <option th:each="player, stat : ${squad}" th:text="${player.firstName + ' ' + player.lastName}" 
                                     th:value="${player.firstName + ' ' + player.lastName}"
+                                    th:name="playerIn"
                                     th:selected="${stat.index == 2}">Spieler auswählen</option>
                         </select>
                     </div>
@@ -214,6 +216,7 @@
                         <select class="form-control" id="playerOut" name="playerOut">
                             <option th:each="player, stat : ${squad}" th:text="${player.firstName + ' ' + player.lastName}" 
                                     th:value="${player.firstName + ' ' + player.lastName}"
+                                    th:name="playerOut"
                                     th:selected="${stat.index == 15}">Spieler auswählen</option>
                         </select>
                     </div>
