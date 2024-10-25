@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import de.bathesis.spielzeitenplaner.domain.Position;
+import de.bathesis.spielzeitenplaner.domain.Substitution;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.domain.Player;
@@ -60,6 +61,14 @@ public class TestObjectGenerator {
                             return new Player(id, firstName, lastName, position, jerseyNumber);
                         })
                         .toList();
+    }
+
+    public static List<Substitution> generateSubstitutions() {
+        return new ArrayList<>(List.of(
+            new Substitution(1, 20, "Player A", "Player B"), 
+            new Substitution(1, 35, "Player C", "Player D"), 
+            new Substitution(1, 50, "Player E", "Player F")
+        ));
     }
 
 }

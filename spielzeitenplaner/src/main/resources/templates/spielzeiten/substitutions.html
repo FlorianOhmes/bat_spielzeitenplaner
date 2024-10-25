@@ -180,8 +180,19 @@
                 <!-- Formular für die bereits eingetragenen Wechsel -->
                 <form id="formSubstitutions">
                     <!-- Liste der Wechsel -->
-                    <ul>
-                        <!-- Hier kommen die eingetragenen Wechsel hin -->
+                    <ul th:each="substitution : ${substitutions}">
+                        <div class="substitution">
+                            <div class="substitution-content">
+                                <div class="substitution-time" th:text="${substitution.minute}">35'</div>
+                                <div class="player-in">
+                                    <div class="player-name" th:text="${substitution.playerIn}"></div>
+                                </div>
+                                <div class="substitution-arrow">→</div> <!-- Pfeil für die Einwechslung -->
+                                <div class="player-out">
+                                    <div class="player-name" th:text="${substitution.playerOut}"></div>
+                                </div>
+                            </div>
+                        </div>
                     </ul>
                 </form>
                 <!-- Formular zum Eintragen eines neuen Wechsels -->

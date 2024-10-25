@@ -196,6 +196,13 @@ class SpielzeitenControllerTest {
            .andExpect(view().name("redirect:/spielzeiten/startingXI"));
     }
 
+    @Test
+    @DisplayName("Das Model für die Seite Wechsel eintragen ist korrekt befüllt.")
+    void test_13() throws Exception {
+        mvc.perform(getWithSession())
+           .andExpect(model().attributeExists("substitutions"));
+    }
+
 
     private MockHttpServletRequestBuilder getWithFlash() {
         return get("/spielzeiten/kader")

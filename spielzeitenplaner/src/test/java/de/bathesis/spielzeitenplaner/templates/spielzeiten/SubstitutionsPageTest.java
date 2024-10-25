@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import de.bathesis.spielzeitenplaner.domain.Position;
+import de.bathesis.spielzeitenplaner.domain.Substitution;
 
 
 @WebMvcTest(SpielzeitenController.class)
@@ -42,12 +43,14 @@ class SubstitutionsPageTest {
     Document substitutionsPage;
 
     List<Player> squad = TestObjectGenerator.generateSquad();
+    List<Substitution> substitutions = TestObjectGenerator.generateSubstitutions();
 
 
     @BeforeEach
     void getSubstitutionsPage() throws Exception {
         List<String> positions = TestObjectGenerator.generateFormation().getPositions().stream().map(Position::getName).toList();
         String html = mvc.perform(get("/spielzeiten/substitutions")
+                        .flashAttr("substitutions", substitutions)
                         .sessionAttr("numOfGK", 1).sessionAttr("numOfDEF", 4)
                         .sessionAttr("numOfMID", 4).sessionAttr("numOfATK", 2)
                         .sessionAttr("positions", positions)
@@ -165,8 +168,19 @@ class SubstitutionsPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird das Formular zum Eintragen eines neuen Wechsels korrekt angezeigt.")
+    @DisplayName("Ein Wechsel wird korrekt angezeigt.")
     void test_11() {
+        List<String> expected = new ArrayList<>(List.of(
+            substitutions.get(0).getMinute().toString(), substitutions.get(0).getPlayerIn(), 
+            substitutions.get(0).getPlayerOut()
+        ));
+        String form = RequestHelper.extractFrom(substitutionsPage, "form#formSubstitutions").text();
+        assertThat(form).contains(expected);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird das Formular zum Eintragen eines neuen Wechsels korrekt angezeigt.")
+    void test_12() {
         String expectedButtonLabel = "Wechsel eintragen";
 
         Elements form = RequestHelper.extractFrom(substitutionsPage, "form#addSubstitution");

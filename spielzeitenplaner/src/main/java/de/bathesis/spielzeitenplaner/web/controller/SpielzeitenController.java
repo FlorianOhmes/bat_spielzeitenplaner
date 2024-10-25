@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import de.bathesis.spielzeitenplaner.domain.Criterion;
 import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.domain.Position;
+import de.bathesis.spielzeitenplaner.domain.Substitution;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
@@ -83,7 +84,15 @@ public class SpielzeitenController {
     }
 
     @GetMapping("/substitutions")
-    public String substitutions() {
+    public String substitutions(Model model) {
+        if (!model.containsAttribute("substitutions")) {
+            // TEMPORÄR !!! 
+            model.addAttribute("substitutions", new ArrayList<>(List.of(
+                new Substitution(1, 20, "Nevin Atonnimal", "Nazmi Kista"), 
+                new Substitution(1, 35, "Max Hauke", "Emirhan Övus"), 
+                new Substitution(1, 50, "Jonas Bahr", "Nicolas Wissmann")
+            )));
+        }
         return "/spielzeiten/substitutions";
     }
 
