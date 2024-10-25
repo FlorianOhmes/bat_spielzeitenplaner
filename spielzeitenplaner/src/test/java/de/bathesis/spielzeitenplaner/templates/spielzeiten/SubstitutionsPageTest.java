@@ -184,11 +184,13 @@ class SubstitutionsPageTest {
         String expectedButtonLabel = "Wechsel eintragen";
 
         Elements form = RequestHelper.extractFrom(substitutionsPage, "form#addSubstitution");
+        Elements input = RequestHelper.extractFrom(form, "input");
         Elements playerIn = RequestHelper.extractFrom(form, "select#playerIn");
         Elements playerOut = RequestHelper.extractFrom(form, "select#playerOut");
         String buttonLabel = RequestHelper.extractTextFrom(form, "button");
 
         assertThat(form).isNotEmpty();
+        assertThat(input).isNotEmpty();
         assertThat(playerIn).isNotEmpty();
         assertThat(playerOut).isNotEmpty();
         assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
