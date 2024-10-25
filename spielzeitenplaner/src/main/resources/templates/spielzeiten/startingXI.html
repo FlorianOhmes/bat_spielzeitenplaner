@@ -39,10 +39,10 @@
                     <!-- Startelf -->
                     <div class="row justify-content-center">
                         <!-- Angriff -->
-                        <div class="col-md-12 text-center mb-3">
-                            <h3>Angriff</h3>
+                        <div class="col-md-12 mb-3">
+                            <h3 class="text-center">Angriff</h3>
                             <div id="attack" class="d-flex justify-content-center">
-                                <div class="player" th:each="i : ${#numbers.sequence(numOfDEF + numOfMID + 1, 10)}">
+                                <div class="player mx-2" th:each="i : ${#numbers.sequence(numOfDEF + numOfMID + 1, 10)}">
                                     <div class="player-name">
                                         <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
                                         <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
@@ -65,10 +65,10 @@
                             </div>
                         </div>
                         <!-- Mittelfeld -->
-                        <div class="col-md-12 text-center mb-3">
-                            <h3>Mittelfeld</h3>
+                        <div class="col-md-12 mb-3">
+                            <h3 class="text-center">Mittelfeld</h3>
                             <div id="midfield" class="d-flex justify-content-center">
-                                <div class="player" th:each="i : ${#numbers.sequence(numOfDEF + 1, numOfDEF + numOfMID)}">
+                                <div class="player mx-2" th:each="i : ${#numbers.sequence(numOfDEF + 1, numOfDEF + numOfMID)}">
                                     <div class="player-name">
                                         <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
                                         <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
@@ -91,10 +91,10 @@
                             </div>
                         </div>
                         <!-- Verteidigung -->
-                        <div class="col-md-12 text-center mb-3">
-                            <h3>Abwehr</h3>
+                        <div class="col-md-12 mb-3">
+                            <h3 class="text-center">Abwehr</h3>
                             <div id="defenders" class="d-flex justify-content-center">
-                                <div class="player" th:each="i : ${#numbers.sequence(1, numOfDEF)}">
+                                <div class="player mx-2" th:each="i : ${#numbers.sequence(1, numOfDEF)}">
                                     <div class="player-name">
                                         <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
                                         <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
@@ -117,10 +117,10 @@
                             </div>
                         </div>
                         <!-- Torwart -->
-                        <div class="col-md-12 text-center mb-3">
-                            <h3>Torwart</h3>
+                        <div class="col-md-12 mb-3">
+                            <h3 class="text-center">Torwart</h3>
                             <div id="goalkeeper" class="d-flex justify-content-center">
-                                <div class="player">
+                                <div class="player mx-2">
                                     <div class="player-name">
                                         <div class="player-firstname" th:text="${startingXI.get(0).firstName}"></div>
                                         <div class="player-lastname" th:text="${startingXI.get(0).lastName}"></div>
@@ -155,7 +155,7 @@
                         <!-- Ersatzspieler -->
                         <div class="col">
                             <div id="reserve" class="d-flex justify-content-center">
-                                <div class="player" th:each="player, stat : ${bench}">
+                                <div class="player mx-2" th:each="player, stat : ${bench}">
                                     <div class="player-name">
                                         <div class="player-firstname" th:text="${player.firstName}"></div>
                                         <div class="player-lastname" th:text="${player.lastName}"></div>
@@ -181,8 +181,8 @@
                 </div>
             </div>
             <div class="form-button">
-                <button type="submit" class="btn btn-primary">Startelf aktualisieren</button>
-                <button class="btn btn-primary">Weiter zu "Wechsel eintragen"</button>
+                <button type="submit" class="btn btn-primary mx-4">Startelf aktualisieren</button>
+                <button class="btn btn-primary mx-2">Weiter zu "Wechsel eintragen"</button>
             </div>
         </form>
     </div>
