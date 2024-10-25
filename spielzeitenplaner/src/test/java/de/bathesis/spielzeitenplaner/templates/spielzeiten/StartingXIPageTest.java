@@ -120,14 +120,17 @@ class StartingXIPageTest {
     @DisplayName("Auf der Seite Startelf der Spielzeitenplanung wird im Bereich Startelf bestätigen ein Formular angezeigt.")
     void test_07() {
         String expectedButtonLabel = "Startelf aktualisieren";
+        String expectedLinkLabel = "Wechsel eintragen";
 
         Elements form = RequestHelper.extractFrom(startingXIPage, 
             "form#startingXI[method=\"post\"][action=\"/spielzeiten/updateStartingXI\"]"
         );
         String formButtonLabel = RequestHelper.extractTextFrom(form, ".form-button button[type=\"submit\"]");
+        String linkLabel = RequestHelper.extractTextFrom(form, ".form-button a");
 
         assertThat(form).isNotEmpty();
         assertThat(formButtonLabel).isEqualTo(expectedButtonLabel);
+        assertThat(linkLabel).isEqualTo(expectedLinkLabel);
     }
 
     @Test

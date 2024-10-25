@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.domain.Position;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
@@ -69,8 +72,9 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Die Seite Wechsel eintragen der Spielzeitenplanung ist erreichbar.")
     void test_04() throws Exception {
-        RequestHelper.performGet(mvc, "/spielzeiten/substitutions").andExpect(status().isOk())
-                     .andExpect(view().name("/spielzeiten/substitutions"));
+        mvc.perform(getWithSession())
+           .andExpect(status().isOk())
+           .andExpect(view().name("/spielzeiten/substitutions"));
     }
 
     @Test
@@ -203,6 +207,15 @@ class SpielzeitenControllerTest {
         return get("/spielzeiten/startingXI")
                         .flashAttr("startingXI", squad.subList(0, 11))
                         .flashAttr("bench", squad.subList(11, 16));
+    }
+
+    private MockHttpServletRequestBuilder getWithSession() {
+        return get("/spielzeiten/substitutions")
+                        .sessionAttr("numOfGK", 1).sessionAttr("numOfDEF", 4)
+                        .sessionAttr("numOfMID", 4).sessionAttr("numOfATK", 2)
+                        .sessionAttr("positions", TestObjectGenerator.generateFormation().getPositions().stream().map(Position::getName).toList())
+                        .sessionAttr("startingXI", squad.subList(0, 11))
+                        .sessionAttr("totalScoresStartingXI", Collections.nCopies(11, 0.0));
     }
 
 }

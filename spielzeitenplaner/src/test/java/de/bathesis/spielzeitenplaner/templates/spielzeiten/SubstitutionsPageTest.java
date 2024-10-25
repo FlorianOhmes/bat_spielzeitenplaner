@@ -1,23 +1,29 @@
 package de.bathesis.spielzeitenplaner.templates.spielzeiten;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import de.bathesis.spielzeitenplaner.domain.Player;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 import de.bathesis.spielzeitenplaner.utilities.ExpectedElements;
 import de.bathesis.spielzeitenplaner.utilities.RequestHelper;
+import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 import de.bathesis.spielzeitenplaner.web.controller.SpielzeitenController;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import de.bathesis.spielzeitenplaner.domain.Position;
 
 
 @WebMvcTest(SpielzeitenController.class)
@@ -35,10 +41,21 @@ class SubstitutionsPageTest {
 
     Document substitutionsPage;
 
+    List<Player> squad = TestObjectGenerator.generateSquad();
+
 
     @BeforeEach
     void getSubstitutionsPage() throws Exception {
-        substitutionsPage = RequestHelper.performGetAndParseWithJSoup(mvc, "/spielzeiten/substitutions");
+        List<String> positions = TestObjectGenerator.generateFormation().getPositions().stream().map(Position::getName).toList();
+        String html = mvc.perform(get("/spielzeiten/substitutions")
+                        .sessionAttr("numOfGK", 1).sessionAttr("numOfDEF", 4)
+                        .sessionAttr("numOfMID", 4).sessionAttr("numOfATK", 2)
+                        .sessionAttr("positions", positions)
+                        .sessionAttr("startingXI", squad.subList(0, 11))
+                        .sessionAttr("totalScoresStartingXI", Collections.nCopies(11, 0.0))
+                    )
+                    .andReturn().getResponse().getContentAsString();
+        substitutionsPage = Jsoup.parse(html);
     }
 
 
@@ -116,8 +133,21 @@ class SubstitutionsPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Wechsel-Card korrekt angezeigt.")
+    @DisplayName("Ein Spieler wird korrekt angezeigt.")
     void test_08() {
+        Player player = squad.get(7);
+        List<String> expectedValues = new ArrayList<>(List.of(
+            player.getFirstName(), player.getLastName(), player.getPosition(), 
+            "70", "50"
+        ));
+        String playerCard = RequestHelper.extractFrom(substitutionsPage, "#midfield .player")
+                                           .text();
+        assertThat(playerCard).contains(expectedValues);
+    }
+
+    @Test
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird die Wechsel-Card korrekt angezeigt.")
+    void test_09() {
         String expectedCardTitle = "Wechsel";
 
         String cardTitle = RequestHelper.extractTextFrom(substitutionsPage, "#cardSubstitutions .card-body h2.card-title");
@@ -129,14 +159,14 @@ class SubstitutionsPageTest {
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Formular für die bereits eingetragenen Wechsel angezeigt.")
-    void test_09() {
+    void test_10() {
         Elements form = RequestHelper.extractFrom(substitutionsPage, "form#formSubstitutions");
         assertThat(form).isNotEmpty();
     }
 
     @Test
     @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird das Formular zum Eintragen eines neuen Wechsels korrekt angezeigt.")
-    void test_10() {
+    void test_11() {
         String expectedButtonLabel = "Wechsel eintragen";
 
         Elements form = RequestHelper.extractFrom(substitutionsPage, "form#addSubstitution");

@@ -38,31 +38,99 @@
                 <!-- Startelf -->
                 <div class="row justify-content-center">
                     <!-- Angriff -->
-                    <div class="col-md-12 text-center mb-3">
-                        <h3>Angriff</h3>
+                    <div class="col-md-12 mb-3">
+                        <h3 class="text-center">Angriff</h3>
                         <div id="attack" class="d-flex justify-content-center">
-                            <!-- Hier kommen die Startelf-Spieler hin, die im Angriff spielen  -->
+                            <div class="player mx-2" th:each="i : ${#numbers.sequence(numOfDEF + numOfMID + 1, 10)}">
+                                <div class="player-name">
+                                    <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
+                                    <strong>
+                                        <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
+                                    </strong>
+                                </div>
+                                <div class="player-info-2">
+                                    <div class="top">
+                                        <div class="player-position" th:text="${positions.get(i)}"></div>
+                                        <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
+                                    </div>
+                                    <div class="bottom">
+                                        <div class="minutes-played">70</div>
+                                        <div class="substituted">50</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Mittelfeld -->
-                    <div class="col-md-12 text-center mb-3">
-                        <h3>Mittelfeld</h3>
+                    <div class="col-md-12 mb-3">
+                        <h3 class="text-center">Mittelfeld</h3>
                         <div id="midfield" class="d-flex justify-content-center">
-                            <!-- Hier kommen die Startelf-Spieler hin, die im Mittelfeld spielen  -->
+                            <div class="player mx-2" th:each="i : ${#numbers.sequence(numOfDEF + 1, numOfDEF + numOfMID)}">
+                                <div class="player-name">
+                                    <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
+                                    <strong>
+                                        <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
+                                    </strong>
+                                </div>
+                                <div class="player-info-2">
+                                    <div class="top">
+                                        <div class="player-position" th:text="${positions.get(i)}"></div>
+                                        <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
+                                    </div>
+                                    <div class="bottom">
+                                        <div class="minutes-played">70</div>
+                                        <div class="substituted">50</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Verteidigung -->
-                    <div class="col-md-12 text-center mb-3">
-                        <h3>Abwehr</h3>
+                    <div class="col-md-12 mb-3">
+                        <h3 class="text-center">Abwehr</h3>
                         <div id="defenders" class="d-flex justify-content-center">
-                            <!-- Hier kommen die Startelf-Spieler hin, die in der Abwehr spielen  -->
+                            <div class="player mx-2" th:each="i : ${#numbers.sequence(1, numOfDEF)}">
+                                <div class="player-name">
+                                    <div class="player-firstname" th:text="${startingXI.get(i).firstName}"></div>
+                                    <strong>
+                                        <div class="player-lastname" th:text="${startingXI.get(i).lastName}"></div>
+                                    </strong>
+                                </div>
+                                <div class="player-info-2">
+                                    <div class="top">
+                                        <div class="player-position" th:text="${positions.get(i)}"></div>
+                                        <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
+                                    </div>
+                                    <div class="bottom">
+                                        <div class="minutes-played">70</div>
+                                        <div class="substituted">50</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Torwart -->
-                    <div class="col-md-12 text-center mb-3">
-                        <h3>Torwart</h3>
+                    <div class="col-md-12 mb-3">
+                        <h3 class="text-center">Torwart</h3>
                         <div id="goalkeeper" class="d-flex justify-content-center">
-                            <!-- Hier kommen die Startelf-Spieler hin, der im Tor steht  -->
+                            <div class="player mx-2">
+                                <div class="player-name">
+                                    <div class="player-firstname" th:text="${startingXI.get(0).firstName}"></div>
+                                    <strong>
+                                        <div class="player-lastname" th:text="${startingXI.get(0).lastName}"></div>
+                                    </strong>
+                                </div>
+                                <div class="player-info-2">
+                                    <div class="top">
+                                        <div class="player-position" th:text="${positions.get(0)}"></div>
+                                        <div class="score-gesamt" th:text="${totalScoresStartingXI.get(0)}"></div>
+                                    </div>
+                                    <div class="bottom">
+                                        <div class="minutes-played">70</div>
+                                        <div class="substituted">50</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,9 +145,26 @@
                 </h2>
                 <div class="row justify-content-center">
                     <!-- Ersatzspieler -->
-                    <div class="col-md-12 text-center mb-3">
+                    <div class="col">
                         <div id="reserve" class="d-flex justify-content-center">
-                            <!-- Hier kommen die Auswechselspieler hin -->
+                            <div class="player mx-2" th:each="player, stat : ${bench}">
+                                <div class="player-name">
+                                    <div class="player-firstname" th:text="${player.firstName}"></div>
+                                    <strong>
+                                        <div class="player-lastname" th:text="${player.lastName}"></div>
+                                    </strong>
+                                </div>
+                                <div class="player-info-2">
+                                    <div class="top">
+                                        <div class="player-position" th:text="${player.position}"></div>
+                                        <div class="score-gesamt" th:text="${totalScoresBench.get(stat.index)}"></div>
+                                    </div>
+                                    <div class="bottom">
+                                        <div class="minutes-played">70</div>
+                                        <div class="substituted">50</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -63,13 +63,14 @@
     border: 1px solid #8f8d8d;
     border-radius: 8px;
     padding: 5px;
-    height: 100px;
+    height: 70px;
     width: calc(20% - 20px);
     box-sizing: border-box;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 }
 
 .player-name {
@@ -108,11 +109,23 @@
     color: #333;
 }
 
+.minutes-played {
+    align-self: flex-end;
+    font-weight: bold;
+    color: #007f00;
+}
+
+.substituted {
+    align-self: flex-end;
+    font-weight: bold;
+    color: #ff6600;
+}
+
 .player-info-2 .bottom {
+    margin-top: auto;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    margin-top: 10px; 
+    justify-content: space-between;
+    width: 100%;
 }
 
 label {

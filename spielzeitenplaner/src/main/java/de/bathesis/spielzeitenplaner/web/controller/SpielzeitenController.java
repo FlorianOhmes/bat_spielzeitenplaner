@@ -22,7 +22,10 @@ import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
 
 @Controller
 @RequestMapping("/spielzeiten")
-@SessionAttributes({"squad", "notInSquad", "startingXI", "bench"})
+@SessionAttributes({
+    "squad", "notInSquad", "startingXI", "bench", "numOfGK", "numOfDEF", "numOfMID", "numOfATK", 
+    "positions", "totalScoresStartingXI", "totalScoresBench"
+})
 public class SpielzeitenController {
 
     private final SpielzeitenService spielzeitenService;
