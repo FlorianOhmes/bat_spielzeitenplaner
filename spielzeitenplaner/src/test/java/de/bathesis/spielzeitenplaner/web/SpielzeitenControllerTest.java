@@ -213,6 +213,14 @@ class SpielzeitenControllerTest {
            .andExpect(view().name("redirect:/spielzeiten/substitutions"));
     }
 
+    @Test
+    @DisplayName("Es werden Post-Requests über /spielzeiten/deleteSubstitution akzeptiert.")
+    void test_15() throws Exception {
+        mvc.perform(post("/spielzeiten/deleteSubstitution"))
+           .andExpect(status().is3xxRedirection())
+           .andExpect(view().name("redirect:/spielzeiten/substitutions"));
+    }
+
 
     private MockHttpServletRequestBuilder getWithFlash() {
         return get("/spielzeiten/kader")

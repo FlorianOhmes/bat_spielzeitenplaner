@@ -161,6 +161,11 @@ public class SpielzeitenController {
         return "redirect:/spielzeiten/substitutions";
     }
 
+    @PostMapping("/deleteSubstitution")
+    public String deleteSubstitution() {
+        return "redirect:/spielzeiten/substitutions";
+    }
+
 
 
 

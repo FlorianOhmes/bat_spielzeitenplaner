@@ -66,8 +66,8 @@ public class TestObjectGenerator {
     public static List<Substitution> generateSubstitutions() {
         return new ArrayList<>(List.of(
             new Substitution(1, 20, "Player A", "Player B"), 
-            new Substitution(1, 35, "Player C", "Player D"), 
-            new Substitution(1, 50, "Player E", "Player F")
+            new Substitution(2, 35, "Player C", "Player D"), 
+            new Substitution(3, 50, "Player E", "Player F")
         ));
     }
 

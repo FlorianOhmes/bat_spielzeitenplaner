@@ -161,10 +161,16 @@ class SubstitutionsPageTest {
     }
 
     @Test
-    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Formular für die bereits eingetragenen Wechsel angezeigt.")
+    @DisplayName("Auf der Seite Wechsel eintragen der Spielzeitenplanung wird ein Formular zum Löschen für jeden Wechsel angezeigt.")
     void test_10() {
-        Elements form = RequestHelper.extractFrom(substitutionsPage, "form#formSubstitutions");
-        assertThat(form).isNotEmpty();
+        Elements form = RequestHelper.extractFrom(substitutionsPage,
+            "form[method=\"post\"][action=\"/spielzeiten/deleteSubstitution\"]");
+        Elements input = RequestHelper.extractFrom(form, "input");
+        Elements button = RequestHelper.extractFrom(form, "button[type=\"submit\"]");
+
+        assertThat(form).hasSize(3);
+        assertThat(input).hasSize(3);
+        assertThat(button).hasSize(3);
     }
 
     @Test
@@ -174,7 +180,7 @@ class SubstitutionsPageTest {
             substitutions.get(0).getMinute().toString(), substitutions.get(0).getPlayerIn(), 
             substitutions.get(0).getPlayerOut()
         ));
-        String form = RequestHelper.extractFrom(substitutionsPage, "form#formSubstitutions").text();
+        String form = RequestHelper.extractFrom(substitutionsPage, "#cardSubstitutions").text();
         assertThat(form).contains(expected);
     }
 
