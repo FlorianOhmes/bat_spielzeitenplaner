@@ -1,0 +1,94 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Diese Datei beinhaltet den eigentlichen Inhalt Ihrer Arbeit.
+%
+% Es bietet sich der Übersicht halber an, die einzelnen Abschnitte jeweils
+% in eigene Dateien zu schreiben und mittels \input einzubinden.
+% Eine mögliche Verzeichnisstruktur sähe entsprechend so aus:
+%
+%     thesis/
+%     +- tex/
+%     |  +- introduction.tex
+%     |  +- motivation.tex
+%     |  +- experiments.tex
+%     |  |  ...
+%     |  +- conclusion.tex
+%     +- abstract.tex
+%     +- contents.tex
+%     +- thesis.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Einleitung
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Einleitung}
+
+\input{tex/intro/intro}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theoretische Grundlagen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theoretische Grundlagen}
+
+Kurze Erklärung. 
+
+
+\subsection{Die testgetriebene Entwicklung (TDD)}
+
+\input{tex/theory/tdd}
+
+
+\subsection{Fußballerische Grundlagen und Konzepte}
+
+\input{tex/theory/football}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hauptteil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Die testgetriebene Entwicklung des Spielzeitenplaners}
+
+Nachdem die theoretischen Grundlagen geklärt und erläutert worden sind, kann nun 
+im folgenden Kapitel näher auf die testgetriebene Entwicklung des 
+Spielzeitenplaners eingegangen werden. Dafür werden zunächst sein grundsätzlicher 
+Aufbau und seine Funktionsweise skizziert, ehe im Anschluss das konkrete Testing 
+in den unterschiedlichen Schichten der Architektur dokumentiert und verdeutlicht 
+wird. 
+
+
+\subsection{Aufbau und Funktionsweise des Spielzeitenplaners}
+
+\input{tex/main/general}
+
+
+\subsection{Testing der Web-Pages}
+
+\input{tex/main/webpages}
+
+
+\subsection{Testing der Controller}
+
+\input{tex/main/controller}
+
+
+\subsection{Testing der Service-Schicht}
+
+\input{tex/main/service}
+
+
+\subsection{Datenbank-Tests}
+
+\input{tex/main/database}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Schlussteil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fazit}
+
+\input{tex/conclusion/conclusion}
+

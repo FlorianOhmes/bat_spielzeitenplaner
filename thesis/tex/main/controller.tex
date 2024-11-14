@@ -1,0 +1,253 @@
+
+Eng verbunden mit mit dem Testing der \texttt{WebPages} ist auch die Überprüfung der 
+Web-Steuereinheiten, also der entsprechenden Controller. Wie bereits im 
+vorangegangenen Kapitel erwähnt, können konkrete Inhalte nur in die Seite eingefügt 
+werden, wenn diese im Model vorhanden sind. Dies stellt unter anderem eine Aufgabe 
+des Controllers dar. Doch neben der Datenaufbereitung und -bereitstellung ist er 
+außerdem auch für die Verarbeitung von Benutzeranfragen, das Verwalten der 
+Anwendungslogik, die Fehlerbehandlung und das grundlegende Routing zuständig. 
+Alle soeben genannten Aufgaben sollen in diesem Kapitel unter dem Aspekt der 
+testgetriebenen Entwicklung des Spielzeitenplaners eingehend beleuchtet werden. \\ 
+Begonnen werden soll mit dem letzten Punkt -- dem grundlegenden Routing, das den 
+Startpunkt sämtlicher Controller-Tests darstellt. Denn wie bereits in Kapitel 3.1 
+festgehalten, sind sämtliche Testungen der Elemente und Strukturen einer 
+ausgelieferten Webseite unter Gebrauch eines \texttt{MockMvc}-Objektes nur möglich, 
+wenn zuvor ein entsprechendes Routing etabliert und ein geeignetes Request-Mapping 
+stattgefunden hat. \\ 
+Der wohl simpelste Test zur Überprüfung einer Route kann im Commit 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/commit/3aec5fe64e1b73cbaace8d56c9fb315b274ed0ad}{3aec5fe}
+betrachtet werden. Alles, was zum Bestehen des Tests zur Erreichbarkeit der 
+Team-Seite benötigt wird, ist eine mit \texttt{@Controller} annotierte Klasse und 
+eine mit \texttt{@GetMapping(``/team'')} beschriftete Handler-Methode, die wiederum 
+den Namen eines Templates zurückgibt -- in diesem Fall die \texttt{team.html}, die im 
+Verzeichnis \texttt{src/main/ressources/templates} existieren muss. \\ 
+Im weiteren Verlauf der Entwicklung des Projektes ist die 
+\texttt{team()}-Handler-Methode dann in einen eigens für diesen Bereich angelegten 
+\texttt{TeamController} ausgelagert worden. Des Weiteren ist mit der Einführung des 
+\texttt{TeamService} das gewünschte Verhalten -- hier die Rückgabe des Team-
+Objektes, das den Teamnamen enthält -- gemockt und eine Überprüfung des 
+\texttt{view}-Namen ergänzt worden, sodass sich final der folgende Testablauf 
+ergibt:
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_01() throws Exception {
+    when(teamService.load())
+      .thenReturn(new Team(142, "Holstein Kiel"));
+
+    RequestHelper.performGet(mvc, "/team")
+                 .andExpect(status().isOk())
+                 .andExpect(view().name("team/team"));
+}
+\end{verbatim}
+\end{quote}
+
+Sobald die entsprechende Seite erreichbar ist, kann mit der testgetriebenen 
+Entwicklung ihrer Struktur -- wie in Kapitel 3.1 verdeutlicht -- begonnen werden. 
+Neben dem grundlegenden Routing ist der Controller aber ebenfalls für die 
+Aufbereitung und Bereitstellung der durch die Service-Schicht zur Verfügung 
+gestellten Daten verantwortlich. Eine Überprüfung dieser Verantwortlichkeit lässt 
+sich wie folgt realisieren: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+@DisplayName("Das Model für die Team-Seite ist korrekt befüllt.")
+void test_02() throws Exception {
+    // Erstellen eines Team-Objektes zu Testzwecken
+    // Mocking des Team-Services
+    
+    // Erstellen einiger Test-Spieler
+    // Mocking des Player-Services
+    
+    // Erstellen der Total-Scores & Mocking
+
+    RequestHelper.performGet(mvc, "/team")
+                 .andExpect(model().attribute("teamForm", teamForm))
+                 .andExpect(model().attribute("players", players))
+                 .andExpect(model().attribute(
+                     "totalScores", totalScores
+                 ));
+}
+\end{verbatim}
+\end{quote}
+
+Aus Gründen der Übersichtlichkeit ist hier auf eine vollständige Darstellung des 
+Tests verzichtet worden, der genaue Wortlaut bzw. der genaue Code ist der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/web/TeamControllerTest.java}{\texttt{TeamControllerTest.java}} 
+zu entnehmen. Den Kern dieses Tests bilden der mithilfe des \texttt{MockMvcs} 
+simulierte Get-Request und die spezifische Überprüfung der HTTP-Antwort durch 
+\texttt{andExpect}. Durch das zuvor konfigurierte Mocking der Services 
+erhalten Entwickelnde die Kontrolle über die zur Verfügung gestellten Daten. Unter 
+Verwendung von \texttt{model().attribute(``attributeName'', ``expectedValue'')} 
+kann dann gezielt gesteuert werden, welche Werte \texttt{teamForm}, 
+\texttt{players} und \texttt{totalScores} annehmen sollen, denn nur wenn sie dem 
+\texttt{expectedValue} entsprechen, wird der gegebene Test bestehen. Für 
+\texttt{players} beispielsweise bedeutet das, dass das Attribut genau diejenige 
+Liste von Spielern als Wert annehmen muss, die durch die 
+\texttt{loadPlayers}-Methode des \texttt{PlayerService} zurückgegeben wird. \\ 
+Neben dem Überprüfen der Model-Attribute hat \texttt{test\_02} aber auch eine 
+sinnvolle Nebenwirkung: Durch die Art und Weise, wie er geschrieben ist, werden die 
+Existenz eines \texttt{Team}-Objektes und einer \texttt{TeamForm} sowie ein 
+\texttt{TeamMapper} gefordert, der für die Übersetzung zwischen Domänen- und 
+Formular-Objekt zuständig ist. Diese Aufteilung fördert die Trennung der 
+Verantwortlichkeiten -- Web-UI von Geschäftslogik -- und erhöht damit auch die 
+Wartbarkeit des Codes, da zukünftige Änderungen am Team-Formular von der 
+Geschäftslogik losgelöst durchgeführt werden können. \\ 
+Wie bisher gezeigt fokussieren sich die beiden vorangegangenen Tests auf das 
+Anfordern von Ressourcen auf dem Server mittels eines GET-Requests und die damit 
+verbundene Datenaufbereitung und -bereitstellung. Im Gegensatz dazu steht der 
+POST-Request, der für das Erstellen oder Verändern einer Ressource auf dem Server 
+verantwortlich ist. \\ 
+Konkret für die \texttt{TeamPage} bedeutet dies, dass nicht nur das Aufrufen der 
+Team-Seite sowie die Anzeige des Teamnamens und der Spieler im Team eine wichtige 
+Funktion darstellt, die der Spielzeitenplaner gewährleisten sollte, sondern auch 
+die Möglichkeit, den Teamnamen zu bearbeiten und zu ändern, Spielerinformationen zu 
+aktualisieren oder sich nicht mehr im Team befindliche Akteure zu löschen. Für die 
+Unterstützung manipulierender Benutzeranfragen ist auch hier zunächst einmal die 
+Etablierung einer grundlegenden Route vonnöten: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+@DisplayName("Es werden Post-Requests über /team/teamname akzeptiert.")
+void test_05() throws Exception {
+    mvc.perform(post("/team/teamname").param("name", "Spring Boot FC"))
+       .andExpect(status().is3xxRedirection())
+       .andExpect(view().name("redirect:/team"));
+}
+\end{verbatim}
+\end{quote}
+
+Das grundsätzliche Prinzip solcher Anfragen in diesem Projekt ist es, für jeden 
+solcher Requests eine individuelle Route anzulegen, die dann von einer speziellen 
+Handler-Methode eines zuständigen Controllers verarbeitet wird. Im Anschluss an 
+eine erfolgreiche Anfrage wird dann auf eine Get-Route weitergeleitet. Im Falle der 
+\texttt{TeamPage} bedeutet dies Folgendes: Analog zum \texttt{GetMapping} wird hier 
+parallel zum Testcode eine mit \texttt{@PostMapping(``/teamname'')} annotierte 
+Handler-Methode geschrieben, die \texttt{``redirect:/team''} retourniert. Letzteres 
+stellt sicher, dass nach abgeschlossener Verarbeitung zur Team-Seite umgeleitet 
+wird. \\ 
+In einem zweiten Schritt muss dann sichergestellt werden, dass die zuständige 
+Service-Methode korrekt aufgerufen wird: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+void test_06() throws Exception {
+    Team team = new Team(null, "Spring Boot FC");
+    mvc.perform(post("/team/teamname").param("name", team.name()));
+    verify(teamService).save(team);
+}
+\end{verbatim}
+\end{quote}
+
+Eine wie zuvor beschriebene Überprüfung kann mithilfe von \texttt{Mockitos} 
+\texttt{verify}-Methode realisiert werden. Durch die letzte Zeile des 
+\texttt{test\_06} kann zum einen sichergestellt werden, dass die 
+\texttt{save}-Methode des \texttt{TeamService} -- also die für das Speichern des 
+Teamnamens zuständige Service-Methode -- durch den \texttt{TeamController} 
+aufgerufen wird, zum anderen aber auch überprüft werden, ob diese mit dem 
+richtigen Parameter aufgerufen wird. Letzteres ist besonders wichtig bei 
+schichtbasierten Softwarearchitekturen -- wie der Onion-Architektur, um zu 
+gewährleisten, dass Objekte zwischen den Schichten korrekt übergeben werden. \\ 
+Für die \texttt{changeTeamName}-Methode des \texttt{TeamControllers} bedeutet dies 
+konkret, dass gewährleistet wird, dass der Teamname korrekt in das 
+\texttt{TeamForm}-Objekt integriert wird, dieses wiederum korrekt in ein 
+\texttt{Team}-Objekt übersetzt wird und schließlich als Parameter an die 
+\texttt{save}-Methode übergeben wird. \\ 
+Doch neben Routing und Verwalten der Anwendungslogik ist ein Controller -- 
+insbesondere bei POST-Requests -- auch noch für die Validierung der 
+Benutzereingaben zuständig. Beim Teamnamen muss daher überprüft werden, dass das 
+entsprechende Input-Feld nicht leer bzw. blank ist und eine Länge von 100 Zeichen 
+nicht überschreitet, wie der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/web/forms/TeamForm.java}{\texttt{TeamForm.java}}
+zu entnehmen ist. Für ein weniger triviales und von daher interessanteres Beispiel 
+kann abermals die \texttt{PlayerPage} herangezogen werden -- genauer gesagt das 
+Formular zur Verwaltung der Spieler-Daten: Hier müssen Vorname, Nachname, Position 
+und Trikotnummer geeignet validiert werden. Folgender Test der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/web/TeamControllerTest.java}{\texttt{TeamControllerTest.java}}
+soll veranschaulichen, wie eine solche Validierung erzwungen bzw. kontrolliert 
+werden kann: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_12() throws Exception {
+    String html = mvc.perform(post("/team/savePlayer")
+            // Parameter hinzufügen 
+            ... 
+        )
+        .andExpect(model().attributeErrorCount("playerForm", 5))
+        .andReturn().getResponse().getContentAsString();
+    String html2 = mvc.perform(post("/team/savePlayer")
+            // Parameter hinzufügen
+            ... 
+        )
+        .andExpect(model().attributeErrorCount("playerForm", 1))
+        .andReturn().getResponse().getContentAsString();
+
+    Elements errors = Jsoup.parse(html).select(".error");
+    Elements errors2 = Jsoup.parse(html2).select(".error");
+    assertThat(errors).hasSize(4);
+    assertThat(errors2).hasSize(1);
+}
+\end{verbatim}
+\end{quote}
+
+Der hier gezeigte Test ist nach folgendem Prinzip aufgebaut: Zunächst wird wieder 
+ein entsprechender POST-Request simuliert, ehe der \texttt{AttributeErrorCount} des 
+zu betrachtenden Objektes -- in diesem Fall die \texttt{PlayerForm} -- überprüft 
+wird. Im Anschluss wird dann noch kontrolliert, ob potenzielle Fehlermeldungen auch 
+tatsächlich auf der Seite angezeigt werden. Dazu wird die durch die Anfrage 
+zurückgegebene Antwort mit \texttt{Jsoup} geparst sowie alle \texttt{div}-Container 
+mit der Klasse \texttt{error} extrahiert und im Bezug auf ihre Größe inspiziert. 
+Für das hier vorgestellte Beispiel werden zwei verschiedene Anfragen simuliert, 
+die jeweils so konzipiert sind, dass sie möglichst viele Fehler abdecken sollen. \\ 
+Der ersten Anfrage, die final im String mit dem Namen \texttt{html} gespeichert 
+wird, werden somit jeweils ein leerer String als Parameter für den Vornamen, 
+Nachnamen und die Position hinzugefügt. Damit der \texttt{AttributeErrorCount} 
+für die \texttt{PlayerForm} nun die erwartete Größe besitzt, müssen gleich 
+mehrere Anpassungen im Produktivcode vorgenommen werden: In der entsprechenden 
+Handler-Methode des Controllers muss die \texttt{PlayerForm} mit \texttt{@Valid} 
+annotiert werden, damit die Benutzereingabe auch wirklich validiert wird. Des 
+Weiteren muss direkt nach der \texttt{PlayerForm} ein weiterer Parameter vom Typ 
+\texttt{BindingResult} eingefügt werden, in dem das Ergebnis der auf die Eingabe 
+angewendeten Validierung gespeichert und an das Formular-Objekt gebunden wird. \\ 
+Diese Schritte alleine reichen jedoch nicht aus, um den Test bestehen zu lassen. 
+Damit das \texttt{BindingResult} nicht einfach leer bleibt, muss die eigentliche 
+Validierung noch konfiguriert werden. Dies geschieht innerhalb der Formular-Klasse 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/web/forms/PlayerForm.java}{\texttt{PlayerForm.java}} 
+mithilfe geeigneter Validierungs-Annotationen. 
+Dort wird festgelegt, dass Attribute wie der Vor- und Nachname oder die Position 
+nicht blank sein dürfen sowie Letztere zwischen einem und fünf Zeichen lang sein 
+und die Trikotnummer zwischen eins und 99 liegen muss. \\ 
+Im Falle der ersten Anfrage -- die oben bereits beschrieben wurde -- werden also 
+sämtliche \texttt{@NotBlank}-Annotation geprüft sowie die \texttt{@Size}-Annotation 
+der Position und die \texttt{@NotNull}-Annotation der Trikotnummer. Schließlich 
+wird dann noch in der Variable \texttt{error} gespeichert, ob für jedes Eingabefeld 
+ein entsprechender Fehler-Container auf der Seite vorhanden ist und ein Fehler 
+angezeigt wird -- die beiden Fehler bezüglich der Position werden dabei in ein und 
+demselben Container angezeigt, da sie sich jeweils auf dasselbe Attribut 
+beziehen. \\ 
+Im Falle der zweiten Anfrage wird dann noch eine vollständige Benutzereingabe 
+simuliert, jedoch wird hierbei eine Trikotnummer über 100 gewählt, um die 
+\texttt{Max}-Validierung der \texttt{jerseyNumber} zu begutachten. Dementsprechend 
+wird also ein \texttt{AttributeErrorCount} von eins erwartet sowie ein Container 
+mit einer Fehlermeldung auf der \texttt{PlayerPage}. \\ 
+Auf die hier gezeigte Weise kann also die Validierung von Benutzereingaben und die 
+Fehlerausgabe testgetrieben entwickelt werden. Das grundlegende Prinzip lässt sich 
+prinzipiell auf andere Formulare übertragen, sogar verschachtelte Formulare sind 
+umsetzbar, wie in der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/web/forms/RecapForm.java}{\texttt{RecapForm.java}} 
+und der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/web/forms/FormAssessment.java}{\texttt{FormAssessment.java}} 
+gezeigt. Dort wird zum einen das Recap-Formular an sich validiert, das bedeutet 
+das Datum des Recaps darf weder leer sein noch in der Zukunft liegen, aber auch 
+die Liste der Bewertungen soll validiert werden. Für jedes \texttt{FormAssessment} 
+ist daher zusätzlich noch festgelegt, dass der Wert nicht \texttt{null} sowie 
+zwischen null und fünf liegen muss. 
+
