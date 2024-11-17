@@ -151,5 +151,108 @@ Variable gespeichert. So kann dann abschließend getestet werden, ob die
 \texttt{findAll}-Methode des \texttt{PlayerRepository} aufgerufen wurde -- die 
 Überprüfung der Delegation eines Requests ist ja bereits aus den vorangegangenen 
 Tests bekannt -- und ob die geladenen Spieler auch wirklich der gewünschten Liste 
-entsprechen. Dabei wird \texttt{containsExactlyInAnyOrder} verwendet... 
+entsprechen. \\ 
+Dabei wird die 
+\texttt{containsExactlyInAnyOrderElementsOf}-Methode verwendet, um 
+sicherzustellen, dass sich auch wirklich nur die erwarteten Spieler in der Liste 
+befinden und keine weiteren. Außerdem spielt die Reihenfolge keine Rolle, damit der 
+Test auch weiterhin besteht, sollten die Spieler nach Namen, Score, Trikotnummer oder 
+Position geordnet werden. 
+Zusammenfassend kann gesagt werden, dass beim Delegieren und Koordinieren von 
+Anfragen ein besonderes Augenmerk zum einen auf den korrekten Methodenaufruf, zum 
+anderen aber auch die Überprüfung der Übergabe der korrekten Parameter sowie 
+die Richtigkeit des Rückgabewertes gelegt werden sollte, denn diese sind für eine 
+ordnungsgemäße Funktionsweise der Anwendung unerlässlich. \\ 
+Darüber hinaus ist es wichtig Methoden der Service-Schicht zu testen, die sich nicht 
+eindeutig einer Klasse aus dem Domain-Model zuordnen lassen oder aber eine 
+Verknüpfung zwischen mehreren Entitäten herstellen. Im Bezug auf den 
+Spielzeitenplaner ist dies zum Beispiel der Fall in der
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/services/SpielzeitenService.java}{\texttt{SpielzeitenService.java}}, 
+in der aus allen verfügbaren Spielern ein Kader oder aus dem Kader wiederum eine 
+Startelf ermittelt werden soll, und in der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/services/PlayerService.java}{\texttt{PlayerService.java}}, in der für einen Spieler 
+für jedes Kriterium anhand mehrerer Bewertungen ein Score berechnet wird. \\ 
+Mit Letzterem ist die \texttt{calculateScore}-Methode gemeint, die mithilfe mehrerer 
+Tests in ihre gegenwärtige Form gebracht worden ist. Der Kern der Methode besteht 
+aus einer \texttt{if}-Abfrage, die, wenn es sich um das Kriterium 
+\texttt{Trainingsbeteiligung} handelt, eine private Methode speziell für diesen 
+Fall aufruft, für alle anderen Kriterien den Score mithilfe der 
+\texttt{calculateScoreOther}-Methode auf die gewöhnliche Weise berechnet. Die 
+einzelnen Abzweigungen der Methode lassen sich gut in getrennten Tests entwickeln. 
+Im Folgenden ist der Test gegeben, der überprüft, ob die Score-Berechnung im Falle 
+eines gewöhnlichen Kriteriums -- also einem anderen als der 
+\texttt{Trainingsbeteiligung} -- erfolgreich funktioniert: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_06() {
+    Integer playerId = 1;
+    Criterion criterion = 
+        new Criterion(2, "Sozialverhalten", "S", 0.25);
+    Setting weeksGeneral = new Setting(1195, "weeksGeneral", 4.0);
+    List<Assessment> assessments = new ArrayList<>(List.of(
+        // Erstellen mehrerer Assessments (Bewertungen) 
+        ... 
+    ));
+    Double expectedScore = assessments.stream()
+        .mapToDouble(Assessment::getValue).average().orElseThrow();
+
+    when(criterionRepository.findById(criterion.getId()))
+        .thenReturn(Optional.of(criterion));
+    when(settingRepository.findById(weeksGeneral.getId()))
+        .thenReturn(Optional.of(weeksGeneral));
+    when(assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+            playerId, criterion.getId(), LocalDate.now().minusWeeks(
+                weeksGeneral.getValue().intValue()).minusDays(1))
+        ).thenReturn(assessments);
+
+    Double score = 
+        playerService.calculateScore(criterion.getId(), playerId);
+
+    assertThat(score).isEqualTo(expectedScore);
+}
+\end{verbatim}
+\end{quote}
+
+Zunächst einmal sind hier einige \texttt{Arrange}-Schritte notwendig: Da die Methode 
+eine \texttt{playerId} und eine \texttt{criterionId} als Eingabeparameter bekommt, 
+müssen diese erst einmal definiert werden. Außerdem ist bei der Score-Berechnung 
+der Wert der Einstellung \texttt{weeksGeneral} vonnöten, da dieser den Zeitraum 
+festlegt, innerhalb dessen Bewertungen berücksichtigt werden. Des Weiteren wird dann 
+noch eine Liste mit verschiedenen Bewertungen erstellt, die in die Berechnung 
+einfließen sollen. Schließlich ergibt sich der \texttt{expectedScore}, der den 
+Durchschnitt der Werte aller gültigen Bewertungen des Spielers für ein bestimmtes 
+Kriterium bildet. \\ 
+Nachdem die nötigen Werte und (Test-)Objekte generiert worden sind, müssen nun 
+die durch die \texttt{calculateScore}-Methode direkt oder indirekt genutzten 
+Repositories und ihre Methoden gemockt werden, um so die Kontrolle über die durch 
+die Persistenzschicht bereitgestellten Daten zu bekommen, denn nur so kann es zu 
+einer Überprüfung der Funktionsweise der zu testenden Service-Methode kommen. 
+So müssen zum Beispiel die \texttt{findById}-Methoden des 
+\texttt{criterionRepository} und des \texttt{settingRepository} so konfiguriert 
+werden, dass sie bei einem Aufruf die zuvor generierten Objekte -- also 
+\texttt{criterion} bzw. \texttt{weeksGeneral} -- zurückgeben. \\ 
+Darüber hinaus muss dann noch diejenige Methode des \texttt{assessmentRepository}, 
+die die Bewertungen nach Spieler, Kriterium und Datum filtert und die entsprechenden 
+Daten lädt, so justiert werden, dass sie die zuvor erstellten Test-Bewertungen 
+zur Verfügung stellt. Das eigentliche Testing des Ladens von Bewertungen aus der 
+Datenbank ist in Kapitel 3.5 beschrieben, diese Funktionalität wird losgelöst von den 
+anderen Schichten getestet, denn hier geht es lediglich darum, ob das Berechnen des 
+Scores korrekt funktioniert. \\ 
+Da nun alle \texttt{Arrangements} -- also alle Vorbereitungen -- getroffen sind, 
+kann der \texttt{Act}-Schritt des Tests vollzogen werden: der Aufruf der 
+\texttt{calculateScore}-Methode auf dem \texttt{PlayerService} mit den 
+notwendigen Parametern. Da es sich in diesem Fall nicht um das Kriterium 
+\texttt{Trainingsbeteiligung} handelt, wird der Score als Durchschnitt aller 
+gefilterter Bewertungen berechnet. Ob dieser dem erwarteten Wert entspricht, wird 
+abschließend mittels eines geeigneten \texttt{assertThat}-Statements geprüft. \\ 
+Für den Fall des Kriteriums \texttt{Trainingsbeteiligung} gibt es darüber hinaus noch 
+einen weiteren Testfall, der durch \texttt{test\_07} der
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/services/PlayerServiceTest.java}{\texttt{PlayerServiceTest.java}}
+abgedeckt ist. Auch hier werden wieder sämtliche Abhängigkeiten zu anderen Schichten 
+durch gezieltes Mocking aufgelöst, sodass der Code zur Berechnung des 
+Trainings-Scores im Fokus steht und in Isolation getestet werden kann, um so eine 
+ordnungsgemäße Funktionsweise zu gewährleisten. 
 

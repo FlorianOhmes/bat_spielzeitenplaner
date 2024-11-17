@@ -1,1 +1,36 @@
-Hier kommt das Testen der Datenbank-Schicht hin. 
+
+In den vorangegangenen Kapiteln wurde gezeigt, wie innerhalb der Web- und 
+Service-Schicht testgetrieben entwickelt werden kann. Dabei wurde zunächst die 
+Benutzeroberfläche entwickelt und damit verbunden auch die Web-Steuereinheiten -- 
+die Controller. Diese rufen unter anderem die für die Benutzeranfragen zuständigen 
+Service-Methoden auf. Deren testgetriebene Entwicklung erforderte wiederum die Existenz 
+einiger Repositories und ihrer Methoden, die für das Laden der entsprechenden Daten aus 
+der Datenbank verantwortlich sind. \\ 
+Das folgende Kapitel soll sich demnach der testgetriebenen Entwicklung dieser 
+Repositories -- und damit verbunden der Persistenzschicht im Allgemeinen -- widmen.
+Im Allgemeinen ist zu sagen, dass für sämtliche Datenbank-Tests die 
+\texttt{Testcontainers}-Bibliothek in Kombination mit \texttt{Docker} verwendet wird. 
+Eine solche Konfiguration bietet gleich mehrere Vorteile: Erstens werden so 
+realistische Tests mit einer echten Instanz der für das Projekt ausgewählten 
+Datenbank ermöglicht. Die Test-Datenbank kann somit exakt so wie die 
+Produktiv-Datenbank konfiguriert werden, wodurch möglichst realistische Bedingungen 
+simuliert werden. \\ 
+Zweitens sorgt die Verwendung von \texttt{Testcontainers} dafür, dass jeder Test in 
+einer bereinigten Umgebung stattfindet, um zu verhindern, dass sie einander 
+beeinflussen und das Ergebnis verfälschen. Drittens wird das Hoch- und Runterfahren 
+sowie das Setup des \texttt{Docker-Containers} automatisiert und von 
+\texttt{Testcontainers} übernommen. \\ 
+Grundsätzlich sind alle Datenbank-Testklassen, die im Verzeichnis 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/tree/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/database}{\texttt{src/test/java/de \linebreak /bathesis/spielzeitenplaner/database}}
+zu finden sind, auf die gleiche Art und Weise aufgebaut. Zunächst einmal muss die 
+jeweilige Testklasse mit drei verschiedenen Annotationen versehen werden: 
+(1.) \texttt{@DataJdbcTest}, durch die Spring eine spezielle Testumgebung für die 
+Persistenzschicht konfiguriert, der Web-Layer zum Beispiel wird komplett deaktiviert, 
+um ressourcenschonender arbeiten zu können, (2.) 
+\texttt{@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)}, 
+die dafür sorgt, dass Spring die Produktiv-Datenbank nicht automatisch durch eine 
+\texttt{In-Memory}-Datenbank ersetzt, sondern die durch \texttt{Testcontainers} 
+konfigurierte Test-Datenbank benutzt, und (3.) \texttt{@Testcontainers}, die für das 
+Verwaltung der innerhalb der Klasse definierten Container zuständig ist 
+(\texttt{Start}, \texttt{Stop} und \texttt{CleanUp}). 
+
