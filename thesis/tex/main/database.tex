@@ -25,12 +25,141 @@ Grundsätzlich sind alle Datenbank-Testklassen, die im Verzeichnis
 zu finden sind, auf die gleiche Art und Weise aufgebaut. Zunächst einmal muss die 
 jeweilige Testklasse mit drei verschiedenen Annotationen versehen werden: 
 (1.) \texttt{@DataJdbcTest}, durch die Spring eine spezielle Testumgebung für die 
-Persistenzschicht konfiguriert, der Web-Layer zum Beispiel wird komplett deaktiviert, 
-um ressourcenschonender arbeiten zu können, (2.) 
+Persistenzschicht konfiguriert -- der Web-Layer zum Beispiel wird komplett deaktiviert 
+-- um ressourcenschonender arbeiten zu können, (2.) 
 \texttt{@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)}, 
 die dafür sorgt, dass Spring die Produktiv-Datenbank nicht automatisch durch eine 
 \texttt{In-Memory}-Datenbank ersetzt, sondern die durch \texttt{Testcontainers} 
-konfigurierte Test-Datenbank benutzt, und (3.) \texttt{@Testcontainers}, die für das 
+konfigurierte Test-Datenbank benutzt, und (3.) \texttt{@Testcontainers}, die für die 
 Verwaltung der innerhalb der Klasse definierten Container zuständig ist 
-(\texttt{Start}, \texttt{Stop} und \texttt{CleanUp}). 
+(\texttt{Start}, \texttt{Stop} und \texttt{CleanUp}). \\ 
+In dem nun folgenden Schritt wird ein solcher Container definiert. Dies geschieht 
+durch folgendes Statement: 
+
+\begin{quote}
+\begin{verbatim}
+@Container
+private static PostgreSQLContainer<?> postgresContainer = 
+        new PostgreSQLContainer<>("postgres:15-alpine")
+                .withDatabaseName("testdb")
+                .withUsername("testuser")
+                .withPassword("testpassword");
+\end{verbatim}
+\end{quote}
+
+Es wird ein \texttt{Postgres}-Container erstellt und konfiguriert, indem die 
+\texttt{PostgreSQL}-Version, der Name der Test-Datenbank sowie Benutzername und 
+Passwort festgelegt werden. Auch weitere Konfigurationsmöglichkeiten können hier 
+hinzugefügt werden, um die Datenbank den Ansprüchen entsprechend zu gestalten. Die 
+\texttt{@Container}-Annotation sorgt dafür, dass der \texttt{Postgres}-Container 
+als solcher erkannt wird und das zuvor erwähnte Starten und Stoppen automatisiert 
+werden kann. \\ 
+Damit \texttt{Spring} sich nun auch wirklich mit der Test-Datenbank -- und nicht mit 
+der Produktiv-Datenbank -- verbindet, müssen die Eigenschaften der ursprünglichen 
+Datenbankverbindung, die in der \texttt{application.yaml} festgelegt sind, während 
+der Tests überschrieben werden. Dies geschieht mithilfe der mit 
+\texttt{@DynamicPropertySource}-annotierten \texttt{configureProperties}-Methode. 
+Innerhalb dieser werden in der \texttt{DynamicPropertyRegistry} die nötigen 
+Verbindungseigenschaften -- darunter die dynamisch generierte \texttt{JdbcUrl} sowie 
+\texttt{Username} und \texttt{Password} der durch den \texttt{postgreSQLContainer} 
+definierten Test-Datenbank -- festgelegt. Ist dies geschehen, so kann die 
+Produktiv-Datenbank für die Dauer der Tests erfolgreich durch die Test-Datenbank 
+substituiert werden. \\ 
+Bevor nun konkret mit dem Schreiben einzelner Tests begonnen werden kann, müssen 
+die notwendigen Repositories bereitgestellt werden. Zur Veranschaulichung dieses 
+Sachverhalts soll nun die 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/database/DatabaseAssessmentTest.java}{\texttt{DatabaseAssessmentTest.java}}
+dienen. Wie im vorangegangenen Kapitel bereits erwähnt, ist durch das Schreiben der 
+Service-Tests bereits die Existenz des jeweiligen \texttt{Repository-Interfaces} 
+sowie deren konkrete Implementierungen in der Persistenzschicht erforderlich. 
+Konkret auf die \texttt{Assessment-Repositories} bezogen ergeben sich folgende 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/fccaa502124b53ec672754dc262bb2d6ad1cd867/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/services/repos/AssessmentRepository.java}{\texttt{AssessmentRepository.java}} 
+und 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/fccaa502124b53ec672754dc262bb2d6ad1cd867/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/database/repoimpl/AssessmentRepositoryImpl.java}{\texttt{AssessmentRepositoryImpl.java}}, 
+wie den verknüpften Links zu entnehmen ist. \\ 
+Nun muss ein 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/0a423a3298919d7206b87d381ecbbd66c6c54869/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/database/springrepos/SpringDataAssessmentRepository.java}{\texttt{SpringDataAssessmentRepository}} 
+-- kurz: \texttt{SpringRepository} -- erstellt werden, das wiederum ein 
+\texttt{Interface} ist und gewissermaßen eine Brücke zwischen der Anwendung und 
+der Datenbank bildet. Es erbt von \texttt{CrudRepository} und ermöglicht die 
+sogenannten \texttt{CRUD-Operationen} -- also \texttt{Create}, \texttt{Read}, 
+\texttt{Update} und \texttt{Delete} -- bezogen auf die Entität \texttt{Assessment}. 
+Dieses \texttt{SpringRepository} wird dann mithilfe der 
+\texttt{@Autowired}-Annotation und eines Konstruktors in der 
+\texttt{DatabaseAssessmentTest.java} in das \texttt{AssessmentRepository} injiziert. 
+Dieses Vorgehen erfordert wiederum einen Konstruktor in der 
+\texttt{Assessment \linebreak RepositoryImpl.java}, der zu diesem Zeitpunkt erstellt 
+werden kann. \\ 
+Um die Persistenzschicht und ihre Daten klar von den anderen Schichten abzutrennen, 
+verwendet das \texttt{SpringRepository} eine eigene \texttt{Assessment}-Klasse, die 
+im Verzeichnis
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/tree/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/database/entities}{\texttt{src/main/java/de/bathesis/spielzeitenplaner/database/entities}}
+verortet ist. Sie kann zunächst als einfacher \texttt{Record} mit den entsprechenden 
+Attributen aus der Domain-Klasse implementiert werden. \\ 
+Sind all die zuvor beschriebenen Schritte vollzogen, so kann mit dem Schreiben 
+konkreter Tests begonnen werden. Zunächst einmal ist es wichtig, dass das Speichern 
+und Laden einer Entität wie gewünscht funktioniert. Diese beiden Operationen sind 
+untrennbar miteinander verbunden, denn um zu überprüfen, ob eine Entität korrekt in 
+der Datenbank gespeichert wurde, muss diese zunächst geladen werden. Gleiches gilt für 
+Umkehrrichtung: Um zu überprüfen, ob eine Entität korrekt geladen wurde, muss diese 
+zunächst in die Datenbank eingefügt werden. Der Test, der feststellt, ob eine 
+Bewertung korrekt gespeichert und geladen wird, kann wie folgt geschrieben werden: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+void test_01() {
+    Assessment assessment = new Assessment(
+        null, LocalDate.of(2022, 12, 31), 1, 1, 3.0
+    );
+
+    Assessment saved = assessmentRepository.save(assessment);
+    Assessment loaded = assessmentRepository
+        .findById(saved.getId()).get();
+
+    assertThat(loaded).isEqualTo(saved);
+}
+\end{verbatim}
+\end{quote}
+
+Zuerst wird ein zu speicherndes Test-Objekt erstellt. Dieses wird dann mittels der 
+\texttt{save}-Methode in der Datenbank gespeichert und mit \texttt{findById} geladen, 
+ehe das gespeicherte mit dem geladenen Objekt abgeglichen und auf Gleichheit geprüft 
+wird. Damit dieser Test nun bestehen kann muss die \texttt{Docker-Anwendung} auf dem 
+testenden Gerät laufen. Darüber hinaus können dem 
+\texttt{SpringDataAssessmentRepository} die entsprechenden Methodensignaturen -- 
+gemeint sind \texttt{Assessment save(Assessment assessment)} und 
+\texttt{Optional<Assessment> findById(Integer id)} -- hinzugefügt werden, um größere 
+Kontrolle über deren Implementierung zu erhalten. Dieser Schritt ist in diesem Fall 
+jedoch nicht zwingend notwendig, da die Methoden bereits über das 
+\texttt{CRUD}-Repository zur Verfügung gestellt werden. \\ 
+Schließlich müssen dann auch die im Test genutzten Repository-Mehoden zum Speichern 
+und Laden einer Bewertung implementiert werden. Dies gestaltet sich wie folgt: Im 
+Falle der \texttt{save}-Methode erfolgt eine Übersetzung des \texttt{DomainAssessment} 
+zum \texttt{DatabaseAssessment}, das dann der \texttt{save}-Methode des 
+\texttt{SpringDataAssessmentRepository} zum Speichern übergeben werden kann. 
+Anschließend wird das gespeicherte Objekt für die Rückgabe vorbereitet, indem es 
+zurück in ein entsprechendes Domänen-Objekt konvertiert wird. Der 
+\texttt{AssessmentMapper} bzw. die für diese Konvertierung zuständigen Methoden 
+müssen an dieser Stelle ebenfalls implementiert werden. Analog dazu wird die 
+\texttt{findById}-Methode implementiert, indem die Anfrage an die 
+\texttt{findById}-Methode des \texttt{SpringDataAssessmentRepository} delegiert wird 
+und dessen Rückgabe zum Domain-Objekt konvertiert und zurückgegeben wird. \\ 
+Außerdem sollte sichergestellt werden, dass die entsprechende Tabelle in der Datenbank 
+existiert, beispielsweise indem diese mithilfe eines Migrationsschemas und 
+\texttt{Flyway} erstellt wurde. Dazu sollte die Anwendung nach Erstellung des 
+Migrationsschemas wenigstens einmal gestartet werden, sodass \texttt{Flyway} die 
+Migration durchführen kann. Schließlich muss der Instanzvariable \texttt{id} der 
+\texttt{Assessment.java} -- gemeint ist die \texttt{DatabaseAssessment}-Klasse im Verzeichnis \texttt{database/entities} -- noch die \texttt{@Id}-Annotation hinzugefügt 
+werden, damit \texttt{JDBC} weiß, dass es sich hierbei um dem Primärschlüssel der 
+Tabelle handelt und Anfragen somit ordnungsgemäß ausführen kann. \\ 
+Neben \texttt{save} und \texttt{findById} stellt die \texttt{findAll}-Methode 
+ebenfalls ein nützliches Werkzeug zum Laden mehrerer Entitäten aus der Datenbank dar, 
+das im Rahmen des Spielzeitenplaners häufig Gebrauch findet. Der Ablauf des Tests 
+ist dem der \texttt{findById}-Methode ähnlich und ist zum Beispiel unter dem Namen 
+\texttt{test\_02} in der
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/database/DatabasePlayerTest.java}{\texttt{DatabasePlayerTest.java}}
+zu finden. Dort werden zunächst mehrere Spieler gespeichert und anschließend 
+mithilfe der \texttt{findAll()}-Methode des \texttt{CRUD}-Repositories geladen. 
+Hier geht's weiter... 
 
