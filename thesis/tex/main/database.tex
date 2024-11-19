@@ -125,7 +125,7 @@ void test_01() {
 Zuerst wird ein zu speicherndes Test-Objekt erstellt. Dieses wird dann mittels der 
 \texttt{save}-Methode in der Datenbank gespeichert und mit \texttt{findById} geladen, 
 ehe das gespeicherte mit dem geladenen Objekt abgeglichen und auf Gleichheit geprüft 
-wird. Damit dieser Test nun bestehen kann muss die \texttt{Docker-Anwendung} auf dem 
+wird. Damit dieser Test nun bestehen kann muss die \texttt{Docker}-Anwendung auf dem 
 testenden Gerät laufen. Darüber hinaus können dem 
 \texttt{SpringDataAssessmentRepository} die entsprechenden Methodensignaturen -- 
 gemeint sind \texttt{Assessment save(Assessment assessment)} und 
@@ -161,5 +161,64 @@ ist dem der \texttt{findById}-Methode ähnlich und ist zum Beispiel unter dem Na
 \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/database/DatabasePlayerTest.java}{\texttt{DatabasePlayerTest.java}}
 zu finden. Dort werden zunächst mehrere Spieler gespeichert und anschließend 
 mithilfe der \texttt{findAll()}-Methode des \texttt{CRUD}-Repositories geladen. 
-Hier geht's weiter... 
+Abschließend wird dann geprüft, ob die zuvor gespeicherten Elemente durch die 
+\texttt{findAll}-Methode gefunden werden. \\ 
+Dank \texttt{JDBCs} \texttt{Derived Queries} ist es möglich, über die standardmäßig 
+implementierten Basismethoden hinaus auch eigene, spezifischere Methoden zu schreiben, 
+die anhand des Methodennamens sowie aufgrund bestimmter Regeln und Konventionen 
+entsprechende Anfragen ableiten und ausführen können. Im Kontext des 
+Spiezeitenplaners beispielsweise ist es für die Berechnung der Scores hilfreich, 
+die gespeicherten Bewertungen nach mehreren Kriterien -- wie dem Namen, Kriterium 
+und Datum -- zu filtern, sodass die Score-Berechnung auch nur die gewünschten Daten 
+als Grundlage nimmt. \\ 
+Ein 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/database/DatabaseAssessmentTest.java}{\texttt{Test}} 
+für die \texttt{findByPlayerIdAndCriterionIdAndDateAfter}-Methode kann wie 
+folgt aussehen: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_02() {
+    Integer playerId = 1;
+    Integer criterionId = 1;
+    Assessment assessment1 = new Assessment(
+        null, LocalDate.of(2022, 12, 31), criterionId, playerId, 5.0
+    );
+    Assessment assessment2 = new Assessment(
+        null, LocalDate.of(2022, 12, 29), criterionId, playerId, 3.0
+    );
+    Assessment assessment3 = new Assessment(
+        null, LocalDate.of(2022, 12, 31), criterionId, 2, 2.0
+    );
+    Assessment saved1 = assessmentRepository.save(assessment1);
+    Assessment saved2 = assessmentRepository.save(assessment2);
+    Assessment saved3 = assessmentRepository.save(assessment3);
+
+    Collection<Assessment> found = 
+        assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+        playerId, criterionId, LocalDate.of(2022, 12, 1)
+    );
+
+    assertThat(found).containsExactly(saved1, saved2);
+    assertThat(found).doesNotContain(saved3);
+}
+\end{verbatim}
+\end{quote}
+
+Auch in diesem Fall ist es zunächst notwendig einige Vorbereitungen zu treffen -- 
+benötigte sowie geeignete Test-Daten zu generieren und diese in der Datenbank zu 
+speichern, ehe diese dann in einem \texttt{Act}-Schritt abgerufen und gefiltert 
+werden. Ob dieser Schritt wie erwartet funktioniert, wird schließlich überprüft: Im 
+Falle des zuvor vorgestellten Tests sollten nur \texttt{assessment1} und 
+\texttt{assessment2} bzw. \texttt{saved1} und \texttt{saved2} gefunden werden, 
+\texttt{assessment3} bzw. \texttt{saved3} hingegen nicht, da diese Bewertung eine 
+andere als die gewünschte \texttt{playerId} besitzt. \\ 
+Nach diesem Prinzip kann die Methode unter weiteren, verschiedenen Bedingungen 
+getestet werden, um diese robuster zu machen. Zum Beispiel können die 
+\texttt{Assessments} so gewählt werden, dass sie überprüfen, ob das Filtern nach 
+Datum korrekt funktioniert. Gleiches gilt für das Filtern nach Kriterium. Des Weiteren 
+ist auch die Überprüfung von Randfällen sinnvoll, um sicherzustellen, dass die 
+Methode auch unter weniger optimalen Bedingungen das richtige Ergebnis liefert. 
 

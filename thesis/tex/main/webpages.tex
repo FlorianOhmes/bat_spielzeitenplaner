@@ -32,7 +32,7 @@ class PageTest {
 
 Durch die Verwendung der \texttt{WebMvcTest}-Annotation wird ein spezieller 
 Testkontext initialisiert, der sich nur auf das Laden und Konfigurieren von 
-Komponenten der Web-Schicht konzentriert \textbf{\textcolor{red}{(QUELLE !!!)}}. 
+Komponenten der Web-Schicht konzentriert \cite{vmware2024webmvctest}. 
 Darüber hinaus wird in Klammern notiert, welche spezifische Controller-Klasse für 
 den Test benötigt wird, sodass nur diese für den Test geladen und bereitgestellt 
 wird. Überlicherweise enthält jede WebPage-Testklasse eine mit \texttt{BeforeEach} 
@@ -48,7 +48,7 @@ Diese kann dann detaillierten Testungen unterzogen werden. \\
 Ein wichtiger Bestandteil dabei bildet die Java-Bibliothek Jsoup. Sie wurde für das 
 Arbeiten mit HTML entwickelt und ermöglicht daher sowohl das Parsen, wie auch 
 Extrahieren, Manipulieren oder Korrigieren von HTML-Dokumenten 
-\textbf{\textcolor{red}{(QUELLE !!!)}}. Für die dieser Arbeit zugrunde liegenden 
+\cite{hedley2024jsoup}. Für die dieser Arbeit zugrunde liegenden 
 Testungen werden vor allem die erstgenannten Funktionen -- also das Parsen und 
 Extrahieren von HTML bzw. HTML-Schnipseln -- benötigt. \\ 
 Wie Jsoups \texttt{parse}-Funktion in diesem Projekt verwendet wurde, wurde bereits 
@@ -174,7 +174,8 @@ Nutzenden die Navigation durch die einzelnen Bereiche der Anwendung zu erleichte
 Für den Fall, dass Navigationsleiste oder Footer jedoch komplett entfernt werden 
 sollen, kann über die Verwendung des \texttt{Thymeleaf Layout Dialect} nachgedacht 
 werden. Dieser ermöglicht es, Layout-Templates zu erstellen und zu definieren, die 
-dann wiederum von anderen Templates verwendet werden können \textbf{\textcolor{red}{(QUELLE !!!)}}. \\ 
+dann wiederum von anderen Templates verwendet werden können 
+\cite{borowiec2024layouts}. \\ 
 So kann die grundsätzliche Struktur einer Seite von ihrem konkreten Inhalt getrennt 
 werden, was die Modularisierbarkeit fördert und die Wiederverwendbarkeit erhöht. 
 Für das konkrete Testing bedeutet dies, dass ein Layout-Template ein Mal gesondert 
