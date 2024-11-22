@@ -1,9 +1,9 @@
 
 Nachdem nun ausgiebig über das Testing des Web-Interfaces gesprochen wurde, soll 
-sich das kommende Kapitel nun einer weiteren wichtigen Komponente, der Service-
-Schicht, widmen. Diese kann unabhängig von den anderen Komponenten entwickelt werden. 
-Im Falle des hier vorliegenden Projektes -- der Entwicklung des Spielzeitenplaners 
--- ist die Service-Schicht schrittweise aufgebaut worden. \\ 
+sich das kommende Kapitel nun einer weiteren wichtigen Komponente, der 
+Service-Schicht, widmen. Diese kann unabhängig von den anderen Komponenten entwickelt 
+werden. Im Falle des hier vorliegenden Projektes -- der Entwicklung des 
+Spielzeitenplaners -- ist die Service-Schicht schrittweise aufgebaut worden. \\ 
 Dabei wurde sich an verschiedenen \texttt{use cases} orientiert, die die 
 funktionalen Anforderungen der Anwendung hervorheben und die wiederum eine 
 Interaktion der Nutzenden mit der Web-Oberfläche als Startpunkt besitzen. Ein 
@@ -82,6 +82,10 @@ Eigenschaften innerhalb des Methodenaufrufs verändert werden, so ist der Gebrau
 eines \texttt{ArgumentCaptors} durchaus sinnvoll, wie \texttt{test\_01} der 
 \texttt{RecapServiceTest.java} veranschaulicht: 
 
+
+\pagebreak
+
+
 \begin{quote}
 \begin{verbatim}
 @Test
@@ -113,7 +117,7 @@ muss die spezifische Klasse, für die der \texttt{Captor} programmiert ist, zun�
 bei der Initialisierung des \texttt{assessmentCaptors} konfiguriert werden. Nach dem 
 Erfassungsvorgang können alle gespeicherten \texttt{Assessments} dann abgerufen und 
 in einer Liste gespeichert, um schließlich weiteren Überprüfungen mithilfe von 
-\texttt{asserThat} unterzogen werden zu können. \\ 
+\texttt{assertThat} unterzogen werden zu können. \\ 
 Während bisher Gesagtes vor allen Dingen das Delegieren eines Aufrufs an die 
 Persistenzschicht und die Überprüfung der Übergabe von Parametern in den Vordergrund 
 stellt, soll nun im Folgenden auf die Überprüfung von Rückgabewerten eingegangen 
@@ -182,6 +186,10 @@ einzelnen Abzweigungen der Methode lassen sich gut in getrennten Tests entwickel
 Im Folgenden ist der Test gegeben, der überprüft, ob die Score-Berechnung im Falle 
 eines gewöhnlichen Kriteriums -- also einem anderen als der 
 \texttt{Trainingsbeteiligung} -- erfolgreich funktioniert: 
+
+
+\pagebreak
+
 
 \begin{quote}
 \begin{verbatim}

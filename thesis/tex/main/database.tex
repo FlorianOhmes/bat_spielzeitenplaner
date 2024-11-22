@@ -62,9 +62,9 @@ der Tests überschrieben werden. Dies geschieht mithilfe der mit
 Innerhalb dieser werden in der \texttt{DynamicPropertyRegistry} die nötigen 
 Verbindungseigenschaften -- darunter die dynamisch generierte \texttt{JdbcUrl} sowie 
 \texttt{Username} und \texttt{Password} der durch den \texttt{postgreSQLContainer} 
-definierten Test-Datenbank -- festgelegt. Ist dies geschehen, so kann die 
+definierten Test-Datenbank -- festgelegt. Ist dies geschehen, so wird die 
 Produktiv-Datenbank für die Dauer der Tests erfolgreich durch die Test-Datenbank 
-substituiert werden. \\ 
+substituiert. \\ 
 Bevor nun konkret mit dem Schreiben einzelner Tests begonnen werden kann, müssen 
 die notwendigen Repositories bereitgestellt werden. Zur Veranschaulichung dieses 
 Sachverhalts soll nun die 
@@ -207,9 +207,9 @@ void test_02() {
 \end{verbatim}
 \end{quote}
 
-Auch in diesem Fall ist es zunächst notwendig einige Vorbereitungen zu treffen -- 
-benötigte sowie geeignete Test-Daten zu generieren und diese in der Datenbank zu 
-speichern, ehe diese dann in einem \texttt{Act}-Schritt abgerufen und gefiltert 
+Auch in diesem Fall ist es zunächst notwendig einige Vorbereitungen zu treffen: 
+Benötigte sowie geeignete Test-Daten müssen generiert und in der Datenbank gespeichert 
+werden, ehe diese dann in einem \texttt{Act}-Schritt abgerufen und gefiltert 
 werden. Ob dieser Schritt wie erwartet funktioniert, wird schließlich überprüft: Im 
 Falle des zuvor vorgestellten Tests sollten nur \texttt{assessment1} und 
 \texttt{assessment2} bzw. \texttt{saved1} und \texttt{saved2} gefunden werden, 

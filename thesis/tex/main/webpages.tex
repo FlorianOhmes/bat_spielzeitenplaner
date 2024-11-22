@@ -38,7 +38,7 @@ den Test benötigt wird, sodass nur diese für den Test geladen und bereitgestel
 wird. Überlicherweise enthält jede WebPage-Testklasse eine mit \texttt{BeforeEach} 
 annotierte \texttt{setUp}-Methode, die vor jedem Test ausgeführt wird. Da das 
 Vorgehen vor jedem Test gleich ist, bietet sich die Extraktion dieser Logik an, 
-um die einzelnen Test übersichtlicher und wartbarer zu gestalten. \\ 
+um die einzelnen Tests übersichtlicher und wartbarer zu gestalten. \\ 
 Das Ziel der \texttt{setUp}-Methode ist es, mithilfe des MockMvc eine Anfrage über 
 einen bestimmten Pfad zu simulieren, das Ergebnis mit Jsoup zu parsen (siehe 
 \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/utilities/RequestHelper.java}{\texttt{RequestHelper.java}}) und schließlich in einer 
@@ -154,7 +154,7 @@ Verwendung eines \texttt{Thymeleaf-Fragments} in diesem Projekt ist der Footer:
 \end{verbatim}
 \end{quote}
 
-Er ist mit dem \texttt{th:fragment}-Tag versehen und als \texttt{``footer''}, 
+Dieser ist mit dem \texttt{th:fragment}-Tag versehen und als \texttt{``footer''}, 
 benannt. Innerhalb der \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/resources/templates/welcome.html}{\texttt{welcome.html}}
 kann er dann einfach mithilfe des einzeiligen Codeschnipsels
 \texttt{<div \linebreak th:replace=``\textasciitilde\{fragments/basics :: footer\}''></div>}
@@ -166,7 +166,7 @@ sondern lediglich das Vorhandensein gewisser Elemente. Wenn sich nun eine
 Beschriftung ändert, die Struktur angepasst werden soll oder ein neuer Bereich -- 
 zum Beispiel \texttt{Statistik} -- hinzukommt, müssen die entsprechenden Tests nur 
 an einer Stelle angepasst werden, die Testklassen für die einzelnen Webseiten 
-bleiben unberührt, da hier -- wie zuvor bereits beschrieben -- nur das 
+bleiben unberührt, da hier -- wie zuvor bereits beschrieben -- lediglich das 
 Vorhandensein geprüft wird. \\ 
 Navigationsleiste und Footer sind im Rahmen des Spielzeitenplaners als feste 
 Bestandteile jeder Seite eingeplant, um Letzteren eine Rahmung zu geben und 
@@ -288,7 +288,7 @@ implementieren, muss Folgendes geschehen: Die Spieler-Daten, die vom
 entsprechenden Service an den Controller weitergegeben und durch Letzteren im 
 Model bereitgestellt werden, müssen mit dem jeweiligen Input-Feld verknüpft werden. 
 Die Existenz jener Input-Felder wurde bereits im vorherigen Test gefordert, nicht 
-aber ihr spezifischer Inhalt. Mithilfe von Thymeleaf lässt sich die entsprechenden 
+aber ihr spezifischer Inhalt. Mithilfe von Thymeleaf lassen sich die entsprechenden 
 Daten komfortabel in das jeweilige Template bzw. die jeweilige Seite hineinrendern: 
 
 \begin{quote}
