@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +51,7 @@ class SubstitutionsPageTest {
 
     @BeforeEach
     void getSubstitutionsPage() throws Exception {
-        when(spielzeitenService.calculateAllMinutes(squad)).thenReturn(List.of(
+        when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(List.of(
             5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 0, 35
         ));
         List<String> positions = TestObjectGenerator.generateFormation().getPositions().stream().map(Position::getName).toList();

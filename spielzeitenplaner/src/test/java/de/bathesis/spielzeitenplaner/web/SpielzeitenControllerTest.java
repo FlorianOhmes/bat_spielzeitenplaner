@@ -1,6 +1,7 @@
 package de.bathesis.spielzeitenplaner.web;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -72,7 +73,7 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Die Seite Wechsel eintragen der Spielzeitenplanung ist erreichbar.")
     void test_04() throws Exception {
-        when(spielzeitenService.calculateAllMinutes(squad)).thenReturn(List.of(
+        when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(List.of(
             35, 70, 70, 70, 50, 70, 35, 55, 60, 65, 35, 35, 30, 25, 20, 15
         ));
         mvc.perform(getWithSession())
@@ -202,7 +203,7 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Das Model für die Seite Wechsel eintragen ist korrekt befüllt.")
     void test_13() throws Exception {
-        when(spielzeitenService.calculateAllMinutes(squad)).thenReturn(List.of(
+        when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(List.of(
             35, 70, 70, 70, 50, 70, 35, 55, 60, 65, 35, 35, 30, 25, 20, 15
         ));
         mvc.perform(getWithSession())

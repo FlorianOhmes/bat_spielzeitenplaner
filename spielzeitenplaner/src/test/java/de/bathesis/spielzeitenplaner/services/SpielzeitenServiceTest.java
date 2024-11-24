@@ -95,4 +95,20 @@ class SpielzeitenServiceTest {
         assertThat(updatedStartingXI.get(8)).isEqualTo(squad.get(2));
     }
 
+    @Test
+    @DisplayName("Die Berechnung der Spielminuten funktioniert korrekt.")
+    void test_04() {
+        List<Player> squad = TestObjectGenerator.generateSquad();
+        List<Double> totalScores = new ArrayList<>(List.of(
+            8.4, 9.2, 7.1, 8.7, 9.3, 7.6, 8.0, 9.0, 7.4, 8.6, 7.8, 8.9, 9.1, 7.5, 8.5, 7.9
+        ));
+
+        List<Integer> minutes = spielzeitenService.calculateAllMinutes(squad, totalScores);
+
+        assertThat(minutes).hasSize(squad.size());
+        assertThat(minutes.get(2)).isEqualTo(53);
+        assertThat(minutes.get(4)).isEqualTo(70);
+        assertThat(minutes.get(13)).isEqualTo(56);
+    }
+
 }

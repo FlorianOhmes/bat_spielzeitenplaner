@@ -84,9 +84,17 @@ public class SpielzeitenService {
     }
 
 
-    public List<Integer> calculateAllMinutes(List<Player> players) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculateAllMinutes'");
+    public List<Integer> calculateAllMinutes(List<Player> players, List<Double> totalScores) {
+        List<Integer> minutes = new ArrayList<>(Collections.nCopies(players.size(), 0));
+        Double maxScore = Collections.max(totalScores);
+
+        for (int i = 0; i < players.size(); i++) {
+            Double currentScore = totalScores.get(i);
+            Integer calculatedMinutes = (int) Math.round((currentScore / maxScore) * 70);
+            minutes.set(i, calculatedMinutes);
+        }
+
+        return minutes;
     }
 
 }

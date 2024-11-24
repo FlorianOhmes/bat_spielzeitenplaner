@@ -86,7 +86,10 @@ public class SpielzeitenController {
 
     @GetMapping("/substitutions")
     public String substitutions(Model model, @ModelAttribute("startingXI") List<Player> startingXI, 
-                                             @ModelAttribute("bench") List<Player> bench) {
+                                             @ModelAttribute("bench") List<Player> bench, 
+                                             @ModelAttribute("totalScoresStartingXI") List<Double> totalScoresStartingXI, 
+                                             @ModelAttribute("totalScoresBench") List<Double> totalScoresBench) {
+
         if (!model.containsAttribute("substitutions")) {
             model.addAttribute("substitutions", new ArrayList<>());
         }
@@ -95,7 +98,9 @@ public class SpielzeitenController {
 
         List<Player> players = new ArrayList<>(startingXI);
         players.addAll(bench);
-        List<Integer> calculatedMinutes = spielzeitenService.calculateAllMinutes(players);
+        List<Double> scores = new ArrayList<>(totalScoresStartingXI);
+        scores.addAll(totalScoresBench);
+        List<Integer> calculatedMinutes = spielzeitenService.calculateAllMinutes(players, scores);
         model.addAttribute("calculatedMinutes", calculatedMinutes);
 
         return "/spielzeiten/substitutions";
