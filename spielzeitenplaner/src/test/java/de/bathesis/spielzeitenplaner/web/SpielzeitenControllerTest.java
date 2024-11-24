@@ -206,8 +206,7 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Es werden Post-Requests über /spielzeiten/addSubstitution akzeptiert.")
     void test_14() throws Exception {
-        mvc.perform(post("/spielzeiten/addSubstitution")
-                        .sessionAttr("substitutions", new ArrayList<>()))
+        mvc.perform(postWithSubstitutions())
            .andExpect(flash().attributeExists("substitutions"))
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/spielzeiten/substitutions"));
@@ -216,11 +215,16 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Es werden Post-Requests über /spielzeiten/deleteSubstitution akzeptiert.")
     void test_15() throws Exception {
-        mvc.perform(post("/spielzeiten/deleteSubstitution"))
+        mvc.perform(postWithSubstitutions())
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/spielzeiten/substitutions"));
     }
 
+
+    private MockHttpServletRequestBuilder postWithSubstitutions() {
+        return post("/spielzeiten/addSubstitution")
+                        .sessionAttr("substitutions", new ArrayList<>());
+    }
 
     private MockHttpServletRequestBuilder getWithFlash() {
         return get("/spielzeiten/kader")

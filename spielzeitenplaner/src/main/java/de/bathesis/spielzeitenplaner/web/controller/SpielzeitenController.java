@@ -162,7 +162,11 @@ public class SpielzeitenController {
     }
 
     @PostMapping("/deleteSubstitution")
-    public String deleteSubstitution() {
+    public String deleteSubstitution(Integer idToDelete, @ModelAttribute("substitutions") List<Substitution> substitutions, 
+                                     RedirectAttributes redirectAttributes) {
+
+        substitutions.removeIf(s -> s.getId().equals(idToDelete));
+        redirectAttributes.addFlashAttribute("substitutions", substitutions);
         return "redirect:/spielzeiten/substitutions";
     }
 

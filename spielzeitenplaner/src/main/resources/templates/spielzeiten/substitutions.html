@@ -198,7 +198,7 @@
                 </ul>
                 <!-- Formular zum Eintragen eines neuen Wechsels -->
                 <form method="post" th:action="@{/spielzeiten/addSubstitution}" id="addSubstitution" class="d-flex align-items-center justify-content-start" style="margin-top: 50px;">
-                    <input type="text" name="id" th:value="${substitutions.size() + 1}" style="display: none;">
+                    <input type="text" name="id" th:value="${substitutions.size()}" style="display: none;">
                     <div class="form-group mr-3">
                         <label for="minute">Minute:</label>
                         <input type="number" id="minute" class="form-control" th:name="minute" value="35">
