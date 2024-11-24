@@ -88,11 +88,9 @@ public class SpielzeitenController {
     public String substitutions(Model model, @ModelAttribute("startingXI") List<Player> startingXI, 
                                              @ModelAttribute("bench") List<Player> bench, 
                                              @ModelAttribute("totalScoresStartingXI") List<Double> totalScoresStartingXI, 
-                                             @ModelAttribute("totalScoresBench") List<Double> totalScoresBench) {
+                                             @ModelAttribute("totalScoresBench") List<Double> totalScoresBench, 
+                                             @ModelAttribute("substitutions") List<String> substitutions) {
 
-        if (!model.containsAttribute("substitutions")) {
-            model.addAttribute("substitutions", new ArrayList<>());
-        }
         Random random = new Random();
         model.addAttribute("randomSubstitutionId", random.nextInt(50000));
 
@@ -103,7 +101,15 @@ public class SpielzeitenController {
         List<Integer> calculatedMinutes = spielzeitenService.calculateAllMinutes(players, scores);
         model.addAttribute("calculatedMinutes", calculatedMinutes);
 
+        List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(players, substitutions);
+        model.addAttribute("plannedMinutes", plannedMinutes);
+
         return "/spielzeiten/substitutions";
+    }
+
+    @ModelAttribute("substitutions")
+    private List<Substitution> noSubstitutions() {
+        return new ArrayList<>();
     }
 
     @PostMapping("/determineKader")

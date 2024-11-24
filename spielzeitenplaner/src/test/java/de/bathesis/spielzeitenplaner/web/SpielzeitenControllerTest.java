@@ -73,9 +73,15 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Die Seite Wechsel eintragen der Spielzeitenplanung ist erreichbar.")
     void test_04() throws Exception {
-        when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(List.of(
+        List<Integer> calculatedMinutes = new ArrayList<>(List.of(
             35, 70, 70, 70, 50, 70, 35, 55, 60, 65, 35, 35, 30, 25, 20, 15
         ));
+        List<Integer> plannedMinutes = new ArrayList<>(List.of(
+            45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60
+        ));
+        when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(calculatedMinutes);
+        when(spielzeitenService.calculatePlannedMinutes(eq(squad), any())).thenReturn(plannedMinutes);
+
         mvc.perform(getWithSession())
            .andExpect(status().isOk())
            .andExpect(view().name("/spielzeiten/substitutions"));
@@ -203,11 +209,19 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Das Model für die Seite Wechsel eintragen ist korrekt befüllt.")
     void test_13() throws Exception {
-        when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(List.of(
+        List<Integer> calculatedMinutes = new ArrayList<>(List.of(
             35, 70, 70, 70, 50, 70, 35, 55, 60, 65, 35, 35, 30, 25, 20, 15
         ));
+        List<Integer> plannedMinutes = new ArrayList<>(List.of(
+            45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60
+        ));
+        when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(calculatedMinutes);
+        when(spielzeitenService.calculatePlannedMinutes(eq(squad), any())).thenReturn(plannedMinutes);
+
         mvc.perform(getWithSession())
-           .andExpect(model().attributeExists("substitutions"));
+           .andExpect(model().attributeExists("substitutions"))
+           .andExpect(model().attribute("calculatedMinutes", calculatedMinutes))
+           .andExpect(model().attribute("plannedMinutes", plannedMinutes));
     }
 
     @Test

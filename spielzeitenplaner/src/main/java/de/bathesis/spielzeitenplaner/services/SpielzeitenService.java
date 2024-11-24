@@ -97,4 +97,10 @@ public class SpielzeitenService {
         return minutes;
     }
 
+
+    public List<Integer> calculatePlannedMinutes(List<Player> players, List<String> substitutions) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calculatePlannedMinutes'");
+    }
+
 }

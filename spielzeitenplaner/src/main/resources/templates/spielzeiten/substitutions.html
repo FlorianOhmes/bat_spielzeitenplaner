@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="bottom">
                                         <div class="minutes-played" th:text="${calculatedMinutes.get(i)}">70</div>
-                                        <div class="substituted">50</div>
+                                        <div class="substituted" th:text="${plannedMinutes.get(i)}">50</div>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="bottom">
                                         <div class="minutes-played" th:text="${calculatedMinutes.get(i)}">70</div>
-                                        <div class="substituted">50</div>
+                                        <div class="substituted" th:text="${plannedMinutes.get(i)}">50</div>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                     </div>
                                     <div class="bottom">
                                         <div class="minutes-played" th:text="${calculatedMinutes.get(i)}">70</div>
-                                        <div class="substituted">50</div>
+                                        <div class="substituted" th:text="${plannedMinutes.get(i)}">50</div>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="bottom">
                                         <div class="minutes-played" th:text="${calculatedMinutes.get(0)}">70</div>
-                                        <div class="substituted">50</div>
+                                        <div class="substituted" th:text="${plannedMinutes.get(0)}">50</div>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
                                     </div>
                                     <div class="bottom">
                                         <div class="minutes-played" th:text="${calculatedMinutes.get(stat.index + 11)}">70</div>
-                                        <div class="substituted">50</div>
+                                        <div class="substituted" th:text="${plannedMinutes.get(stat.index + 11)}">50</div>
                                     </div>
                                 </div>
                             </div>

@@ -54,6 +54,9 @@ class SubstitutionsPageTest {
         when(spielzeitenService.calculateAllMinutes(eq(squad), any())).thenReturn(List.of(
             5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 0, 35
         ));
+        when(spielzeitenService.calculatePlannedMinutes(eq(squad), any())).thenReturn(List.of(
+            45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60
+        ));
         List<String> positions = TestObjectGenerator.generateFormation().getPositions().stream().map(Position::getName).toList();
         String html = mvc.perform(get("/spielzeiten/substitutions")
                         .flashAttr("substitutions", substitutions)
@@ -149,7 +152,7 @@ class SubstitutionsPageTest {
         Player player = squad.get(7);
         List<String> expectedValues = new ArrayList<>(List.of(
             player.getFirstName(), player.getLastName(), player.getPosition(), 
-            "40", "50"
+            "40", "52"
         ));
         String playerCard = RequestHelper.extractFrom(substitutionsPage, "#midfield .player")
                                            .text();
