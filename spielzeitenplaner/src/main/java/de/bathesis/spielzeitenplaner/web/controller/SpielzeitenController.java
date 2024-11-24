@@ -2,6 +2,7 @@ package de.bathesis.spielzeitenplaner.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Arrays;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,6 +89,8 @@ public class SpielzeitenController {
         if (!model.containsAttribute("substitutions")) {
             model.addAttribute("substitutions", new ArrayList<>());
         }
+        Random random = new Random();
+        model.addAttribute("randomSubstitutionId", random.nextInt(50000));
         return "/spielzeiten/substitutions";
     }
 
