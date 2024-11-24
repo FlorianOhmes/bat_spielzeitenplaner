@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -48,6 +49,9 @@ class SubstitutionsPageTest {
 
     @BeforeEach
     void getSubstitutionsPage() throws Exception {
+        when(spielzeitenService.calculateAllMinutes(squad)).thenReturn(List.of(
+            5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 0, 35
+        ));
         List<String> positions = TestObjectGenerator.generateFormation().getPositions().stream().map(Position::getName).toList();
         String html = mvc.perform(get("/spielzeiten/substitutions")
                         .flashAttr("substitutions", substitutions)
@@ -55,7 +59,9 @@ class SubstitutionsPageTest {
                         .sessionAttr("numOfMID", 4).sessionAttr("numOfATK", 2)
                         .sessionAttr("positions", positions)
                         .sessionAttr("startingXI", squad.subList(0, 11))
+                        .sessionAttr("bench", squad.subList(11, 16))
                         .sessionAttr("totalScoresStartingXI", Collections.nCopies(11, 0.0))
+                        .sessionAttr("totalScoresBench", Collections.nCopies(5, 0.0))
                     )
                     .andReturn().getResponse().getContentAsString();
         substitutionsPage = Jsoup.parse(html);
@@ -141,7 +147,7 @@ class SubstitutionsPageTest {
         Player player = squad.get(7);
         List<String> expectedValues = new ArrayList<>(List.of(
             player.getFirstName(), player.getLastName(), player.getPosition(), 
-            "70", "50"
+            "40", "50"
         ));
         String playerCard = RequestHelper.extractFrom(substitutionsPage, "#midfield .player")
                                            .text();

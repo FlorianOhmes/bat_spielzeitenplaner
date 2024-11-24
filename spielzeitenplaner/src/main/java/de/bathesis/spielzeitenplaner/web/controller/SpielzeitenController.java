@@ -85,12 +85,19 @@ public class SpielzeitenController {
     }
 
     @GetMapping("/substitutions")
-    public String substitutions(Model model) {
+    public String substitutions(Model model, @ModelAttribute("startingXI") List<Player> startingXI, 
+                                             @ModelAttribute("bench") List<Player> bench) {
         if (!model.containsAttribute("substitutions")) {
             model.addAttribute("substitutions", new ArrayList<>());
         }
         Random random = new Random();
         model.addAttribute("randomSubstitutionId", random.nextInt(50000));
+
+        List<Player> players = new ArrayList<>(startingXI);
+        players.addAll(bench);
+        List<Integer> calculatedMinutes = spielzeitenService.calculateAllMinutes(players);
+        model.addAttribute("calculatedMinutes", calculatedMinutes);
+
         return "/spielzeiten/substitutions";
     }
 

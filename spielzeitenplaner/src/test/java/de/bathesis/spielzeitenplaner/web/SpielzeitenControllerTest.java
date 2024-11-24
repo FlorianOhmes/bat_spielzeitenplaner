@@ -72,6 +72,9 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Die Seite Wechsel eintragen der Spielzeitenplanung ist erreichbar.")
     void test_04() throws Exception {
+        when(spielzeitenService.calculateAllMinutes(squad)).thenReturn(List.of(
+            35, 70, 70, 70, 50, 70, 35, 55, 60, 65, 35, 35, 30, 25, 20, 15
+        ));
         mvc.perform(getWithSession())
            .andExpect(status().isOk())
            .andExpect(view().name("/spielzeiten/substitutions"));
@@ -199,6 +202,9 @@ class SpielzeitenControllerTest {
     @Test
     @DisplayName("Das Model für die Seite Wechsel eintragen ist korrekt befüllt.")
     void test_13() throws Exception {
+        when(spielzeitenService.calculateAllMinutes(squad)).thenReturn(List.of(
+            35, 70, 70, 70, 50, 70, 35, 55, 60, 65, 35, 35, 30, 25, 20, 15
+        ));
         mvc.perform(getWithSession())
            .andExpect(model().attributeExists("substitutions"));
     }
@@ -244,7 +250,9 @@ class SpielzeitenControllerTest {
                         .sessionAttr("numOfMID", 4).sessionAttr("numOfATK", 2)
                         .sessionAttr("positions", TestObjectGenerator.generateFormation().getPositions().stream().map(Position::getName).toList())
                         .sessionAttr("startingXI", squad.subList(0, 11))
-                        .sessionAttr("totalScoresStartingXI", Collections.nCopies(11, 0.0));
+                        .sessionAttr("bench", squad.subList(11, 16))
+                        .sessionAttr("totalScoresStartingXI", Collections.nCopies(11, 0.0))
+                        .sessionAttr("totalScoresBench", Collections.nCopies(5, 0.0));
     }
 
 }

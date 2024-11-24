@@ -54,7 +54,7 @@
                                         <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
                                     </div>
                                     <div class="bottom">
-                                        <div class="minutes-played">70</div>
+                                        <div class="minutes-played" th:text="${calculatedMinutes.get(i)}">70</div>
                                         <div class="substituted">50</div>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                                         <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
                                     </div>
                                     <div class="bottom">
-                                        <div class="minutes-played">70</div>
+                                        <div class="minutes-played" th:text="${calculatedMinutes.get(i)}">70</div>
                                         <div class="substituted">50</div>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@
                                         <div class="score-gesamt" th:text="${totalScoresStartingXI.get(i)}"></div>
                                     </div>
                                     <div class="bottom">
-                                        <div class="minutes-played">70</div>
+                                        <div class="minutes-played" th:text="${calculatedMinutes.get(i)}">70</div>
                                         <div class="substituted">50</div>
                                     </div>
                                 </div>
@@ -126,7 +126,7 @@
                                         <div class="score-gesamt" th:text="${totalScoresStartingXI.get(0)}"></div>
                                     </div>
                                     <div class="bottom">
-                                        <div class="minutes-played">70</div>
+                                        <div class="minutes-played" th:text="${calculatedMinutes.get(0)}">70</div>
                                         <div class="substituted">50</div>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                         <div class="score-gesamt" th:text="${totalScoresBench.get(stat.index)}"></div>
                                     </div>
                                     <div class="bottom">
-                                        <div class="minutes-played">70</div>
+                                        <div class="minutes-played" th:text="${calculatedMinutes.get(stat.index + 11)}">70</div>
                                         <div class="substituted">50</div>
                                     </div>
                                 </div>

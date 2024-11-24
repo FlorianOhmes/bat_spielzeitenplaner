@@ -83,4 +83,10 @@ public class SpielzeitenService {
         return updatedPlayers;
     }
 
+
+    public List<Integer> calculateAllMinutes(List<Player> players) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calculateAllMinutes'");
+    }
+
 }
