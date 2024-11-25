@@ -92,13 +92,13 @@ public class DatabaseCriterionTest {
 
         Collection<Criterion> allEntries = criterionRepository.findAll();
 
-        assertThat(allEntries).isEmpty();
+        assertThat(allEntries).doesNotContainAnyElementsOf(saved);
     }
 
     @Test
     @DisplayName("Ein Kriterium kann nach seinem Namen gefunden werden.")
     void test_04() {
-        Criterion criterion = new Criterion(null, "Trainingsbeteiligung", "T", 0.4);
+        Criterion criterion = new Criterion(null, "Sozialverhalten", "S", 0.3);
         Criterion saved = criterionRepository.save(criterion);
 
         Criterion loaded = criterionRepository.findById(saved.getId()).get();
