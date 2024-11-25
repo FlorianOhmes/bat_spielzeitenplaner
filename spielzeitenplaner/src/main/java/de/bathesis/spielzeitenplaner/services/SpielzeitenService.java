@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import org.springframework.stereotype.Service;
 import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.domain.Substitution;
 
 
 @Service
@@ -98,9 +99,10 @@ public class SpielzeitenService {
     }
 
 
-    public List<Integer> calculatePlannedMinutes(List<Player> players, List<String> substitutions) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculatePlannedMinutes'");
+    public List<Integer> calculatePlannedMinutes(List<Player> players, List<Substitution> substitutions) {
+        List<Integer> plannedMinutes = new ArrayList<>(Collections.nCopies(11, 70));
+        plannedMinutes.addAll(Collections.nCopies(players.size() - 11, 0));
+        return plannedMinutes;
     }
 
 }

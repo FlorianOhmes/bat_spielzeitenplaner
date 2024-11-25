@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import de.bathesis.spielzeitenplaner.domain.Formation;
 import de.bathesis.spielzeitenplaner.domain.Player;
+import de.bathesis.spielzeitenplaner.domain.Substitution;
 import de.bathesis.spielzeitenplaner.utilities.TestObjectGenerator;
 
 
@@ -109,6 +110,22 @@ class SpielzeitenServiceTest {
         assertThat(minutes.get(2)).isEqualTo(53);
         assertThat(minutes.get(4)).isEqualTo(70);
         assertThat(minutes.get(13)).isEqualTo(56);
+    }
+
+    @Test
+    @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn keine Wechsel vorhanden sind.")
+    void test_05() {
+        List<Player> squad = TestObjectGenerator.generateSquad();
+        List<Substitution> substitutions = new ArrayList<>();
+        List<Integer> expected = new ArrayList<>(List.of(
+            70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 0, 0, 0, 0, 0
+        ));
+
+        List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(squad, substitutions);
+
+        assertThat(plannedMinutes).hasSize(squad.size());
+        assertThat(plannedMinutes).isEqualTo(expected);
+
     }
 
 }

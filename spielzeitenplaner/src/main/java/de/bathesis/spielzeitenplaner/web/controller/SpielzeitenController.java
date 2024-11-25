@@ -89,7 +89,7 @@ public class SpielzeitenController {
                                              @ModelAttribute("bench") List<Player> bench, 
                                              @ModelAttribute("totalScoresStartingXI") List<Double> totalScoresStartingXI, 
                                              @ModelAttribute("totalScoresBench") List<Double> totalScoresBench, 
-                                             @ModelAttribute("substitutions") List<String> substitutions) {
+                                             @ModelAttribute("substitutions") List<Substitution> substitutions) {
 
         Random random = new Random();
         model.addAttribute("randomSubstitutionId", random.nextInt(50000));
