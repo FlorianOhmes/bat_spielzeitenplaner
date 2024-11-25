@@ -22,6 +22,8 @@ class SpielzeitenServiceTest {
 
     SpielzeitenService spielzeitenService = new SpielzeitenService(playerService, settingsService);
 
+    List<Player> squad = TestObjectGenerator.generateSquad();
+
 
     @Test
     @DisplayName("Der Kader wird korrekt berechnet.")
@@ -81,7 +83,6 @@ class SpielzeitenServiceTest {
     @Test
     @DisplayName("Die Aktualisierung der Startelf funktioniert korrekt.")
     void test_03() {
-        List<Player> squad = TestObjectGenerator.generateSquad();
         List<Integer> changes = new ArrayList<>(List.of(
             10, 1, 8, 3, 4, 2, 6, 7, 5, 9, 0, 11, 12, 13, 14, 15, 16
         ));
@@ -99,7 +100,6 @@ class SpielzeitenServiceTest {
     @Test
     @DisplayName("Die Berechnung der Spielminuten funktioniert korrekt.")
     void test_04() {
-        List<Player> squad = TestObjectGenerator.generateSquad();
         List<Double> totalScores = new ArrayList<>(List.of(
             8.4, 9.2, 7.1, 8.7, 9.3, 7.6, 8.0, 9.0, 7.4, 8.6, 7.8, 8.9, 9.1, 7.5, 8.5, 7.9
         ));
@@ -115,10 +115,28 @@ class SpielzeitenServiceTest {
     @Test
     @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn keine Wechsel vorhanden sind.")
     void test_05() {
-        List<Player> squad = TestObjectGenerator.generateSquad();
         List<Substitution> substitutions = new ArrayList<>();
         List<Integer> expected = new ArrayList<>(List.of(
             70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 0, 0, 0, 0, 0
+        ));
+
+        List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(squad, substitutions);
+
+        assertThat(plannedMinutes).hasSize(squad.size());
+        assertThat(plannedMinutes).isEqualTo(expected);
+
+    }
+
+    @Test
+    @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn Wechsel vorhanden sind.")
+    void test_06() {
+        List<Substitution> substitutions = new ArrayList<>(List.of(
+            new Substitution(1, 20, "Player16 Last16", "Player8 Last8"), 
+            new Substitution(2, 50, "Player14 Last14", "Player4 Last4"), 
+            new Substitution(3, 65, "Player8 Last8", "Player16 Last16")
+        ));
+        List<Integer> expected = new ArrayList<>(List.of(
+            70, 70, 70, 50, 70, 70, 70, 25, 70, 70, 70, 0, 0, 20, 0, 45
         ));
 
         List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(squad, substitutions);

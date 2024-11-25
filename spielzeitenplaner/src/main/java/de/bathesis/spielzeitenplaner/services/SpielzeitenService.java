@@ -102,6 +102,40 @@ public class SpielzeitenService {
     public List<Integer> calculatePlannedMinutes(List<Player> players, List<Substitution> substitutions) {
         List<Integer> plannedMinutes = new ArrayList<>(Collections.nCopies(11, 70));
         plannedMinutes.addAll(Collections.nCopies(players.size() - 11, 0));
+
+        Substitution endOfGame = new Substitution(null, 70, "SPIEL", "ENDE");
+        substitutions.add(endOfGame);
+
+        Integer minutes;
+        boolean isPlaying;
+        Integer minuteIn;
+        for (int i = 0; i < players.size(); i++) {
+
+            minutes = 0;
+            minuteIn = 0;
+            if (i < 11) {
+                isPlaying = true;
+            } else {
+                isPlaying = false;
+            }
+
+            String nameCurrentPlayer = players.get(i).getFirstName() + " " + players.get(i).getLastName();
+            for (Substitution substitution : substitutions) {
+                if (isPlaying == true && (substitution.getPlayerOut().equals(nameCurrentPlayer) || substitution.getMinute() == 70)) {
+                    minutes += substitution.getMinute() - minuteIn;
+                    isPlaying = false;
+                }  else if (isPlaying == false && substitution.getPlayerIn().equals(nameCurrentPlayer)) {
+                    isPlaying = true;
+                    minuteIn = substitution.getMinute();
+                }
+            }
+
+            plannedMinutes.set(i, minutes);
+
+        }
+
+        substitutions.remove(endOfGame);
+
         return plannedMinutes;
     }
 
