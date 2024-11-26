@@ -124,9 +124,13 @@ class TeamControllerTest {
     @Test
     @DisplayName("Bei Post-Requests über /team/teamname wird die save-Methode des TeamServices aufgerufen.")
     void test_06() throws Exception {
-        Team team = new Team(null, "Spring Boot FC");
-        mvc.perform(post("/team/teamname").param("name", team.name()));
-        verify(teamService).save(team);
+        String teamName = "Spring Boot FC";
+        TeamForm teamForm = new TeamForm();
+        teamForm.setName(teamName);
+
+        mvc.perform(post("/team/teamname").param("name", teamName));
+
+        verify(teamService).save(teamForm);
     }
 
     @Test

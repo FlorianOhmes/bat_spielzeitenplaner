@@ -63,8 +63,7 @@ public class TeamController {
     @PostMapping("/teamname")
     public String changeTeamName(@Valid TeamForm teamForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {return "team/team";}
-        Team team = TeamMapper.toDomainTeam(teamForm);
-        teamService.save(team);
+        teamService.save(teamForm);
         redirectAttributes.addFlashAttribute("successMessage", "Teamname erfolgreich gespeichert!");
         return "redirect:/team";
     }
