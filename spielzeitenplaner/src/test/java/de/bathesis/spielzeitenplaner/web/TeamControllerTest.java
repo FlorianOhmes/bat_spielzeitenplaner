@@ -185,25 +185,43 @@ class TeamControllerTest {
     }
 
     @Test
-    @DisplayName("Das Spieler-Formular wird im TeamController validiert und mögliche Fehler werden auf der Spieler-Seite ausgegeben.")
+    @DisplayName("Ein leeres Spieler-Formular wird validiert und es erfolgt eine Fehlerausgabe auf der Spieler-Seite.")
     void test_12() throws Exception {
-        String html = mvc.perform(post("/team/savePlayer")
-                                    .param("firstName", "")
-                                    .param("lastName", "")
-                                    .param("position", ""))
-                        .andExpect(model().attributeErrorCount("playerForm", 5))
-                        .andReturn().getResponse().getContentAsString();
-        String html2 = mvc.perform(post("/team/savePlayer")
-                                    .param("firstName", "Joshua")
-                                    .param("lastName", "Kimmich")
-                                    .param("position", "RV")
-                                    .param("jerseyNumber", "132"))
-                        .andExpect(model().attributeErrorCount("playerForm", 1))
-                        .andReturn().getResponse().getContentAsString();
-
-        Elements errors = Jsoup.parse(html).select(".error");
-        Elements errors2 = Jsoup.parse(html2).select(".error");
+        String response = mvc.perform(post("/team/savePlayer")
+                                        .param("firstName", "")
+                                        .param("lastName", "")
+                                        .param("position", ""))
+                             .andExpect(model().attributeErrorCount("playerForm", 5))
+                             .andReturn().getResponse().getContentAsString();
+        Elements errors = Jsoup.parse(response).select(".error");
         assertThat(errors).hasSize(4);
+    }
+
+    @Test
+    @DisplayName("Ein Spieler-Formular mit einer Trikotnummer < 1 wird validiert und es erfolgt eine Fehlerausgabe auf der Spieler-Seite.")
+    void test_13() throws Exception {
+        String response = mvc.perform(post("/team/savePlayer")
+                                        .param("firstName", "Joshua")
+                                        .param("lastName", "Kimmich")
+                                        .param("position", "RV")
+                                        .param("jerseyNumber", "-22"))
+                             .andExpect(model().attributeErrorCount("playerForm", 1))
+                             .andReturn().getResponse().getContentAsString();
+        Elements errors2 = Jsoup.parse(response).select(".error");
+        assertThat(errors2).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Ein Spieler-Formular mit einer Trikotnummer > 100 wird validiert und es erfolgt eine Fehlerausgabe auf der Spieler-Seite.")
+    void test_14() throws Exception {
+        String response = mvc.perform(post("/team/savePlayer")
+                                        .param("firstName", "Joshua")
+                                        .param("lastName", "Kimmich")
+                                        .param("position", "RV")
+                                        .param("jerseyNumber", "132"))
+                             .andExpect(model().attributeErrorCount("playerForm", 1))
+                             .andReturn().getResponse().getContentAsString();
+        Elements errors2 = Jsoup.parse(response).select(".error");
         assertThat(errors2).hasSize(1);
     }
 
