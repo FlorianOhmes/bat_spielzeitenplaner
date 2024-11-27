@@ -86,9 +86,9 @@ public class PlayerService {
         LocalDate dateLongTerm = LocalDate.now().minusWeeks(weeksLongTerm).minusDays(1);
 
         Collection<Assessment> assessmentsShortTerm = 
-            assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(playerId, criterionId, dateShortTerm);
+            assessmentRepository.findRelevantAssessmentsBy(playerId, criterionId, dateShortTerm);
         Collection<Assessment> assessmentsLongTerm = 
-            assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(playerId, criterionId, dateLongTerm);
+            assessmentRepository.findRelevantAssessmentsBy(playerId, criterionId, dateLongTerm);
 
         Long countShortTerm = assessmentsShortTerm.stream().filter(a -> a.getValue() > 0.0).count();
         Long totalShortTerm = assessmentsShortTerm.stream().count();
@@ -107,7 +107,7 @@ public class PlayerService {
         LocalDate date = LocalDate.now().minusWeeks(weeksToSubtract).minusDays(1);
 
         Collection<Assessment> assessments = 
-            assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(playerId, criterionId, date);
+            assessmentRepository.findRelevantAssessmentsBy(playerId, criterionId, date);
         Double score = assessments.stream().mapToDouble(Assessment::getValue).average().orElse(0.0);
 
         return score;

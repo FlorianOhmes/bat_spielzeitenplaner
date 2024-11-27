@@ -79,7 +79,7 @@ public class DatabaseAssessmentTest {
         Assessment saved2 = assessmentRepository.save(assessment2);
         Assessment saved3 = assessmentRepository.save(assessment3);
 
-        Collection<Assessment> found = assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+        Collection<Assessment> found = assessmentRepository.findRelevantAssessmentsBy(
             playerId, criterionId, LocalDate.of(2022, 12, 1)
         );
 

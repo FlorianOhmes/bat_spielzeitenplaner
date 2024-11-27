@@ -106,7 +106,7 @@ class PlayerServiceTest {
 
         when(criterionRepository.findById(criterion.getId())).thenReturn(Optional.of(criterion));
         when(settingRepository.findById(weeksGeneral.getId())).thenReturn(Optional.of(weeksGeneral));
-        when(assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+        when(assessmentRepository.findRelevantAssessmentsBy(
             playerId, criterion.getId(), LocalDate.now().minusWeeks(weeksGeneral.getValue().intValue()).minusDays(1))
         ).thenReturn(assessments);
 
@@ -140,10 +140,10 @@ class PlayerServiceTest {
         when(settingRepository.findById(weightShortTerm.getId())).thenReturn(Optional.of(weightShortTerm));
         when(settingRepository.findById(weeksLongTerm.getId())).thenReturn(Optional.of(weeksLongTerm));
         when(settingRepository.findById(weightLongTerm.getId())).thenReturn(Optional.of(weightLongTerm));
-        when(assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+        when(assessmentRepository.findRelevantAssessmentsBy(
             playerId, criterion.getId(), LocalDate.now().minusWeeks(weeksShortTerm.getValue().intValue()).minusDays(1)
         )).thenReturn(assessmentsShortTerm);
-        when(assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+        when(assessmentRepository.findRelevantAssessmentsBy(
             playerId, criterion.getId(), LocalDate.now().minusWeeks(weeksLongTerm.getValue().intValue()).minusDays(1)
         )).thenReturn(assessmentsLongTerm);
 
@@ -184,10 +184,10 @@ class PlayerServiceTest {
         when(criterionRepository.findById(criteria.get(0).getId())).thenReturn(Optional.of(criteria.get(0)));
         when(criterionRepository.findById(criteria.get(1).getId())).thenReturn(Optional.of(criteria.get(1)));
         when(settingRepository.findById(weeksGeneral.getId())).thenReturn(Optional.of(weeksGeneral));
-        when(assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+        when(assessmentRepository.findRelevantAssessmentsBy(
             playerId, criteria.get(0).getId(), LocalDate.now().minusWeeks(weeksGeneral.getValue().intValue()).minusDays(1))
         ).thenReturn(assessments);
-        when(assessmentRepository.findByPlayerIdAndCriterionIdAndDateAfter(
+        when(assessmentRepository.findRelevantAssessmentsBy(
             playerId, criteria.get(1).getId(), LocalDate.now().minusWeeks(weeksGeneral.getValue().intValue()).minusDays(1))
         ).thenReturn(assessments2);
 

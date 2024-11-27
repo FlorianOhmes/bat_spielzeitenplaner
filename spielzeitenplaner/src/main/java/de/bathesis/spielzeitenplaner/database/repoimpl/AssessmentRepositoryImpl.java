@@ -34,12 +34,9 @@ public class AssessmentRepositoryImpl implements AssessmentRepository {
     }
 
     @Override
-    public Collection<Assessment> findByPlayerIdAndCriterionIdAndDateAfter(
-        Integer playerId, Integer criterionId, LocalDate date) {
-
+    public Collection<Assessment> findRelevantAssessmentsBy(Integer playerId, Integer criterionId, LocalDate date) {
         Collection<de.bathesis.spielzeitenplaner.database.entities.Assessment> loaded = 
             springRepository.findByPlayerIdAndCriterionIdAndDateAfter(playerId, criterionId, date);
-
         return loaded.stream().map(AssessmentMapper::toDomainAssessment).toList();
     }
 
