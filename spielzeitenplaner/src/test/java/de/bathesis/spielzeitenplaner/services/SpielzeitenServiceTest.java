@@ -115,10 +115,8 @@ class SpielzeitenServiceTest {
     @Test
     @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn keine Wechsel vorhanden sind.")
     void test_05() {
-        List<Substitution> substitutions = new ArrayList<>();
-        List<Integer> expected = new ArrayList<>(List.of(
-            70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 0, 0, 0, 0, 0
-        ));
+        List<Substitution> substitutions = List.of();
+        List<Integer> expected = List.of(70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 0, 0, 0, 0, 0);
 
         List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(squad, substitutions);
 
@@ -128,16 +126,53 @@ class SpielzeitenServiceTest {
     }
 
     @Test
-    @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn Wechsel vorhanden sind.")
+    @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn ein einfacher Wechsel vorhanden ist.")
     void test_06() {
-        List<Substitution> substitutions = new ArrayList<>(List.of(
+        List<Substitution> substitutions = List.of(
+            new Substitution(1, 50, "Player16 Last16", "Player8 Last8")
+        );
+        List<Integer> expected = List.of(
+            70, 70, 70, 70, 70, 70, 70, 50, 70, 70, 70, 0, 0, 0, 0, 20
+        );
+
+        List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(squad, substitutions);
+
+        assertThat(plannedMinutes).hasSize(squad.size());
+        assertThat(plannedMinutes).isEqualTo(expected);
+
+    }
+
+    @Test
+    @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn ein Spieler aus- und wieder eingewechselt wird.")
+    void test_07() {
+        List<Substitution> substitutions = List.of(
             new Substitution(1, 20, "Player16 Last16", "Player8 Last8"), 
-            new Substitution(2, 50, "Player14 Last14", "Player4 Last4"), 
-            new Substitution(3, 65, "Player8 Last8", "Player16 Last16")
-        ));
-        List<Integer> expected = new ArrayList<>(List.of(
-            70, 70, 70, 50, 70, 70, 70, 25, 70, 70, 70, 0, 0, 20, 0, 45
-        ));
+            new Substitution(3, 50, "Player8 Last8", "Player16 Last16")
+        );
+        List<Integer> expected = List.of(
+            70, 70, 70, 70, 70, 70, 70, 40, 70, 70, 70, 0, 0, 0, 0, 30
+        );
+
+        List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(squad, substitutions);
+
+        assertThat(plannedMinutes).hasSize(squad.size());
+        assertThat(plannedMinutes).isEqualTo(expected);
+
+    }
+
+    @Test
+    @DisplayName("Die Berechnung der geplanten Spielminuten funktioniert korrekt, wenn mehrere Wechsel vorhanden sind.")
+    void test_08() {
+        List<Substitution> substitutions = List.of(
+            new Substitution(1, 15, "Player15 Last15", "Player7 Last7"), 
+            new Substitution(2, 20, "Player12 Last12", "Player4 Last4"), 
+            new Substitution(3, 35, "Player7 Last7", "Player15 Last15"), 
+            new Substitution(4, 35, "Player4 Last4", "Player12 Last12"), 
+            new Substitution(5, 50, "Player14 Last14", "Player10 Last10"), 
+            new Substitution(6, 55, "Player12 Last12", "Player4 Last4"), 
+            new Substitution(7, 55, "Player15 Last15", "Player7 Last7")
+        );
+        List<Integer> expected = List.of(70, 70, 70, 40, 70, 70, 35, 70, 70, 50, 70, 30, 0, 20, 35, 0);
 
         List<Integer> plannedMinutes = spielzeitenService.calculatePlannedMinutes(squad, substitutions);
 
