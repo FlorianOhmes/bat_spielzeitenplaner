@@ -1,0 +1,98 @@
+
+Im Großen und Ganzen ist zu konstatieren, dass das Projekt \texttt{Spielzeitenplaner} 
+gezeigt hat, wie eine Anwendung ganzheitlich und auf verschiedenen Ebenen testgetrieben 
+entwickelt werden kann. \\ 
+Für die einzelnen \texttt{WebPages}, deren testgetriebene Entwicklung zu Beginn im 
+Vordergrund stand, ist ein Konzept entwickelt worden, nach dem jede einzelne Seite 
+strukturiert getestet wird: Zunächst wird durch eine Reihe von Tests gewährleistet, dass 
+\texttt{Essentials} wie Navigationsleiste und Footer oder aber auch die korrekte 
+Überschrift einer Seite vorhanden sind und den gewünschten Anforderungen entsprechen. \\ 
+Im Anschluss erfolgt eine Testung der einzelnen Bereiche einer Seite, beispielsweise ob 
+der Bereich \texttt{Spieler-Daten} auf der Spieler-Seite korrekt strukturiert ist. 
+Dies beinhaltet unter anderem auch Tests, die die Anwesenheit von Formularen erzwingen, 
+die in diesem Projekt zum einen der Anzeige bereits gespeicherter Daten dienen, den 
+Nutzenden zum anderen aber auch die Möglichkeit bieten, Anfragen zum Speichern oder 
+Bearbeiten an den Server zu senden. Darüber hinaus ist mithilfe geeigneter Tests 
+ebenfalls sichergestellt worden, dass Daten, wie Spielerinformationen, Teamname oder 
+Formation, die im Model bereitstehen, wie gewünscht in die entsprechende Seite 
+hineingerendert werden. \\ 
+Für das Testing der einzelnen \texttt{WebPages} erwies sich \texttt{Jsoup} als nützliches Werkzeug zum Parsen und Extrahieren von HTML-Elementen aus einer Seite. Über die 
+Komplexität der \texttt{CSS-Query} konnte dabei gezielt gesteuert werden, wie 
+detailliert die jeweilige Seite im Hinblick auf ihre Struktur getestet werden soll. \\ 
+Im Bereich des Controller-Testing ist gezeigt worden, wie die Web-Steuereinheiten mit 
+ihren verschiedenen Aufgaben testgetrieben entwickelt und überprüft werden können. Dabei 
+ist grundsätzlich zwischen GET- und POST-Requests unterschieden worden. Bei Ersteren 
+wird zunächst mithilfe eines geeigneten Tests das grundlegende Routing überprüft und 
+etabliert sowie sichergestellt, dass das richtige HTML-Template zurückgegeben wird. 
+In einem zweiten Schritt kann dann überprüft werden, ob die geforderten Daten durch den 
+Controller bei der Service-Schicht angefragt werden und das entsprechende Model geladen 
+werden. \\ 
+Die grundsätzliche Vorgehensweise bei POST-Requests unterschiedet sich ein wenig von der, 
+die bei GET-Requests angewendet wird. In einem solchen Fall wird zwar auch zunächst erst 
+das grundlegende Routing überprüft und eingerichtet, in einem weiteren Schritt jedoch 
+überprüft, ob die richtige Methode des für die Anfrage zuständigen Services aufgerufen 
+wird. Schließlich müssen die übermittelten Daten beim Abschicken eines Formulars noch 
+durch den Controller validiert werden. Um diese Funktionalität umzusetzen, sind für 
+jeden Fall gezielte Anfragen konstruiert worden, die eine korrekte Validierung 
+überprüfen. \\ 
+Durch das konsequente Anwenden der Onion-Architektur ist gleichzeitig aber auch die 
+Existenz der einzelnen Services bzw. der Service-Schicht an sich erzwungen worden. Im 
+Rahmen der Service-Tests sind grundlegende Operationen zur Delegation von 
+Benutzeranfragen getestet worden, beispielsweise die \texttt{loadPlayers}-Methode des 
+\texttt{PlayerService}, die der Web-Schicht alle gespeicherten Spieler zur Verfügung 
+stellt, oder die \texttt{submitAssessments}-Methode des \texttt{RecapService}, die die 
+vom Trainerteam vorgenommenen Bewertungen zur Speicherung an das zuständige Repository 
+weiterleitet. \\ 
+Dabei ist es für eine ordnungsgemäße Funktionsweise der Anwendung unerlässlich, dass 
+Benutzeranfragen mit ihren Daten korrekt weitergeleitet werden, daher wurde hier nicht 
+nur getestet, ob die das Repository und die richtige Methode aufgerufen wird, sondern 
+auch, ob Parameter wie erwartet übergeben werden. Während die Überprüfung der 
+Parameterübergabe insbesondere bei zu speichernden Daten essenziell ist, muss bei 
+Methoden, die Daten aus der Datenbank laden und diese bereitstellen insbesondere der 
+Rückgabewert der Methode unter die Lupe genommen werden. \\ 
+Darüber hinaus sind sowohl im Bereich der Score-Berechnung wie auch in der 
+Spielzeitenplanung durch geeignete Testfälle geprüft worden, ob für eine bestimmte 
+Eingabe das erwartete Ergebnis erzeugt wird. So kann sichergestellt werden, dass die 
+einzelnen Services den Anforderungen entsprechen und die gewünschten Funktionalitäten 
+bereitstellen. \\ 
+Schließlich ist noch das Testing der Persistenz-Schicht veranschaulicht worden. Für 
+eine realitätsnahe Testumgebung erwies sich die Java-Bibliothek \texttt{Testcontainers} 
+als vorteilhaft, um das Verhalten der Produktivdatenbank möglichst genau simulieren 
+zu können. Grundsätzlich sind die Datenbank-Testklassen nach dem gleichen Prinzip 
+aufgebaut: Zunächst ist stets getestet worden, dass das Laden und Speichern einer Entität 
+in der Datenbank korrekt implementiert ist. Neben den Standardmethoden zum Speichern 
+und Laden von Entitäten sind darüber hinaus noch spezifischere Methoden mithilfe von 
+\texttt{JDBCs Derived Queries} realisiert worden. Eine davon ist zum Beispiel eine 
+Methode des \texttt{AssessmentRepository}, die Bewertungen nach Spieler, Kriterium 
+und Datum filtert. Auch diese ist durch geeignetes Testing entwickelt worden, um 
+sicherzustellen, dass die Methode für eine bestimmte Eingabe die erwartete Rückgabe 
+liefert. \\ 
+Rückblickend auf die Zeit der Entwicklung des Spielzeitenplaners bleibt festzuhalten, 
+dass TDD ein mächtiges Werkzeug zur Entwicklung modularer Software ist. Jedoch soll dies 
+keineswegs darüber hinwegtäuschen, dass es während des Entwicklungsprozesses auch 
+schwierige Phasen gibt, in denen Geduld, Disziplin und Vertrauen gegenüber der 
+testgetriebenen Herangehensweise an Softwareentwicklung auf die Probe gestellt werden. 
+Insbesondere zeitlicher Druck oder die Schwierigkeit, in gewissen Situationen einen 
+geeigneten Test zu schreiben, stehen der erfolgreichen Softwareentwicklung entgegen und 
+können die konsequente Anwendung des TDD erschweren. \\ 
+Abschließend ist festzuhalten, dass das Projekt \texttt{Spielzeitenplaner} nicht nur 
+gezeigt hat, wie eine Anwendung von Beginn bis Ende testgetrieben entwickelt werden kann, 
+sondern auch eine Lösung für die eingangs beschriebenen bekannten Probleme im 
+Jugendfußball sein kann. Indem Kriterien erstellt und Spieler nach Trainings anhand 
+dieser bewertet werden, wird einesystematische Reflexion im Trainerteam angeregt. Die 
+Berechnung von Scores -- basierend auf den Bewertungen -- führt dazu, dass Spielzeiten 
+für jeden einzelnen Spieler geplant und so eine möglichst faire Aufteilung gewährleistet 
+wird. Diese systematische Spielzeitenplanung -- kombiniert mit einer transparenten 
+Kommunikation -- kann möglichen Diskussionen mit Spielern und Eltern vorbeugen und dem 
+Spieler transparent aufzeigen, wie er sich verbessern bzw. was er tun kann, um auf mehr 
+Spielzeit zu kommen. \\ 
+Die Anwendung in seiner gegenwärtigen Form stellt eine Art Grundversion mit den 
+wichtigsten Features dar. Sie kann in den kommenden Jahren weiter ausgebaut und um 
+einige nützliche Features erweitert werden. Diese beinhalten die Möglichkeit, mehrere 
+Teams zu erstellen, falls Fußballehrende Teil von mehr als nur einem Team sind, die 
+dauerhafte Speicherung der tatsächlichen Spielzeiten über eine Saison hinweg, sodass 
+nicht nur von Spiel zu Spiel geplant, sondern die Spielzeit auch über eine ganze Saison 
+hinweg betrachtet werden kann oder aber eine \texttt{Drag and Drop}-Funktionalität 
+bei der Anpassung der Startelf, um diesen Schritt für den Benutzer intuitiver zu 
+gestalten. 
+

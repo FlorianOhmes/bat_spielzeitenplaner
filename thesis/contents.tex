@@ -1,0 +1,115 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Diese Datei beinhaltet den eigentlichen Inhalt Ihrer Arbeit.
+%
+% Es bietet sich der Übersicht halber an, die einzelnen Abschnitte jeweils
+% in eigene Dateien zu schreiben und mittels \input einzubinden.
+% Eine mögliche Verzeichnisstruktur sähe entsprechend so aus:
+%
+%     thesis/
+%     +- tex/
+%     |  +- introduction.tex
+%     |  +- motivation.tex
+%     |  +- experiments.tex
+%     |  |  ...
+%     |  +- conclusion.tex
+%     +- abstract.tex
+%     +- contents.tex
+%     +- thesis.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Einleitung
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Einleitung}
+
+\input{tex/intro/intro}
+
+\pagebreak
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theoretische Grundlagen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theoretische Grundlagen}
+
+Dieser Arbeit sowie der Entwicklung des Projektes des Spielzeitenplaners liegen 
+einige theoretische Konzepte, Methoden und Modelle zugrunde: zum einen der Ansatz des 
+Test-Driven Development aus der Softwareentwicklung, zum anderen einige fußballerische 
+Konzepte und Richtlinien, die in den folgenen Kapiteln kurz erläutert werden sollen. 
+Außerdem richtet sich die Struktur des Projektes an der von Jeffrey Palermo in 2008 
+vorgeschlagenen \texttt{Onion-Architektur} \cite{palermo2008onion}, die an dieser 
+Stelle jedoch nicht explizit erläutert werden soll. 
+
+
+\subsection{Test-Driven Development (TDD)}
+
+\input{tex/theory/tdd}
+
+
+\subsection{Fußballerische Grundlagen und Konzepte}
+
+\input{tex/theory/football}
+
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hauptteil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufbau und Funktionsweise des Spielzeitenplaners}
+
+\input{tex/main/general}
+
+\clearpage
+
+
+\section{Die testgetriebene Entwicklung des Spielzeitenplaners}
+
+Nachdem sowohl die theoretischen Grundlagen wie auch der Aufbau und die Funktionsweise 
+des Spielzeitenplaners geklärt und erläutert worden sind, kann nun im folgenden Kapitel 
+näher auf die testgetriebene Entwicklung des Spielzeitenplaners eingegangen werden. 
+Dabei soll für jede Architekturschicht dokumentiert werden, wie dort testgetrieben 
+entwickelt worden ist. Außerdem sollen konkrete Beispiele aus dem Projekt gezeigt, 
+beschrieben und erläutert werden. 
+
+
+\subsection{Das systematische Testen der WebPages}
+
+\input{tex/main/webpages}
+
+
+\subsection{Controller-Tests: Das Überprüfen der Hauptaufgaben der Web-Steuereinheiten}
+
+\input{tex/main/controller}
+
+
+\subsection{Das Testen der Service-Schicht}
+
+\input{tex/main/service}
+
+
+\subsection{Realitätsnahe Datenbank-Tests mit Testcontainers}
+
+\input{tex/main/database}
+
+\clearpage
+
+
+\section{Kritische Reflexion des Entwicklungsprozesses}
+
+\input{tex/main/reflection}
+
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Schlussteil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fazit}
+
+\input{tex/conclusion/conclusion}
+

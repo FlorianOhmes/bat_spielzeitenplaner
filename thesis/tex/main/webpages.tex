@@ -1,0 +1,332 @@
+
+Im Folgenden soll sich zunächst auf die Entwicklung der Benutzeroberfläche fokussiert 
+werden. Das Testing des Web-Interfaces ist grundsätzlich zweigeteilt: 
+Zum einen werden die konkret ausgelieferten Webseiten mit ihren Inhalten und 
+HTML-Elementen überprüft, zum anderen gibt es spezielle Testklassen für die Controller, 
+mithilfe derer eine grundsätzliche Funktionsüberprüfung der Web-Steuereinheiten erfolgt. 
+Die Testklassen für Ersteres sind im Verzeichnis 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/tree/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/templates}{\texttt{de/bathesis/spielzeitenplaner/templates}} 
+zu finden. Eine solche Testklasse ist grundsätzlich folgendermaßen aufgebaut: 
+
+\begin{quote}
+\begin{verbatim}
+@WebMvcTest(Controller.class)
+class PageTest {
+    @Autowired
+    MockMvc mvc;
+    ...
+    Document page;
+    ...
+    @BeforeEach
+    void setUpPage() throws Exception {
+        ...
+        page = RequestHelper
+                  .performGetAndParseWithJSoup(mvc, "/path");
+    }
+    ...
+}
+\end{verbatim}
+\end{quote}
+
+Durch die Verwendung der \texttt{WebMvcTest}-Annotation wird ein spezieller 
+Testkontext initialisiert, der sich nur auf das Laden und Konfigurieren von 
+Komponenten der Web-Schicht konzentriert \cite{vmware2024webmvctest}. 
+Darüber hinaus wird in Klammern notiert, welche spezifische Controller-Klasse für 
+den Test benötigt wird, sodass nur diese für den Test geladen und bereitgestellt 
+wird. Überlicherweise enthält jede WebPage-Testklasse eine mit \texttt{BeforeEach} 
+annotierte \texttt{setUp}-Methode, die vor jedem Test ausgeführt wird. Da das 
+Vorgehen vor jedem Test gleich ist, bietet sich die Extraktion dieser Logik an, 
+um die einzelnen Tests übersichtlicher und wartbarer zu gestalten. \\ 
+Das Ziel der \texttt{setUp}-Methode ist es, mithilfe des MockMvc eine Anfrage über 
+einen bestimmten Pfad zu simulieren, das Ergebnis mit Jsoup zu parsen (siehe 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/utilities/RequestHelper.java}{\texttt{RequestHelper.java}}) und schließlich in einer 
+Instanzvariable -- hier \texttt{page} genannt -- zu speichern. Auf diese Weise kann 
+ein Abbild derjenigen Seite erzeugt werden, die im Browser zurückgegeben wird. 
+Diese kann dann detaillierten Testungen unterzogen werden. \\ 
+Ein wichtiger Bestandteil dabei bildet die Java-Bibliothek Jsoup. Sie wurde für das 
+Arbeiten mit HTML entwickelt und ermöglicht daher sowohl das Parsen, wie auch 
+Extrahieren, Manipulieren oder Korrigieren von HTML-Dokumenten 
+\cite{hedley2024jsoup}. Für die dieser Arbeit zugrunde liegenden 
+Testungen werden vor allem die erstgenannten Funktionen -- also das Parsen und 
+Extrahieren von HTML bzw. HTML-Schnipseln -- benötigt. \\ 
+Wie Jsoups \texttt{parse}-Funktion in diesem Projekt verwendet wurde, ist zuvor bereits 
+bei den Ausführungen zur \texttt{setUp}-Methode erwähnt worden, das Extrahieren von 
+HTML-Schnipseln lässt sich wie folgt realisieren: Mithilfe der \texttt{select}-Funktion 
+wird aus einem HTML-Dokument oder einem HTML-Element ein HTML-Schnipsel herausgelöst, das 
+den Anforderungen einer \texttt{CSS-Query} entspricht, die der Funktion als Parameter 
+übergeben worden ist. \\ 
+Über die Komplexität der \texttt{CSS-Query} kann gesteuert werden, wie 
+detailliert die Struktur der HTML-Seite getestet werden soll. So kann mit 
+\texttt{``h2''} zum Beispiel einfach eine Überschrift zweiter Ebene herausgefiltert 
+werden, mit \texttt{``.card .card-body h2.card-title''} hingegen präziser nach 
+einer \texttt{H2} gesucht werden, die die Klasse \texttt{card-title} besitzt und 
+sich innerhalb des Bodies einer \texttt{Card} befindet. \\ 
+Das Testing jeder einzelnen Webseite erfolgt im Wesentlichen nach ein und 
+demselben Konzept, das im Folgenden geschildert werden soll. Zunächst werden die 
+sogenannten Essentials -- oder auch Basics -- getestet, es wird also überprüft, ob 
+die Seite die korrekte Überschrift besitzt sowie ob grundlegende Elemente -- wie 
+die Navigationsleiste und der Footer -- angezeigt werden. Im Anschluss erfolgt eine 
+detaillierte Überprüfung der einzelnen Bereiche der jeweiligen Seite und ihrer 
+Elemente, also beispielsweise, ob der Bereich Teamname auf der Teamseite korrekt 
+angezeigt wird oder ob das Formular zum Ändern des Teamnamens korrekt angezeigt 
+wird (siehe \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/templates/team/TeamPageTest.java}{\texttt{TeamPageTest.java}}). \\ 
+Abschließend wird getestet, ob entsprechende Daten, die durch den Controller bzw. 
+das Model bereitgestellt werden, wie beabsichtigt mithilfe von Thymeleaf in die 
+Seite gerendert werden. Durch diesen strukturierten Ansatz wird gewährleistet, dass 
+alle wesentlichen Elemente und Funktionen der Webseite umfassend getestet 
+werden. \\ 
+Mit Beginn der Arbeiten an diesem Projekt wurden zunächst sämtliche HTML-Prototypen 
+bzw. die ihnen zugrunde liegenden HTML-Templates testgetrieben entwickelt. Ein 
+Beispiel dafür, auf das sich im Folgenden bezogen werden soll, ist die sogenannte 
+\texttt{PlayerPage}, der das HTML-Template \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/resources/templates/team/player.html}{\texttt{player.html}} als Basis dient, und die zugehörige 
+Testklasse \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/templates/team/PlayerPageTest.java}{\texttt{PlayerPageTest.java}}.
+
+\pagebreak
+
+Ein einfacher Test, durch den die Anwesenheit der korrekten H1-Überschrift 
+erzwungen werden kann, ist \texttt{test\_01}: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_01() {
+    String expectedTitle = "Spieler bearbeiten/hinzufügen";
+    String pageTitle = RequestHelper
+              .extractTextFrom(playerPage, "h1");
+    assertThat(pageTitle).isEqualTo(expectedTitle);
+}
+\end{verbatim}
+\end{quote}
+
+Hier wird mittels der Utilities-Klasse \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/utilities/RequestHelper.java}{\texttt{RequestHelper.java}} der 
+Text des H1-Tags der \texttt{PlayerPage} extrahiert. Dann wird überprüft, ob dieser 
+mit dem erwarteten Text übereinstimmt. Ist dies nicht der Fall, schlägt der Test 
+fehl. Wenn auf der Seite überhaupt kein solches Element vorhanden ist, schlägt der 
+Test ebenfalls fehl, denn dann ist das Ergebnis des Parsens durch Jsoup schlichtweg 
+ein leerer String. Auf diese Weise kann also gewährleistet werden, dass auf einer 
+Seite die korrekte Überschrift angezeigt wird. \\ 
+Für die Navigationsleiste wurde auf der \texttt{PlayerPage} -- wie auch auf allen 
+anderen Seiten -- getestet, ob diese vorhanden ist: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+... 
+void test_02() {
+    Elements navbar = RequestHelper.extractFrom(playerPage, "nav");
+    assertThat(navbar).isNotEmpty();
+}
+\end{verbatim}
+\end{quote}
+
+Dafür wird das \texttt{nav}-Element der Seite extrahiert und durch eine geeignete 
+Assertion sichergestellt, dass diese nicht leer ist. Analog zur Navigationsleiste 
+kann ebenfalls mit dem Footer verfahren werden. Die eigentliche Überprüfung, ob 
+die \texttt{Essentials} den Anforderungen entsprechen, ist ausgelagert und in der 
+\texttt{FragmentsTest.java} unter 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/templates/fragments/FragmentsTest.java}{\texttt{src/test/java/de/ \linebreak bathesis/spielzeitenplaner/templates/fragments}} 
+zu finden. \\ 
+Dort wird im Detail getestet, ob die einzelnen Elemente korrekt strukturiert sind, 
+sie den gewünschten Text enthalten und die erwarteten Funktionen unterstützen -- im 
+Falle der Navigationsleiste beispielsweise, ob die Links zu den Unterseiten 
+\texttt{Team}, \texttt{Recap}, \texttt{Spielzeiten planen} sowie 
+\texttt{Einstellungen} funktionieren. Das entsprechende Fragment -- also der 
+wiederkehrende HTML-Schnipsel einer Webseite, der ausgelagert worden ist -- ist in 
+der \texttt{basics.html} unter \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/tree/main/spielzeitenplaner/src/main/resources/templates/fragments}{\texttt{src/main/resources/templates/fragments}} 
+gespeichert. Dort wird es mittels des \texttt{th:fragment}-Tags als Solches 
+gekennzeichnet und benannt. 
+
+\pagebreak
+
+Ist dies geschehen, so kann es im Folgenden dann wiederverwendet werden, indem es 
+mithilfe der Nutzung des \texttt{th-replace}-Tags im HTML-Template und Thymeleaf in 
+die entsprechende Seite hineingerendert wird. Ein konkretes Beispiel für die 
+Verwendung eines \texttt{Thymeleaf-Fragments} in diesem Projekt ist der Footer: 
+
+\begin{quote}
+\begin{verbatim}
+<div th:fragment="footer">
+    <footer class="footer fixed-bottom">
+        <p>
+            &copy; 2024 SpielzeitenPlaner. Alle Rechte vorbehalten. 
+        </p>
+    </footer>
+</div>
+\end{verbatim}
+\end{quote}
+
+Dieser ist mit dem \texttt{th:fragment}-Tag versehen und als \texttt{``footer''}, 
+benannt. Innerhalb der \href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/resources/templates/welcome.html}{\texttt{welcome.html}}
+kann er dann einfach mithilfe des einzeiligen Codeschnipsels
+\texttt{<div \linebreak th:replace=``\textasciitilde\{fragments/basics :: footer\}''></div>}
+eingefügt werden. \\ 
+Durch diese Herangehensweise müssen die Funktionalitäten der \texttt{Essentials} 
+nicht auf jeder Seite explizit getestet werden -- bei zehn verschiedenen Seiten 
+wären das immerhin 30 Tests, die aber stets nur das Gleiche testen würden -- 
+sondern lediglich das Vorhandensein gewisser Elemente. Wenn sich nun eine 
+Beschriftung ändert, die Struktur angepasst werden soll oder ein neuer Bereich -- 
+zum Beispiel \texttt{Statistik} -- hinzukommt, müssen die entsprechenden Tests nur 
+an einer Stelle angepasst werden, die Testklassen für die einzelnen Webseiten 
+bleiben unberührt, da hier -- wie zuvor bereits beschrieben -- lediglich das 
+Vorhandensein geprüft wird. \\ 
+Navigationsleiste und Footer sind im Rahmen des Spielzeitenplaners als feste 
+Bestandteile jeder Seite eingeplant, um Letzteren eine Rahmung zu geben und 
+Nutzenden die Navigation durch die einzelnen Bereiche der Anwendung zu erleichtern. 
+Für den Fall, dass Navigationsleiste oder Footer jedoch komplett entfernt werden 
+sollen, kann über die Verwendung des \texttt{Thymeleaf Layout Dialect} nachgedacht 
+werden. Dieser ermöglicht es, Layout-Templates zu erstellen und zu definieren, die 
+dann wiederum von anderen Templates verwendet werden können 
+\cite{borowiec2024layouts}. \\ 
+So kann die grundsätzliche Struktur einer Seite von ihrem konkreten Inhalt getrennt 
+werden, was die Modularisierbarkeit fördert und die Wiederverwendbarkeit erhöht. 
+Für das konkrete Testing bedeutet dies, dass ein Layout-Template ein Mal gesondert 
+getestet wird, das Testing der einzelnen Seiten sich vollkommen auf den Inhalt 
+konzentrieren kann. \\ 
+Doch wie bereits zuvor beschrieben ist nicht nur das Testen der \texttt{Essentials} 
+ein wichtiger Bestandteil der \texttt{WebPages}-Tests, sondern auch die Überprüfung 
+der einzelnen Bereiche einer Seite und ihrer Elemente. Den Kern der Spieler-Seite 
+bilden die Bereiche \texttt{Spieler-Daten} und \texttt{Spieler-Scores}. Durch das 
+Entwickeln dreier Tests, die stets einen anderen Aspekt überprüfen, kann ein 
+solcher Bereich im Produktivcode erzwungen und Schritt für Schritt geformt werden, 
+bis er schließlich seine gegenwärtige Form erreicht hat. 
+
+\pagebreak
+
+In einem ersten Schritt kann ein Test geschrieben werden, der die grundsätzliche 
+Struktur des Bereichs festlegt: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_04() {
+    String expectedCardTitle = "Spieler-Daten";
+    List<String> expectedAttributes = List.of(
+        "Vorname", "Nachname", "Trikotnummer", "Position"
+    );
+
+    String cardTitle = RequestHelper.extractTextFrom(
+        playerPage, ".card.player-data .card-body .card-title"
+    );
+    String playerInfo = RequestHelper.extractTextFrom(
+        playerPage, ".card.player-data .card-body .player-info"
+    );
+
+    assertThat(cardTitle).isEqualTo(expectedCardTitle);
+    assertThat(playerInfo).contains(expectedAttributes);
+}
+\end{verbatim}
+\end{quote}
+
+Um diesen Test bestehen zu lassen, ist die Etablierung der Grundstruktur in der 
+\texttt{player.html} erforderlich, wie dem Commit 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/commit/5e52549a16792f66ea818041bc364e6b3e5ac219}{\texttt{5e52549}}
+im Detail entnommen werden kann. \\ 
+In einem zweiten Schritt kann dann die Anwesenheit des Spieler-Formulars erzwungen 
+werden, das zum einen dazu dient, die Daten eines Spielers anzuzeigen, zum anderen 
+aber auch das Ändern bereits gespeicherter Informationen unterstützt. Wie 
+\texttt{test\_05} der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/templates/team/PlayerPageTest.java}{\texttt{PlayerPageTest.java}}
+zu entnehmen ist, wird dort geprüft, ob es ein Formular mit der ID 
+\texttt{playerForm} gibt sowie ob dieses die für die Verarbeitung der Daten 
+notwendigen Elemente -- wie Input-, Label-Felder und einen Button -- besitzt. 
+Außerdem wird an dieser Stelle ebenfalls gefordert, dass das Formular die 
+\texttt{Post}-Methode verwenden und die Anfrage über \texttt{/team/savePlayer}
+verschickt werden soll sowie einen Button vom Typen \texttt{submit} enthalten muss, 
+wie den folgenden Zeilen zu entnehmen ist: 
+
+\begin{quote}
+\begin{verbatim}
+Elements playerForm = RequestHelper.extractFrom(playerPage, 
+    "form#playerForm[method=\"post\"][action=\"/team/savePlayer\"]"
+);
+String buttonLabel = RequestHelper.extractTextFrom(playerForm, 
+    "button[type=\"submit\"]"
+);
+\end{verbatim}
+\end{quote}
+
+Durch solche spezifischen \texttt{CSS-Queries} können präzise Anforderungen an das 
+Formular gestellt werden und sichergestellt werden, dass die notwendigen 
+Funktionalitäten korrekt implementiert werden. Im hier vorliegenden Fall der 
+Änderung von Spielerdaten kann bzw. muss parallel im Controller-Testing eine 
+entsprechende Route und Methodenunterstützung implementiert werden (siehe Kapitel 
+3.2). \\ 
+Nachdem nun die grundlegende Struktur des Spielerdaten-Bereichs etabliert und das 
+Spieler-Formular vorhanden ist, kann abschließend in einem dritten Schritt die 
+korrekte Anzeige der konkreten Spieler-Daten überprüft werden: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_07() {
+    List<String> expectedValues = List.of(
+        Integer.toString(player.getId()), 
+        player.getFirstName(), player.getLastName(), 
+        player.getPosition(), 
+        Integer.toString(player.getJerseyNumber())
+    );
+
+    List<String> values = RequestHelper.extractFrom(
+        playerPage, "form#playerForm input"
+    ).eachAttr("value");
+
+    assertThat(values)
+        .containsExactlyInAnyOrderElementsOf(expectedValues);
+}
+\end{verbatim}
+\end{quote}
+
+Die \texttt{expectedValues} entsprechen den Attributen des \texttt{player}, der als 
+Instanzvariable in der Testklasse definiert ist. Mithilfe des 
+\texttt{RequestHelpers} und Jsoups \texttt{eachAttr}-Methode können die tatsächlich 
+angezeigten Werte der Input-Felder in einer Liste gespeichert und anschließend 
+überprüft werden. Damit der Test jedoch ordnungsgemäß funktioniert, muss der mit 
+\texttt{@MockBean} annotierte \texttt{playerService} noch konfiguriert werden. 
+Mithilfe von 
+\texttt{when(playerService.loadPlayer(player.getId())).thenReturn(player)} 
+geschieht dies innerhalb der \texttt{setUp}-Methode entsprechend. \\ 
+Um den Test nun bestehen zu lassen und die gewünschte Funktionalität zu 
+implementieren, muss Folgendes geschehen: Die Spieler-Daten, die vom 
+entsprechenden Service an den Controller weitergegeben und durch Letzteren im 
+Model bereitgestellt werden, müssen mit dem jeweiligen Input-Feld verknüpft werden. 
+Die Existenz jener Input-Felder wurde bereits im vorherigen Test gefordert, nicht 
+aber ihr spezifischer Inhalt. Mithilfe von Thymeleaf lassen sich die entsprechenden 
+Daten komfortabel in das jeweilige Template bzw. die jeweilige Seite hineinrendern: 
+
+\begin{quote}
+\begin{verbatim}
+<form id="playerForm" ... th:object="${playerForm}">
+    ...
+    <input type="text" ... th:field="*{firstName}" ...>
+    ...
+    <input type="text" ... th:field="*{lastName}" ...>
+    ...
+</form>
+\end{verbatim}
+\end{quote}
+
+Hier wurde \texttt{th:object} verwendet, um das Formular mit dem Formular-Objekt 
+\texttt{playerForm} aus dem Model zu paaren. Thymeleafs \texttt{th:field} bindet 
+außerdem jedes einzelne Input-Feld an das entsprechende Attribut, also 
+\texttt{firstName}, \texttt{lastName}, \texttt{position} und \texttt{jerseyNumber}. 
+Dies ist nicht nur für eine spätere Validierung und der damit verbundenen Ausgabe 
+der Formular-Fehler von Vorteil und notwendig, sondern sorgt darüber hinaus dafür, 
+dass die Daten des aktuellen Spielers auf der \texttt{PlayerPage} angezeigt 
+werden. \\ 
+Zusammengefasst lässt sich noch einmal sagen, dass sich durch gezieltes, 
+umfangreiches Testing unterschiedlicher Aspekte die wesentlichen Funktionalitäten 
+und Bausteine einer Webseite testgetrieben entwickeln lassen: Von der 
+grundlegenden Strukur einer Seite bis hin zum Aufbau ihrer spezifischen Bereiche, 
+die ihnen innewohnenden Elemente zur Datenerfassung, Interaktion und Kommunikation 
+-- also zum Beispiel Formulare -- sowie die Anzeige konkreter und gespeicherter 
+Daten und Inhalte. \\ 
+Diese grundlegenden Testprinzipien lassen sich auf die Entwicklung jeder einzelnen 
+Webseite übertragen und an ihre spezifischen Anforderungen anpassen, 
+beispielsweise bei der Spielerbewertung auf der \texttt{RecapPage} (siehe 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/templates/recap/RecapPageTest.java}{{\texttt{RecapPageTest.java}}})
+oder der Anzeige und Bestätigung des Kaders in der Spielzeitenplanung (siehe 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/test/java/de/bathesis/spielzeitenplaner/templates/spielzeiten/KaderPageTest.java}{\texttt{KaderPageTest.java}}). 
+

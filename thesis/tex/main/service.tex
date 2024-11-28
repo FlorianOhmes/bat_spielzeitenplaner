@@ -1,0 +1,226 @@
+
+Nachdem im vorherigen Kapitel ausführlich das Testing des Web-Interfaces behandelt 
+worden ist, soll nun eine weitere wichtige Komponente in den Fokus rücken: die 
+Service-Schicht. Diese kann unabhängig von den anderen Komponenten entwickelt 
+werden. Im Falle des hier vorliegenden Projektes -- der Entwicklung des 
+Spielzeitenplaners -- ist die Service-Schicht schrittweise aufgebaut worden. \\ 
+Dabei wurde sich an verschiedenen \texttt{use cases} orientiert, die die 
+funktionalen Anforderungen der Anwendung hervorheben und die wiederum eine 
+Interaktion der Nutzenden mit der Web-Oberfläche als Startpunkt besitzen. Ein 
+Beispiel für einen in diesem Projekt vorliegenden \texttt{use case} wäre 
+beispielsweise das Löschen eines Spielers durch die Nutzenden. Durch einen Klick 
+auf den \texttt{Löschen}-Button auf der \texttt{TeamPage} wird das entsprechende 
+Formular an den Server geschickt. Dort wird es von einer entsprechend 
+konfigurierten Handler-Methode eines Controllers in Empfang genommen und 
+verarbeitet. Im Zuge dessen wird die entsprechende Service-Methode -- in diesem 
+Fall die \texttt{deletePlayer}-Methode des \texttt{PlayerService} -- aufgerufen, 
+die den Fall dann bearbeitet. Schließlich ruft diese dann eine entsprechende 
+Repository-Methode auf, die wiederum für die Löschung der Spieler-Daten in der 
+Datenbank zuständig ist. \\ 
+Innerhalb dieser Aufrufkette interagiert eine Komponente also gewissermaßen mit der 
+nächsten. Bezogen auf die Onion-Architektur bedeutet dies: die Anfrage wird von der 
+äußeren Web-Schicht an die inneren Schichten -- also die Service-Schicht und das 
+Domain-Model -- weitergeleitet und diese delegieren die entsprechdende Aufgabe dann wieder an die (äußere) Persistenzschicht. Auf diese Weise können sich Entwickelnde vom 
+einen Ende der Software-Zwiebel hindurch zum anderen arbeiten. \\ 
+Ein konkretes Beispiel aus der Entwicklung des Spielzeitenplaners ist dem Commit 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/commit/0a64ca3359402c06358b43cc41236ca24c2ec9cd#diff-c21f1f59588419db3d2efda09d4e20682f83653b4ef81ca9847d7458bc5b2f5f}{\texttt{0a64ca3}}
+zu entnehmen. Durch die Implementierung der Funktionalitäten in der Web-Schicht -- 
+siehe dazu die Änderungen an der \texttt{TeamControllerTest.java} -- wird unter 
+anderem das Vorhandensein der \texttt{deletePlayer}-Methode und damit verbunden auch 
+die Existenz des \texttt{PlayerService} an sich gefordert. Um den Test also bestehen 
+zu lassen und schließlich committen zu können ist die Erstellung einer 
+\texttt{PlayerService.java} und einer darin enthaltenen \texttt{deletePlayer}-Methode 
+zwingend erforderlich. \\ 
+Sobald die Service-Klasse vorhanden ist, kann sie auch testgetrieben entwickelt 
+werden. Im Folgenden soll nun zunächst das Vorgehen bei den sogenannten 
+Basisoperationen geschildert werden, ehe dann auf komplexere Testfälle eingegangen 
+werden soll. Das zuvor genannte Beispiel für die \texttt{deletePlayer}-Methode lässt 
+sich einfach und unkompliziert wie folgt testgetrieben entwickeln: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_01() {
+    Integer playerId = 17;
+    playerService.deletePlayer(playerId);
+    verify(playerRepository).deleteById(playerId);
+}
+\end{verbatim}
+\end{quote}
+
+Hier wird also überprüft, ob der \texttt{PlayerService} die Löschanfrage korrekt 
+weiterverarbeitet. In diesem Fall bedeutet dies, dass diese an das zuständige 
+Repository delegiert wird. Dabei ist besonders wichtig, dass das richtige Repository 
+-- hier also das \texttt{PlayerRepository} -- verwendet wird und die entsprechende 
+Methode mit dem aus der ursprünglichen Anfrage gesendeten Objekt aufgerufen wird. \\ 
+Um diesen Test so schreiben zu können, muss das \texttt{PlayerRepository} zunächst 
+mithilfe von \texttt{Mockito} gemockt werden, um die Kontrolle über sämtliche 
+Aktionen des Repository zu erhalten, und der \texttt{PlayerService} mit dem soeben 
+gemockten Repository ordnungsgemäß initialisiert werden, was wiederum einen 
+geeigneten Konstruktor in der \texttt{PlayerService.java} voraussetzt. In diesem Zuge 
+wird dann auch das Interface 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/e4bc878ddf49753d522e2363f3b258093bab1d2f/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/services/PlayerRepository.java}{\texttt{PlayerRepository.java}}
+innerhalb der Service-Schicht etabliert und seine Implementierung, die mit 
+\texttt{@Repository} annotierte 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/e4bc878ddf49753d522e2363f3b258093bab1d2f/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/database/PlayerRepositoryImpl.java}{\texttt{PlayerRepositoryImpl.java}}, 
+in der Persistenzschicht. Ihre testgetriebene Entwicklung ist in Kapitel 3.5 
+beschrieben. Sind die zuvor genannten Voraussetzungen implementiert, so kann der 
+\texttt{deletePlayer}-Methode der Aufruf \texttt{playerRepository.deleteById(id)} 
+hinzugefügt werden, wobei \texttt{id} als Argument entgegen genommen wird (siehe dazu 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/e4bc878ddf49753d522e2363f3b258093bab1d2f/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/services/PlayerService.java}{\texttt{PlayerService.java nach Commit e4bc878}}). \\ 
+Die Methode zum Löschen eines Spielers ist ein Beispiel für eine Basisoperation, bei 
+der eine Anfrage an die entsprechende Repository-Methode weitergeleitet wird. Hier 
+steht also die Delegation der Aufgabe im Vordergrund, während das Repository sich 
+um die Löschlogik kümmert. Für die Verifizierung der Übergabe des korrekten 
+Parameters wurde \texttt{deleteById(playerId)} auf \texttt{verify(playerRepository)} 
+aufgerufen. Dies ist in diesem Fall auch völlig ausreichend, sollten jedoch mehrere 
+Methodenaufrufe mit unterschiedlichen Argumenten auftreten, komplexe Objekte -- wie 
+beispielsweise ein Spieler mit seinen verschieden Attributen -- übergeben oder aber 
+Eigenschaften innerhalb des Methodenaufrufs verändert werden, so ist der Gebrauch 
+eines \texttt{ArgumentCaptors} durchaus sinnvoll, wie \texttt{test\_01} der 
+\texttt{RecapServiceTest.java} veranschaulicht: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+@DisplayName("Die Bewertungen werden gespeichert.")
+void test_01() {
+    List<Assessment> assessments = List.of(
+            // Hier manuell erstellte Bewertungen hinzufügen 
+    );
+    ArgumentCaptor<Assessment> assessmentCaptor = 
+        ArgumentCaptor.forClass(Assessment.class);
+
+    recapService.submitAssessments(assessments);
+
+    verify(assessmentRepository, times(4))
+        .save(assessmentCaptor.capture());
+
+    List<Assessment> savedAssessments = 
+        assessmentCaptor.getAllValues();
+
+    assertThat(savedAssessments).isEqualTo(assessments);
+}
+\end{verbatim}
+\end{quote}
+
+In dem oben gezeigten Test wird der \texttt{ArgumentCaptor} dazu benutzt, die 
+verschiedenen Bewertungen, mit der die \texttt{save}-Methode aufgerufen wird, 
+einzufangen. Bevor dies mithilfe \texttt{assessmentCaptor.capture()} geschehen kann, 
+muss die spezifische Klasse, für die der \texttt{Captor} programmiert ist, zunächst 
+bei der Initialisierung des \texttt{assessmentCaptors} konfiguriert werden. Nach dem 
+Erfassungsvorgang können alle gespeicherten \texttt{Assessments} dann abgerufen und 
+in einer Liste gespeichert, um schließlich weiteren Überprüfungen mithilfe von 
+\texttt{assertThat} unterzogen werden zu können. \\ 
+Während bisher Gesagtes vor allen Dingen das Delegieren eines Aufrufs an die 
+Persistenzschicht und die Überprüfung der Übergabe von Parametern in den Vordergrund 
+stellt, soll nun im Folgenden auf die Überprüfung von Rückgabewerten eingegangen 
+werden. Eine in diesem Projekt häufig getestete Methode ist die 
+\texttt{load}-Methode, die Daten aus der Datenbank anfragt und diese dem Web-UI zur 
+Verfügung stellt. Beispielsweise liefert die \texttt{loadCriteria}-Methode des 
+\texttt{SettingsService} die aktuell gespeicherten Kriterien, \texttt{loadFormation} 
+stellt die aktuell genutzte Formation bereit und \texttt{loadPlayers} gewährleistet 
+die Versorgung der Webschicht mit den aktuellen Spielern im Team. Letztere wird wie folgt getestet: 
+
+\pagebreak
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_02() {
+    List<Player> players = TestObjectGenerator.generatePlayers();
+    when(playerRepository.findAll()).thenReturn(players);
+
+    List<Player> loadedPlayers = playerService.loadPlayers();
+
+    verify(playerRepository).findAll();
+    assertThat(loadedPlayers)
+        .containsExactlyInAnyOrderElementsOf(players);
+}
+\end{verbatim}
+\end{quote}
+
+Nachdem der \texttt{TestObjectGenerator} eine Liste von (Test-)Spielern 
+bereitgestellt hat, kann das \texttt{PlayerRepository} so konfiguriert werden, dass 
+es diese Liste von Spielern zurückgibt. Sämtliche Repositories werden für die 
+Service-Tests gemockt, um die Service-Schicht von der Datenbank losgelöst testen zu 
+können. In dem folgenden \texttt{Act}-Schritt des Tests wird die 
+\texttt{loadPlayers}-Methode dann ausgeführt und die Rückgabe in einer lokalen 
+Variable gespeichert. So kann dann abschließend getestet werden, ob die 
+\texttt{findAll}-Methode des \texttt{PlayerRepository} aufgerufen wurde -- die 
+Überprüfung der Delegation eines Requests ist ja bereits aus den vorangegangenen 
+Tests bekannt -- und ob die geladenen Spieler auch wirklich der gewünschten Liste 
+entsprechen. \\ 
+Dabei wird die \texttt{containsExactlyInAnyOrderElementsOf}-Methode verwendet, um 
+sicherzustellen, dass sich auch wirklich nur die erwarteten Spieler in der Liste 
+befinden und keine weiteren. Außerdem spielt die Reihenfolge keine Rolle, damit der 
+Test auch weiterhin besteht, sollten die Spieler nach Namen, Score, Trikotnummer oder 
+Position geordnet werden. 
+Zusammenfassend kann gesagt werden, dass beim Delegieren und Koordinieren von 
+Anfragen ein besonderes Augenmerk zum einen auf den korrekten Methodenaufruf, zum 
+anderen aber auch die Überprüfung der Übergabe der korrekten Parameter sowie 
+die Richtigkeit des Rückgabewertes gelegt werden sollte, denn diese sind für eine 
+ordnungsgemäße Funktionsweise der Anwendung unerlässlich. \\ 
+Darüber hinaus ist es wichtig Methoden der Service-Schicht zu testen, die sich nicht 
+eindeutig einer Klasse aus dem Domain-Model zuordnen lassen oder aber eine 
+Verknüpfung zwischen mehreren Entitäten herstellen. Im Bezug auf den 
+Spielzeitenplaner ist dies zum Beispiel der Fall in der
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/services/SpielzeitenService.java}{\texttt{SpielzeitenService.java}}, 
+in der aus allen verfügbaren Spielern ein Kader oder aus dem Kader wiederum eine 
+Startelf ermittelt werden soll, und in der 
+\href{https://github.com/FlorianOhmes/bat_spielzeitenplaner/blob/main/spielzeitenplaner/src/main/java/de/bathesis/spielzeitenplaner/services/PlayerService.java}{\texttt{PlayerService.java}}, in der für einen Spieler 
+für jedes Kriterium anhand mehrerer Bewertungen ein Score berechnet wird. \\ 
+Als anschauliches Beispiel soll im Folgenden die \texttt{calculatePlannedMinutes}-Methode 
+des \texttt{SpielzeitenService} dienen. Diese soll anhand einer Spieler- sowie einer 
+Wechsel-Liste die sich durch die einzelnen Wechsel ergebenen Spielminuten für jeden 
+Spieler ermitteln. Den Basisfall stellt hier die Situation dar, in der keine Wechsel 
+vorgenommen werden. Dann beträgt die Spielzeit jedes Startelf-Spielers 70 Minuten und die 
+jedes Reservespielers exakt 0 Minuten. Ein strukturierter Test, der eben genau diese 
+Situation prüft, ist \texttt{test\_05()} der \texttt{SpielzeitenService.java}. \\ 
+Über den Basisfall hinaus gibt es dann noch weitere Testfälle, in denen die 
+ordnungsgemäße Funktionsweise der Service-Methode getestet werden kann und muss, 
+beispielsweise wenn ein einfacher Wechsel vorgenommen wird, \texttt{Spieler Y} also für 
+\texttt{Spieler X} in einer bestimmten Spielminute eingewechselt wird. Damit wird zum 
+ersten Mal die korrekte Berechnung der Spielminuten getestet, die nicht 70 oder 0 
+betragen, also über den Basisfall hinausgehen. Diese Situation wird in 
+\texttt{test\_06()} simuliert. \\ 
+Nach und nach lassen sich komplexere Testsituationen konstruieren, um die Methode 
+robuster zu machen. Der folgende \texttt{test\_07()} prüft die ordnungsgemäße 
+Funktionsweise, wenn ein Spieler aus- und wieder eingewechselt wird: 
+
+\begin{quote}
+\begin{verbatim}
+@Test
+...
+void test_07() {
+    List<Substitution> substitutions = List.of(
+        new Substitution(1, 20, "Player16 Last16", "Player8 Last8"), 
+        new Substitution(3, 50, "Player8 Last8", "Player16 Last16")
+    );
+    List<Integer> expected = List.of(
+        70, 70, 70, 70, 70, 70, 70, 40, 70, 70, 70, 0, 0, 0, 0, 30
+    );
+
+    List<Integer> plannedMinutes = spielzeitenService
+                    .calculatePlannedMinutes(squad, substitutions);
+
+    assertThat(plannedMinutes).hasSize(squad.size());
+    assertThat(plannedMinutes).isEqualTo(expected);
+}
+\end{verbatim}
+\end{quote}
+
+Hier werden zunächst die Liste der Wechsel sowie das erwartete Ergebnis vorbereitet. 
+Im Anschluss wird dann die zu testende Methode aufgerufen und ihre Rückgabe zur 
+folgenden Überprüfung gespeichert. Mithilfe geeigneter \texttt{Assertions} kann 
+schließlich sichergestellt werden, dass die Methode das richtige Ergebnis liefert. \\ 
+Im weiteren Verlauf der Entwicklung können nun noch weitere, komplexere Situationen 
+geprüft werden, um die Methode schließlich in ihre gegenwärtige Form zu bringen. In 
+\texttt{test\_08()} ist beispielsweise eine Situation mit mehreren Wechseln, mehreren 
+Spielern und unterschiedlichen Wechselzeitpunkten kreiert worden, die so von einem 
+Trainerteam bei der Planung der Spielzeiten realisiert werden könnte. Auch hier wird 
+mithilfe geeigneter \texttt{Assertions} gewährleistet, dass die geplanten Spielminuten 
+wie erwartet ermittelt werden. 
+

@@ -1,0 +1,74 @@
+
+Im folgenden Kapitel soll sich kritisch mit dem Entwicklungsprozess des 
+Spielzeitenplaners und der gewählten Methode des Test-Driven Developments 
+auseinandergesetzt werden. \\ 
+Zunächst ist festzuhalten, dass TDD ein mächtiges Werkzeug zur Entwicklung moderner 
+Software ist: Mit ihr kann die Qualität des Codes verbessert und die Anfälligkeit für 
+Fehler in der Software verringert werden. Die kleinen, testbaren Einheiten, die durch 
+konsequentes Anwenden des TDD-Prinzips entstehen, sind sauber, modular, gut wartbar und 
+dienen gleichzeitig als eine Art Dokumentation des Entwicklungsprozesses. \\ 
+Doch Test-Driven Development bringt auch einige Einschränkungen und Stolpersteine mit 
+sich, die auch im Rahmen der Entwicklung des Spielzeitenplaners deutlich geworden sind 
+und im Folgenden thematisiert werden sollen. Als Erstes ist hier der Faktor Zeit zu 
+nennen. Dieser ist nicht unerheblich und in der heutigen schnelllebigen Welt immer mehr 
+von Relevanz. Test-driven Development benötigt schlichtweg mehr Zeit als die gewöhnliche Entwicklung -- insbesondere zu Beginn des Entwicklungsprozesses, da zunächst erst ein 
+geeigneter Test formuliert werden muss, bevor dann die konkrete Implementierung 
+realisiert werden kann. \\ 
+Die Gegenpole TDD vs. gewöhnliche Entwicklung können relativ treffend mithilfe einer 
+Analogie aus der Leichtathletik beschrieben werden: der 100-Meter-Lauf vs. Marathon. 
+Während es beim 100-Meter-Lauf im Prinzip darum geht, so schnell wie möglich ans Ziel zu 
+kommen, ist beim Marathon eine langfristige, beständige Strategie gefragt, um ans Ziel zu 
+kommen und schließlich Erfolg zu haben. Anstatt den Wert auf Schnelligkeit zu legen, 
+erfordert TDD eher ein moderates, beständiges Tempo: Ähnlich wie beim Marathon wird in 
+kleinen, stetigen und zu bewältigen Schritten gearbeitet, bis man schließlich am Ziel 
+angekommen ist. Außerdem ist es nicht das Ziel, schnell funktionierenden Code zu 
+produzieren, sondern langfristig stabil und wartbare Software zu erschaffen. Darum kann 
+der Fortschritt bei TDD manchmal langsamer erscheinen, wovon man sich als Entwickelnde 
+nicht entmutigen lassen sollte. \\ 
+Wenn der zuvor beschrieben Faktor Zeit jedoch nicht in ausreichendem Maße vorhanden ist, 
+weil beispielsweise Deadlines unbedingt eingehalten werden müssen, oder der Fokus auf 
+einer schnellen Fertigstellung ohne Beachtung der langfristigen Wartbarkeit liegt, sollte 
+eher über eine andere Methode der Softwareentwicklung nachgedacht oder die Prioritäten 
+überdacht werden. \\ 
+Neben dem Faktor Zeit ist außerdem die Tatsache zu nennen, dass die testgetriebene 
+Entwicklung einen \texttt{Mind Shift} der Entwickelnden erfordert, da der gewöhnliche 
+Entwicklungsprozess auf den Kopf gestellt wird, indem die Tests zuerst geschrieben 
+werden. Dieses Umdenken ist für TDD-Anfänger unter Umständen schwierig 
+aufrechtzuerhalten, insbesondere wenn die Idee für die konkrete Implementierung einer 
+Funktionalität bereits in den Köpfen der Entwickelnden vorhanden ist, während das 
+Schreiben des Tests zugleich noch unklar ist. \\ 
+Im Rahmen der Entwicklung des Spielzeitenplaners kam es insbesondere beim 
+Entwickeln gewisser Funktionalitäten der Service-Schicht zu solchen Situationen, in denen 
+sich das Schreiben von Tests schwierig gestaltete, während die Idee für den Produktivcode 
+bereits vorhanden war. Hier bestand die Gefahr, dass das TDD-Prinzip eben doch wieder 
+umgekehrt wird, indem der Produktivcode als Anhaltspunkt für das Schreiben eines Tests 
+genommen wurde. \\ 
+Weitere wichtige Aspekte, die eng mit den zuvor genannten Argumenten der Zeit und 
+des Umdenkens verbunden sind, sind Geduld, Disziplin und Vertrauen. 
+Test-driven Development benötigt Geduld, die bereits genannten kleinen Fortschritte 
+beharrlich umzusetzen und nicht in alte Muster zurückzufallen. Des Weiteren ist für diese 
+Methode ein hohes Maß an Disziplin notwendig, denn der \texttt{Red-Green-Refactor}-Zyklus 
+muss stets eingehalten werden, es sind keine Abkürzungen erlaubt, auch wenn ein Test für 
+eine bestimmte Funktionalität auf den ersten Blick trivial erscheint. \\ 
+Darüber hinaus ist es in stressigen Situationen -- wie beispielsweise engen Deadlines 
+oder unvorhergesehenen Verzögerungen im Entwicklungsablauf -- verlockend, den TDD-Prozess 
+zu umgehen, auch hier ist Disziplin notwendig, um die Vorteile des Ansatzes auch unter 
+Druck nutzen können. Auch im Rahmen des Entwicklungsprozesses des Spielzeitenplaners ist 
+es zu Verzögerungen gekommen, weshalb insbesondere zum Ende der Entwicklung der 
+Zeitdruck und damit verbunden auch der Druck nach einer schnellen Lösung zunahm. \\ 
+Außerdem braucht die testgetriebene Entwicklung Vertrauen auf Seiten der Entwickelnden. 
+Das Vertrauen, dass die Methode bei konsequenter Anwendung zu den gewünschten Ergebnissen 
+führt, auch wenn diese zu einem gewissen Zeitpunkt in der Entwicklung noch nicht absehbar 
+sind. Das Vertrauen und die Akzeptanz, dass Tests immer wieder und so lange fehlschlagen, 
+bis alle zum Bestehen nötigen Details implementiert sind, da dies eben genau von TDD 
+beabsichtigt ist. \\ 
+Und schließlich ist das Vertrauen in TDD eben auch angebracht, wenn eine neue 
+Abhängigkeit notwendig geworden ist und eingeführt wird. So mussten beim 
+Spielzeitenplaner beispielsweise mit Einführung des \texttt{PlayerService} die 
+entsprechenden Abhängigkeiten -- insbesondere in der Web-Schicht -- gemockt werden, um 
+wieder zu einem konsistenten Gesamtzustand zu gelangen. Dabei fungierten die Tests als 
+ein Warnsystem, das Alarm schlägt, weil bestehende Tests unter Umständen noch nicht auf 
+die sich verändernde Architektur abgestimmt sind. Hier ist also Vertrauen in die Tests 
+und damit verbunden in den TDD-Ansatz notwendig sowie die stetige Reflexion über die 
+geschriebenen Tests und ihren Zweck. 
+
