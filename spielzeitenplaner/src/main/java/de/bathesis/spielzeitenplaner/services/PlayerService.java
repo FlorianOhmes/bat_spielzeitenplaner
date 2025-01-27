@@ -92,11 +92,17 @@ public class PlayerService {
 
         Long countShortTerm = assessmentsShortTerm.stream().filter(a -> a.getValue() > 0.0).count();
         Long totalShortTerm = assessmentsShortTerm.stream().count();
-        Double scoreShortTerm = (double) (countShortTerm) / (double) (totalShortTerm);
+        Double scoreShortTerm = 0.0;
+        if (totalShortTerm != 0) {
+            scoreShortTerm = (double) (countShortTerm) / (double) (totalShortTerm);
+        }
 
         Long countLongTerm = assessmentsLongTerm.stream().filter(a -> a.getValue() > 0.0).count();
         Long totalLongTerm = assessmentsLongTerm.stream().count();
-        Double scoreLongTerm = (double) (countLongTerm) / (double) (totalLongTerm);
+        Double scoreLongTerm = 0.0;
+        if (totalLongTerm != 0) {
+            scoreLongTerm = (double) (countLongTerm) / (double) (totalLongTerm);
+        }
 
         Double score = weightShortTerm * scoreShortTerm + weightLongTerm * scoreLongTerm;
         return score;
@@ -138,7 +144,7 @@ public class PlayerService {
     }
 
     private Double roundScore(Double score) {
-        return Double.valueOf(Math.round(score * 100)) / 100.0;
+        return Double.valueOf(Math.round(score * 10)) / 10.0;
     }
 
 }
