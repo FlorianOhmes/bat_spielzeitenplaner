@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Arrays;
+import java.util.Comparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import de.bathesis.spielzeitenplaner.domain.Substitution;
 import de.bathesis.spielzeitenplaner.services.PlayerService;
 import de.bathesis.spielzeitenplaner.services.SettingsService;
 import de.bathesis.spielzeitenplaner.services.SpielzeitenService;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -176,8 +178,10 @@ public class SpielzeitenController {
 
     @PostMapping("/addSubstitution")
     public String addSubstitution(Substitution substitution, @ModelAttribute("substitutions") List<Substitution> substitutions, 
-                                  RedirectAttributes redirectAttributes) {
+                                  RedirectAttributes redirectAttributes, HttpSession session) {
         substitutions.add(substitution);
+        substitutions.sort(Comparator.comparingInt(Substitution::getMinute));
+        session.setAttribute("substitutions", substitutions);
         redirectAttributes.addFlashAttribute("substitutions", substitutions);
         return "redirect:/spielzeiten/substitutions";
     }
