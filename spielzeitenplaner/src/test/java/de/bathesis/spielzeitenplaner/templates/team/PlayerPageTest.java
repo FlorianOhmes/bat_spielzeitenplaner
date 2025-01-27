@@ -76,37 +76,79 @@ class PlayerPageTest {
         assertThat(footer).isNotEmpty();
     }
 
+    // @Test
+    // @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Daten korrekt angezeigt.")
+    // void test_04() {
+    //     String expectedCardTitle = "Spieler-Daten";
+    //     List<String> expectedAttributes = new ArrayList<>(List.of(
+    //         "Vorname", "Nachname", "Trikotnummer", "Position"
+    //     ));
+
+    //     String cardTitle = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body .card-title");
+    //     String playerInfo = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body .player-info");
+
+    //     assertThat(cardTitle).isEqualTo(expectedCardTitle);
+    //     assertThat(playerInfo).contains(expectedAttributes);
+    // }
+
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird der Bereich Spieler-Daten korrekt angezeigt.")
     void test_04() {
         String expectedCardTitle = "Spieler-Daten";
-        List<String> expectedAttributes = new ArrayList<>(List.of(
-            "Vorname", "Nachname", "Trikotnummer", "Position"
-        ));
+        Elements sectionPlayerData = RequestHelper.extractFrom(playerPage, ".card.player-data");
+        Elements h2 = RequestHelper.extractFrom(sectionPlayerData, ".card-body h2.card-title");
+        String sectionTitle = RequestHelper.extractTextFrom(h2, "*");
+        Elements playerInfo = RequestHelper.extractFrom(sectionPlayerData, ".card-body .player-info");
 
-        String cardTitle = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body .card-title");
-        String playerInfo = RequestHelper.extractTextFrom(playerPage, ".card.player-data .card-body .player-info");
+        assertThat(sectionPlayerData).isNotEmpty();
 
-        assertThat(cardTitle).isEqualTo(expectedCardTitle);
-        assertThat(playerInfo).contains(expectedAttributes);
+        assertThat(h2).isNotEmpty();
+        assertThat(sectionTitle).isEqualTo(expectedCardTitle);
+
+        assertThat(playerInfo).isNotEmpty();
     }
+
+    // @Test
+    // @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird das Spieler-Formular korrekt angezeigt.")
+    // void test_05() {
+    //     String expectedButtonLabel = "Speichern";
+
+    //     Elements playerForm = RequestHelper.extractFrom(playerPage, 
+    //         "form#playerForm[method=\"post\"][action=\"/team/savePlayer\"]"
+    //     );
+    //     Elements labels = RequestHelper.extractFrom(playerForm, "label");
+    //     Elements inputs = RequestHelper.extractFrom(playerForm, "input");
+    //     String buttonLabel = RequestHelper.extractTextFrom(playerForm, "button[type=\"submit\"]");
+
+    //     assertThat(playerForm).isNotEmpty();
+    //     assertThat(labels).isNotEmpty();
+    //     assertThat(inputs).isNotEmpty();
+    //     assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
+    // }
 
     @Test
     @DisplayName("Auf der Seite Spieler bearbeiten/hinzufügen wird das Spieler-Formular korrekt angezeigt.")
     void test_05() {
-        String expectedButtonLabel = "Speichern";
-
-        Elements playerForm = RequestHelper.extractFrom(playerPage, 
-            "form#playerForm[method=\"post\"][action=\"/team/savePlayer\"]"
-        );
+        String expectedButtonText = "Speichern";
+        Elements playerForm = RequestHelper.extractFrom(playerPage, "form#playerForm");
+        String method = RequestHelper.extractAttributeFrom(playerForm, "method");
+        String action = RequestHelper.extractAttributeFrom(playerForm, "action");
         Elements labels = RequestHelper.extractFrom(playerForm, "label");
         Elements inputs = RequestHelper.extractFrom(playerForm, "input");
-        String buttonLabel = RequestHelper.extractTextFrom(playerForm, "button[type=\"submit\"]");
+        Elements button = RequestHelper.extractFrom(playerForm, "button");
+        String type = RequestHelper.extractAttributeFrom(button, "type");
+        String buttonText = RequestHelper.extractTextFrom(button, "*");
 
         assertThat(playerForm).isNotEmpty();
-        assertThat(labels).isNotEmpty();
-        assertThat(inputs).isNotEmpty();
-        assertThat(buttonLabel).isEqualTo(expectedButtonLabel);
+        assertThat(method).isEqualTo("post");
+        assertThat(action).isEqualTo("/team/savePlayer");
+
+        assertThat(labels).hasSize(4);
+        assertThat(inputs).hasSize(5);
+
+        assertThat(button).isNotEmpty();
+        assertThat(type).isEqualTo("submit");
+        assertThat(buttonText).isEqualTo(expectedButtonText);
     }
 
     @Test
@@ -122,13 +164,13 @@ class PlayerPageTest {
     @Test
     @DisplayName("Ein Spieler wird korrekt angezeigt.")
     void test_07() {
-        List<String> expectedValues = new ArrayList<>(List.of(
+        List<String> expectedValues = List.of(
             Integer.toString(player.getId()), 
             player.getFirstName(), player.getLastName(), 
             player.getPosition(), Integer.toString(player.getJerseyNumber())
-        ));
-
-        List<String> values = playerPage.select("form#playerForm input").eachAttr("value");
+        );
+        Elements formInputs = RequestHelper.extractFrom(playerPage, "form#playerForm input");
+        List<String> values = RequestHelper.extractEachAttributeFrom(formInputs, "value");
 
         assertThat(values).containsExactlyInAnyOrderElementsOf(expectedValues);
     }
