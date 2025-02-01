@@ -4,7 +4,7 @@ Dieses Projekt befasst sich mit der testgetriebenen Entwicklung des SpielzeitenP
 
 ## Der SpielzeitenPlaner...
 
-... ein Echtwelt-Beispiel für Test-Driven Development (TDD), 
+- ... ein Echtwelt-Beispiel für Test-Driven Development (TDD), 
 
 - ... ein Trainings-Tagebuch für den Jugendfußball,
 - ... ein Bewertungsinstrument, 
